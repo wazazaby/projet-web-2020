@@ -18,6 +18,6 @@ export class StatesService {
   }
 
   initApi() {
-    return this.http.get(environment.apiUrl);
+    return this.http.get(environment.apiUrl + 'bonjour');
   }
 }

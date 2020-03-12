@@ -10,8 +10,11 @@ export class HomeComponent implements OnInit {
 
   constructor(private statesService: StatesService) { }
 
+  public test;
+
   ngOnInit() {
     this.statesService.initApi().subscribe((res) => {
+      this.test = res;
       console.log(res);
     });
   }

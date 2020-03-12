@@ -11,7 +11,7 @@ router.get('/api', async ctx => {
     ctx.body = 'Hello, World!';
 });
 
-router.get('/bonjour', async context => {
+router.get('/api/bonjour', async context => {
     const obj: any = [
         {
             'userId': 34,

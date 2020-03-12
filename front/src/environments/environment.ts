@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // url de l'API node
-  apiUrl: 'https://localhost:3000/api/',
+  apiUrl: 'http://localhost:3000/api/',
   // token d'identification pour l'API
   tokenApi: 'token',
   // url de base de l'application
