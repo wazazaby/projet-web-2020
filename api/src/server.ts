@@ -1,8 +1,11 @@
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
+import * as cors from 'koa-cors';
 
 const app = new Koa();
 const router = new Router();
+
+app.use(cors());
 
 router.get('/api', async ctx => {
     ctx.body = 'Hello, World!';

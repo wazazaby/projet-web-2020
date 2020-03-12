@@ -18,10 +18,12 @@
   "homepage": "https://github.com/Wazazaby/projet-web-2020#readme",
   "dependencies": {
     "koa": "^2.11.0",
+    "koa-cors": "0.0.16",
     "koa-router": "^8.0.8"
   },
   "devDependencies": {
     "@types/koa": "^2.11.2",
+    "@types/koa-cors": "0.0.0",
     "@types/koa-router": "^7.4.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
