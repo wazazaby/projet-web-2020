@@ -8,24 +8,19 @@ import { UserModel } from 'src/app/models/users.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent implements OnInit {
+  public arrTest: UserModel;
 
-  public test;
-  public arrTest: UserModel = null;
+  constructor (private statesService: StatesService, private bridgeState: BridgeService) { }
 
-  constructor(private statesService: StatesService,
-              private bridgeState: BridgeService) { }
-
-  ngOnInit() {
-    this.statesService.initApi().subscribe((res) => {
-      this.test = res;
+  ngOnInit () {
+    this.statesService.initApi().subscribe(res => {
       console.log(res);
     });
 
     this.bridgeState.getUser().subscribe((res) => {
       this.arrTest = res;
     });
-
   }
-
 }
