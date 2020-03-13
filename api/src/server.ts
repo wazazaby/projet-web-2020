@@ -11,12 +11,23 @@ const app = new Koa();
 app.use(cors());
 app.use(logger());
 
-// Ajout de toutes nos routes
+
+
+
+
+
+// ---------- ROUTES ----------
 app.use(rootRouter.routes());
 app.use(rootRouter.allowedMethods());
 
 app.use(kevinRouter.routes());
 app.use(kevinRouter.allowedMethods());
+// ---------- ROUTES ----------
+
+
+
+
+
 
 // Lancement du serveur sur le port 3000
 app.listen(3000);
