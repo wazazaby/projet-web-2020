@@ -6,6 +6,6 @@ router.get('/api/kevin', async (ctx, next) => {
       'kevin': 'bonjour',
       'stuff': 1324
   };
-})
+});
 
 export default router
