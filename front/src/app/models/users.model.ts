@@ -1,7 +1,7 @@
 export interface UserModel {
   pseudo: string;
   age: number;
-  passions: Array<string>;
+  passions: string[];
   premium: boolean;
   lastLoggin: string;
 }
