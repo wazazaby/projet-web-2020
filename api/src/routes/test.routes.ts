@@ -1,15 +1,12 @@
 import * as Router from 'koa-router';
 const router = new Router()
 
-router.get('/api/', async (ctx, next) => {
-  ctx.body = {
-      'whoIsIt': "It's Britney bitch",
-      'stuff': 1324
-  };
+router.get('/api/', async ctx => {
+  ctx.body = 'Hello, World!';
 })
 
-router.get('/api/users', async (context, next) => {
-    context.body = [
+router.get('/api/users', async ctx => {
+    ctx.body = [
         {
             'pseudo': 'Max',
             'age': 32,

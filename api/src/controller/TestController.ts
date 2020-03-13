@@ -1,9 +1,8 @@
-var models = require('../models');
-import {ReturnModel} from '../interfaces/ReturnModel.interface';
+var models: any = require('../models');
+import { ReturnModel, BasicUserModel } from '../interfaces';
 
 // Toujours Majuscule + CamelCase sur nom nom de classes
-class TestController {
-
+export class TestController {
     constructor () {
 
     }
@@ -17,22 +16,20 @@ class TestController {
             data: {}
         };
 
-        // try {
-        //     const getAllTest: object[] = await models.Test.findAll();
+        try {
+            const getAllTest: Array<BasicUserModel> = await models.Test.findAll();
 
-        //     if (getAllTest.length > 0) {
-        //         tabReturn.data = getAllTest;
-        //     } else {
-        //         tabReturn.messages.push('Aucun résultats');
-        //     }
-        // } catch (err) {
-        //     tabReturn.success = false;
-        //     tabReturn.type = 'exception';
-        //     tabReturn.messages.push(err);
-        // }
+            if (getAllTest.length > 0) {
+                tabReturn.data = getAllTest;
+            } else {
+                tabReturn.messages.push('Aucun résultats');
+            }
+        } catch (err) {
+            tabReturn.success = false;
+            tabReturn.type = 'exception';
+            tabReturn.messages.push(err);
+        }
 
         return tabReturn;
     }
 }
-
-export default TestController;
