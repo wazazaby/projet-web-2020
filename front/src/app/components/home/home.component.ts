@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StatesService } from 'src/app/services/states.service';
+import { BridgeService } from 'src/app/services/bridge.service';
+import { UserModel } from 'src/app/models/users.model';
 
 @Component({
   selector: 'app-home',
@@ -8,15 +10,22 @@ import { StatesService } from 'src/app/services/states.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private statesService: StatesService) { }
-
   public test;
+  public arrTest: UserModel = null;
+
+  constructor(private statesService: StatesService,
+              private bridgeState: BridgeService) { }
 
   ngOnInit() {
     this.statesService.initApi().subscribe((res) => {
       this.test = res;
       console.log(res);
     });
+
+    this.bridgeState.getUser().subscribe((res) => {
+      this.arrTest = res;
+    });
+
   }
 
 }
