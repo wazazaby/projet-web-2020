@@ -19,8 +19,8 @@
   "homepage": "https://github.com/Wazazaby/projet-web-2020#readme",
   "dependencies": {
     "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
     "koa-cors": "0.0.16",
-    "koa-logger": "^3.2.1",
     "koa-router": "^8.0.8",
     "mysql2": "^2.1.0",
     "sequelize": "^5.21.5",
@@ -31,6 +31,7 @@
     "@types/koa-cors": "0.0.0",
     "@types/koa-logger": "^3.1.1",
     "@types/koa-router": "^7.4.0",
+    "koa-logger": "^3.2.1",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }
