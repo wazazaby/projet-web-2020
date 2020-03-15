@@ -1,9 +1,17 @@
 import * as Router from 'koa-router';
+import { TestController } from '../controller/TestController' ;
+
 const router = new Router()
 
+// Les routes de test
 router.get('/api/', async ctx => {
-  ctx.body = 'Hello, World!';
-})
+    ctx.body = 'Hello, World!';
+});
+
+router.get('/api/test', async ctx => {
+    const testCtrl = new TestController();
+    ctx.body = await testCtrl.showAll();
+});
 
 router.get('/api/users', async ctx => {
     ctx.body = [
@@ -40,6 +48,11 @@ router.get('/api/users', async ctx => {
             'lastLoggin': '25-12-2019'
         }
     ];
+});
+
+// En POST, les données envoyées dans le body sont recupérables dans ctx.request.body
+router.post('/api/login', async ctx => {
+    ctx.body = ctx.request.body;
 });
 
 export default router
