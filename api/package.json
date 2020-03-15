@@ -4,8 +4,7 @@
   "description": "Projet web de cours",
   "main": "./src/server.ts",
   "scripts": {
-    "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/server.ts",
-    "s": "nodemon ./src/server.ts"
+    "s": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/server.ts"
   },
   "repository": {
     "type": "git",
