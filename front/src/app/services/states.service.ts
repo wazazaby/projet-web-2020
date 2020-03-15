@@ -16,8 +16,4 @@ export class StatesService {
       environment.production,
       environment.tokenApi);
   }
-
-  initApi() {
-    return this.http.get(environment.apiUrl + 'bonjour');
-  }
 }

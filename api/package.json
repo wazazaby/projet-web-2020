@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Wazazaby/projet-web-2020#readme",
   "dependencies": {
+    "@types/node": "^13.9.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-cors": "0.0.16",
