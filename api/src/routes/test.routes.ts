@@ -39,7 +39,17 @@ router.get('/api/users', async ctx => {
 			],
 			premium: true,
 			lastLoggin: '25-12-2019'
-		}
+		},
+		{
+			pseudo: 'Humew',
+			age: 45,
+			passions: [
+				'Being right',
+				'Having 12 years of experience',
+				'Div vide'
+				],
+			premium: false,
+			lastLoggin: '01-01-1970'
 	];
 });
 
