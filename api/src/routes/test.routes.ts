@@ -45,7 +45,7 @@ router.get('/api/users', async ctx => {
 			age: 45,
 			passions: [
 				'Being right',
-				'Having 12 years of experience',
+				`Having ${new Date(Date.now()).getFullYear() - 2005} years of experience`,
 				'Div vide'
 				],
 			premium: false,
