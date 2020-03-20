@@ -1,5 +1,5 @@
 var models: any = require('../models');
-import { ReturnModel, BasicUserModel } from '../interfaces';
+import { ReturnModel, BasicUserModel } from '../../interfaces';
 
 // Toujours Majuscule + CamelCase sur nom nom de classes
 export class TestController {

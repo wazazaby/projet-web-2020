@@ -1,6 +1,8 @@
 # Back-end de notre projet web
 
-À venir notre mini doc
+Lancement de l'API :
+* Se placer dans /api
+* npm run s
 
 # Generation table
 

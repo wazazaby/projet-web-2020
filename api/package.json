@@ -30,6 +30,7 @@
 		"@types/koa-cors": "0.0.0",
 		"@types/koa-logger": "^3.1.1",
 		"@types/koa-router": "^7.4.0",
+		"@types/node": "^13.9.2",
 		"koa-logger": "^3.2.1",
 		"ts-node": "^8.6.2",
 		"typescript": "^3.8.3"

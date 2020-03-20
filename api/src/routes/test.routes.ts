@@ -21,35 +21,7 @@ router.get('/api/users', async ctx => {
 			passions: ['fishing', 'video games', 'running'],
 			premium: false,
 			lastLoggin: '12-10-2019'
-		},
-		{
-			pseudo: 'Nicolas',
-			age: 19,
-			passions: ['rugby', 'music'],
-			premium: false,
-			lastLoggin: '21-11-2019'
-		},
-		{
-			pseudo: 'Perceval',
-			age: 25,
-			passions: [
-				'watching crappy movies',
-				'super meat boy',
-				'being a bitch'
-			],
-			premium: true,
-			lastLoggin: '25-12-2019'
-		},
-		{
-			pseudo: 'Humew',
-			age: 45,
-			passions: [
-				'Being right',
-				`Having ${new Date(Date.now()).getFullYear() - 2005} years of experience`,
-				'Div vide'
-				],
-			premium: false,
-			lastLoggin: '01-01-1970'
+		}
 	];
 });
 
