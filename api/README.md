@@ -2,7 +2,9 @@
 
 Lancement de l'API :
 * Se placer dans /api
-* npm run s
+* npm run dev
+
+Ne pas oublier d'init le fichier .env à la racine du projet: /api (rename -> env_copy + confi param)
 
 # Generation table
 

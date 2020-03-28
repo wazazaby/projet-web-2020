@@ -1,0 +1,4 @@
+DB_HOST=localhost
+DB_USER=root
+DB_NAME=bdd_dev
+SERVER_PORT=3000
