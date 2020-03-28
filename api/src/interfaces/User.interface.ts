@@ -1,5 +1,5 @@
 export interface UserInterface {
-	id_user: number;
+	id_user?: number;
 	name_user: string;
 	email_user: string;
 	pass_user: string;
@@ -7,5 +7,5 @@ export interface UserInterface {
     rgpd_user: number;
     token_user: string;
     create_date_user: number;
-    modification_date_user: number;
+    modification_date_user?: number;
 }
