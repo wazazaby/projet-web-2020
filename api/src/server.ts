@@ -3,10 +3,11 @@ import * as cors from 'koa-cors';
 import * as logger from 'koa-logger';
 import * as bodyParser from 'koa-bodyparser';
 import * as DotEnv from 'dotenv';
+import * as Router from 'koa-router';
+
 
 // L'instance de la connexion à la DB
 import { Db } from './OCFram/Db';
-
 
 
 // --------------- IMPORT ROUTES ---------------
@@ -14,21 +15,28 @@ import userRooter from './ORM/User/user.routes';
 // --------------- IMPORT ROUTES ---------------
 
 
-
 const app = new Koa();
+const router = new Router();
 
 // Setup des variables d'env
 DotEnv.config();
-
 
 
 // Utilisation du Cross Origin Ressource Sharing et du logger de Koa (permet de checker les retour de requêtes sur l'API)
 app.use(cors());
 app.use(logger());
 
+
 // Permet de parse les données envoyées en POST
 app.use(bodyParser());
 
+
+// Permet de test si l'API est opérationel
+router.get('/api/test', async ctx => {
+    ctx.body = 'Hello, API turnstyle !';
+});
+app.use(router.routes());
+// ----------------------------
 
 
 // ---------- ROUTES ----------

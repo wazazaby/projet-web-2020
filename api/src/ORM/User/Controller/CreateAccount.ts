@@ -30,7 +30,7 @@ export class CreateAccount {
 
         if (check == null) {
             const result: any = await manager.insertUser(newUser);
-            
+
             if (result.affectedRows == 1 && result.insertId > 0) {
                 // User inséré, envoie mail d'activation
                 this._ctx.body = result;

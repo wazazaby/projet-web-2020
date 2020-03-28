@@ -30,7 +30,7 @@ export class ManagerUser {
                 user.dateCrea,
                 user.dateModif
             ]);
-            
+
             return insert[0];
         } catch (e) {
             throw e;
