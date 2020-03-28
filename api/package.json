@@ -1,10 +1,10 @@
 {
 	"name": "projet-web",
-	"version": "0.0.5",
+	"version": "0.1.0",
 	"description": "Projet web de cours",
 	"main": "./src/server.ts",
 	"scripts": {
-		"s": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/server.ts"
+		"dev": "nodemon --watch './src/**/*' -e ts,tsx --exec ts-node ./src/server.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -18,19 +18,20 @@
 	"homepage": "https://github.com/Wazazaby/projet-web-2020#readme",
 	"dependencies": {
 		"koa": "^2.11.0",
-		"koa-body": "^4.1.1",
+		"koa-bodyparser": "^4.3.0",
 		"koa-cors": "0.0.16",
 		"koa-router": "^8.0.8",
-		"mysql2": "^2.1.0",
-		"sequelize": "^5.21.5",
-		"sequelize-cli": "^5.5.1"
+		"mysql2": "^2.1.0"
 	},
 	"devDependencies": {
 		"@types/koa": "^2.11.2",
+		"@types/koa-bodyparser": "^4.3.0",
 		"@types/koa-cors": "0.0.0",
 		"@types/koa-logger": "^3.1.1",
 		"@types/koa-router": "^7.4.0",
+		"@types/mysql2": "github:types/mysql2",
 		"@types/node": "^13.9.2",
+		"dotenv": "^8.2.0",
 		"koa-logger": "^3.2.1",
 		"ts-node": "^8.6.2",
 		"typescript": "^3.8.3"
