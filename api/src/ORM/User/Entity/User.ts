@@ -1,7 +1,7 @@
 import { UserInterface } from "../../../interfaces";
 
 export class User {
-    private _id: number;
+    private _id?: number;
     private _name: string;
     private _email: string;
     private _pass: string;
