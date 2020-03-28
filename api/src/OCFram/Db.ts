@@ -13,7 +13,6 @@ class Connection {
             queueLimit: 0
         });
 
-        console.log('DB running...');
         this.pool = connection;
     }
 }
