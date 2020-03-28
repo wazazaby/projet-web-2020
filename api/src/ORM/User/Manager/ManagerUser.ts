@@ -15,4 +15,25 @@ export class ManagerUser {
             throw err;
         }
     }
+
+    public async insertUser (user: User): Promise<any> {
+        const sql: string = 'INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        try {
+            const insert: any = await Db.pool.execute(sql, [
+                user.id,
+                user.name,
+                user.email,
+                user.password,
+                user.actif,
+                user.rgpd,
+                user.token,
+                user.dateCrea,
+                user.dateModif
+            ]);
+            
+            return insert[0];
+        } catch (e) {
+            throw e;
+        }
+    }
 }
