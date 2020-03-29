@@ -31,12 +31,12 @@ app.use(logger());
 app.use(bodyParser());
 
 
-// Permet de test si l'API est opérationel
-router.get('/api/test', async ctx => {
-    ctx.body = 'Hello, API turnstyle !';
+// Permet de test si l'API est opérationelle
+router.get('/api', async (ctx: Koa.Context): Promise<void> => {
+    ctx.body = {msg: ['Hello, World!', 'You\'ve successfully connected to the TurnStyle API']};
 });
+
 app.use(router.routes());
-// ----------------------------
 
 
 // ---------- ROUTES ----------
