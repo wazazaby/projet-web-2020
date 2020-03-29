@@ -12,6 +12,7 @@ import { Db } from './OCFram/Db';
 
 // --------------- IMPORT ROUTES ---------------
 import userRooter from './ORM/User/user.routes';
+import colorRooter from './ORM/Color/color.route';
 // --------------- IMPORT ROUTES ---------------
 
 
@@ -42,6 +43,9 @@ app.use(router.routes());
 // ---------- ROUTES ----------
 app.use(userRooter.routes());
 app.use(userRooter.allowedMethods());
+
+app.use(colorRooter.routes());
+app.use(colorRooter.allowedMethods());
 // ---------- ROUTES ----------
 
 
