@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/color.scss';
+
+html {
+    background-color: $bg-main;
+}

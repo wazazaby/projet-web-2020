@@ -27,4 +27,13 @@ export class BridgeService {
   getTest() {
     return this.http.get(environment.apiUrl + 'test');
   }
+
+  login() {
+    console.log('login');
+  }
+
+  register() {
+    console.log('register');
+  }
+
 }

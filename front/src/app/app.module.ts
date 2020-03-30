@@ -5,11 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
+import { OutfitComponent } from './components/outfit/outfit.component';
+import { GarmentComponent } from './components/garment/garment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    OutfitComponent,
+    GarmentComponent
   ],
   imports: [
     BrowserModule,
