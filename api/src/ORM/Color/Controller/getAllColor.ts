@@ -1,6 +1,7 @@
 import { Context } from 'koa';
 import { ManagerColor } from '../Manager/ManagerColor';
 import { Color } from "../Entity/Color";
+import { ColorModel } from '@osmo6/models';
 
 export class GetColors {
     private _ctx: Context;
@@ -17,7 +18,7 @@ export class GetColors {
     public async getColors(): Promise<void> {
 
         const manager: ManagerColor = new ManagerColor();
-        const allColors: Array<Color> | null = await manager.getColor();
+        const allColors: Array<ColorModel> | null = await manager.getColor();
 
         this._ctx.body = allColors;
     }

@@ -1,4 +1,4 @@
-import { ColorInterface } from "../../../interfaces/Color.interface";
+import { ColorModel } from "@osmo6/models/lib/ColorModel";
 
 export class Color {
     private _id?: number;
@@ -6,7 +6,7 @@ export class Color {
     private _hex: string;
     private _rgb: string;
 
-    constructor(color: ColorInterface) {
+    constructor(color: ColorModel) {
         this._id = color.id_color;
         this._label = color.label_color;
         this._hex = color.hex_color;

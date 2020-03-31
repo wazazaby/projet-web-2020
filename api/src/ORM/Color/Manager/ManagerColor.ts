@@ -1,12 +1,12 @@
 import { Db } from '../../../OCFram/Db';
 import { Color } from '../Entity/Color';
-import { ColorInterface } from '../../../interfaces';
+import { ColorModel } from '@osmo6/models/lib/ColorModel';
 
 export class ManagerColor {
 
     public async getColor () {
         const sql: string = 'SELECT * FROM color';
-        let allColors: Array<Color> = [];
+        let allColors: Array<ColorModel> = [];
         // console.log(sql);
 
         try {
@@ -14,9 +14,14 @@ export class ManagerColor {
 
             if (dbcolor[0].length !== 0) {
                 allColors = [];
-                dbcolor[0].forEach((c: ColorInterface) => {
+                dbcolor[0].forEach((c: ColorModel) => {
                     const color = new Color(c);
-                    allColors.push(color);
+                    allColors.push({
+                        id_color: color.id,
+                        label_color: color.label,
+                        hex_color: color.hex,
+                        rgb_color: color.rgb
+                    });
                 });
 
                 return allColors;
@@ -29,7 +34,7 @@ export class ManagerColor {
         }
     }
 
-    public async insertColor (color: Color): Promise<Color | null> {
+    public async insertColor (color: Color): Promise<ColorModel | null> {
         const sql: string = 'INSERT INTO color VALUES (?, ?, ?, ?)';
         // console.log(sql);
 

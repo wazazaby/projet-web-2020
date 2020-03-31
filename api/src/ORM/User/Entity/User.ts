@@ -1,4 +1,4 @@
-import { UserInterface } from "../../../interfaces";
+import { UserModel } from "@osmo6/models";
 
 export class User {
     private _id?: number;
@@ -11,7 +11,7 @@ export class User {
     private _dateCrea: number;
     private _dateModif: number;
 
-    constructor (user: UserInterface) {
+    constructor (user: UserModel) {
         this._id = user.id_user;
         this._name = user.name_user;
         this._email = user.email_user;

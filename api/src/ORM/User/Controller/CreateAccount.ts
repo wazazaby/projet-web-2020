@@ -1,7 +1,7 @@
 import { ManagerUser } from "../Manager/ManagerUser";
-import { Context } from 'koa'; 
+import { Context } from 'koa';
 import { User } from "../Entity/User";
-import { UserInterface } from "../../../interfaces";
+import { UserModel } from "@osmo6/models";
 
 export class CreateAccount {
     private _ctx: Context;
@@ -11,7 +11,7 @@ export class CreateAccount {
     }
 
     public async getResult (): Promise<void> {
-        const dataUser: UserInterface = {
+        const dataUser: UserModel = {
             id_user: null,
             name_user: this._ctx.request.body.name,
             email_user: this._ctx.request.body.email,
