@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatesService } from 'src/app/services/states.service';
-import { UserModel } from 'src/app/interfaces/users.interface';
+import { UserModel } from '@osmo6/models';
 
 @Component({
   selector: 'app-outfit',

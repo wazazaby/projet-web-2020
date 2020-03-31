@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { RouteModel } from './interfaces/route.interface';
 import { Router } from '@angular/router';
+
+// Services
 import { StatesService } from './services/states.service';
 import { BridgeService } from './services/bridge.service';
-import { UserModel } from './interfaces/users.interface';
+
+// interfaces/models
+import { RouteModel, UserModel } from '@osmo6/models';
 
 @Component({
   selector: 'app-root',
