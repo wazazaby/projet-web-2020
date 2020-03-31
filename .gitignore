@@ -2,5 +2,3 @@ node_modules/
 front/node_modules/
 api/node_modules/
 api/.env
-package-lock.json
-package.json
