@@ -1,6 +1,6 @@
 {
   "name": "turn-style",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,8 +21,8 @@
     "@angular/router": "~8.2.14",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@osmo6/models": "file:../lib-turnstyle/dist/osmo6/models",
-    "bootstrap": "^4.4.1",
-    "rxjs": "~6.4.0",
+    "bootstrap-css-only": "^4.4.1",
+    "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
@@ -35,7 +35,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^8.9.5",
     "codelyzer": "^5.0.0",
-    "jasmine-core": "~3.4.0",
+    "jasmine-core": "^3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
     "karma-chrome-launcher": "~2.2.0",
