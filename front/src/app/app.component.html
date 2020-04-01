@@ -23,9 +23,9 @@
     </div>
   </nav>
 
-  <div class="mainApp" (mouseover)="collapse($event)" (mouseout)="collapse($event)">
+  <div class="mainApp">
     <div class="sidebar" [ngClass]="{'sideResp': isCollapse}">
-      <ul>
+      <ul (mouseover)="collapse($event)" (mouseout)="collapse($event)">
         <li *ngFor="let r of sideBar" (click)="navigation(r)">
           <a [ngClass]="{'active': r.isActive}">
             <span class="icon" [innerHTML]="r.icon"></span>

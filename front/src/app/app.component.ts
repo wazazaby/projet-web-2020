@@ -52,11 +52,24 @@ export class AppComponent implements OnInit {
 
   /**
    * Permet de fermer/ouvrir la barre de navigation
+   * event ou boolean pour fonctionner
    * @param e event: non obligatoire
+   * @param b boolean: none obligatoire
    * @return boolean
    */
-  collapse(e?: Event) {
-    this.isCollapse = !this.isCollapse;
+  collapse(e?: Event, b?: boolean): boolean {
+    let bool = b || false;
+
+    if (e && !bool) {
+      if (e.type === 'mouseover') {
+        bool = true;
+      } else  {
+        bool = false;
+      }
+      e.stopPropagation();
+    }
+    return this.isCollapse = bool;
+
   }
 
   /**
