@@ -1,6 +1,5 @@
 import { Context } from 'koa';
 import { ManagerColor } from '../Manager/ManagerColor';
-import { Color } from "../Entity/Color";
 import { ColorModel } from '@osmo6/models';
 
 export class GetColors {
