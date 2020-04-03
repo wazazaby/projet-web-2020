@@ -1,5 +1,5 @@
 # Build
-ng build
+npm run build:models
 
 # Install
 npm i ../lib-turnstyle/dist/osmo6/models/osmo6-models-0.0.1.tgz
