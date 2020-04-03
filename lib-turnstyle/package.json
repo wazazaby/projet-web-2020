@@ -1,13 +1,17 @@
 {
   "name": "lib-turnstyle",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
+    "ng-high-memory": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng",
     "start": "ng serve",
-    "build": "ng build @osmo6/models",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "clean": "rimraf dist",
+    "build:models": "npm run ng-high-memory -- build @osmo6/models",
+    "postbuild:models": "cd dist/osmo6/models && npm pack"
   },
   "private": true,
   "dependencies": {

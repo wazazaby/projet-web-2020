@@ -2,7 +2,7 @@
 ng build
 
 # Install
-npm i ../lib-turnstyle/dist/osmo6/models
+npm i ../lib-turnstyle/dist/osmo6/models/osmo6-models-0.0.1.tgz
 
 # Import
 import { ExampleModels, NomModel, TestModel } from '@osmo6/models
