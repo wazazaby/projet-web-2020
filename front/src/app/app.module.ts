@@ -7,13 +7,15 @@ import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { OutfitComponent } from './components/outfit/outfit.component';
 import { GarmentComponent } from './components/garment/garment.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     OutfitComponent,
-    GarmentComponent
+    GarmentComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
