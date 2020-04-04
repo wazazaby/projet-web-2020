@@ -1,7 +1,9 @@
 import { Context } from 'koa';
 import { ManagerUser } from './UserManager';
 import { User } from './UserEntity';
-import { UserModel } from '@osmo6/models';
+import { UserModel, InsertReturnModel } from '@osmo6/models';
+import * as RandomString from 'randomstring';
+import { Mailer } from '../../OCFram/Mailer';
 
 export class UserController {
     private manager: ManagerUser;
@@ -17,8 +19,8 @@ export class UserController {
             email_user: ctx.request.body.email,
             pass_user: ctx.request.body.pass,
             actif_user: 0,
-            rgpd_user: ctx.request.body.rgpd,
-            token_user: '1q2w3e4r5t6y7u8i9o0p',
+            rgpd_user: 1,
+            token_user: RandomString.generate(),
             create_date_user: Math.floor(Date.now() / 1000),
             modification_date_user: null
         };
@@ -28,16 +30,27 @@ export class UserController {
         const check: User | null = await this.manager.getUserByMail(newUser.email);
 
         if (check == null) {
-            const result: any = await this.manager.insertUser(newUser);
+            const result: InsertReturnModel = await this.manager.insertUser(newUser);
 
             if (result.affectedRows == 1 && result.insertId > 0) {
-                // User inséré, envoie mail d'activation
-                ctx.body = result;
+                const mailer: Mailer = new Mailer(
+                    newUser.email, 
+                    'Activation de votre compte', 
+                    `
+                    <div>
+                        <h2>Bienvenue sur Turnstyle!</h2>
+                        <p>
+                            <a href="http://localhost:3000/api/user/activate/${newUser.token}">Merci de cliquer sur ce lien pour activer votre compte !</a>
+                        </p>
+                    </div>
+                    `
+                );
+                ctx.body = await mailer.sendMail();
             } else {
-                // Echec insert
+                ctx.throw(400, 'Problème lors de la création de votre compte, merci de réessayer', {mail: newUser.email});
             }
         } else {
-            // Utilisateur éxiste déjà
+            ctx.throw(400, 'Ce compte éxiste déjà', {mail: newUser.email});
         }
     }
 

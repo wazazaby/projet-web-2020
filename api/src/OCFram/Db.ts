@@ -17,4 +17,4 @@ class Connection {
     }
 }
 
-export const Db = new Connection();
+export const Db: Connection = new Connection();
