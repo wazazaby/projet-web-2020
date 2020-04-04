@@ -1,5 +1,5 @@
-import { Db } from '../../../OCFram/Db';
-import { User } from '../Entity/User';
+import { Db } from '../../OCFram/Db';
+import { User } from './UserEntity';
 
 export class ManagerUser {
 

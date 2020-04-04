@@ -11,8 +11,8 @@ import { Db } from './OCFram/Db';
 
 
 // --------------- IMPORT ROUTES ---------------
-import userRooter from './ORM/User/user.routes';
-import colorRooter from './ORM/Color/color.route';
+import userRooter from './ORM/User/UserRoutes';
+import colorRooter from './ORM/Color/ColorRoutes';
 // --------------- IMPORT ROUTES ---------------
 
 

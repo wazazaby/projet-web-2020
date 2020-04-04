@@ -17,7 +17,7 @@
 	},
 	"homepage": "https://github.com/Wazazaby/projet-web-2020#readme",
 	"dependencies": {
-		"@osmo6/models": "file:../lib-turnstyle/dist/osmo6/models",
+		"@osmo6/models": "file:../lib-turnstyle/dist/osmo6/models/osmo6-models-0.0.1.tgz",
 		"koa": "^2.11.0",
 		"koa-bodyparser": "^4.3.0",
 		"koa-cors": "0.0.16",
