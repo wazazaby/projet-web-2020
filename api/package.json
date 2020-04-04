@@ -17,12 +17,13 @@
 	},
 	"homepage": "https://github.com/Wazazaby/projet-web-2020#readme",
 	"dependencies": {
-		"@osmo6/models": "file:../lib-turnstyle/dist/osmo6/models",
+		"@osmo6/models": "file:../lib-turnstyle/dist/osmo6/models/osmo6-models-0.0.1.tgz",
 		"koa": "^2.11.0",
 		"koa-bodyparser": "^4.3.0",
 		"koa-cors": "0.0.16",
 		"koa-router": "^8.0.8",
-		"mysql2": "^2.1.0"
+		"mysql2": "^2.1.0",
+		"nodemailer": "^6.4.6"
 	},
 	"devDependencies": {
 		"@types/koa": "^2.11.3",
@@ -32,8 +33,11 @@
 		"@types/koa-router": "^7.4.0",
 		"@types/mysql2": "github:types/mysql2",
 		"@types/node": "^13.9.8",
+		"@types/nodemailer": "^6.4.0",
+		"@types/randomstring": "^1.1.6",
 		"dotenv": "^8.2.0",
 		"koa-logger": "^3.2.1",
+		"randomstring": "^1.1.5",
 		"ts-node": "^8.8.1",
 		"typescript": "^3.8.3"
 	}

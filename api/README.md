@@ -28,16 +28,13 @@ Db.pool.query(...);
 
 La propriété pool represente la connexion.
 
-Structuration des dossiers, et ce qu'ils doivent contenir :
-* ORM (dossier principal)
-    * Module (nom de l'entité => User, Garment, Outfit par exemple, première lettre en majuscule)
-        * Entity => ne doit contenir QU'UN seul fichier (nommé avec le nom du module, première lettre en majuscule) qui contient la définition de la Classe principale du module (membres de classes, setters, getters) 
-        * Manager => ne doit contenir QU'UN seul fichier (nommé avec Manager + nom du module en CamelCase) qui contient toutes les méthodes en rapport avec le module (insert, vérification, mise à jour)
-        * Controller => contient un fichier par action (nommé par le nom de l'action en anglais en CamelCase => CreateAccount, Authentification, UpateAccount) qui contiendra la logique de l'action
-        * les routes => contiendra toutes les routes du module, chaque route devra appeller un Controller pour garder le contenu des routes le plus clair possible, par exemple :
-        ```javascript
-        router.post(`/api/module/action`, async (ctx: Context): Promise<void> => {
-            const action: MonAction = new MonAction(ctx);
-            await action.getResult();
-        });
-        ```
+Structuration des dossiers, et ce qu'ils doivent contenir (dans ORM) :
+* Module (nom de l'entité => User, Garment, Outfit par exemple, première lettre en majuscule)
+    * ModuleEntity => contient la définition de la Classe principale du module (membres de classes, setters, getters) 
+    * ModuleManager => contient toutes les méthodes en rapport avec le module (insert, vérification, mise à jour)
+    * ModuleController => contient la logique de chaque action
+    * ModuleRoutes => contiendra toutes les routes du module. Instancier le controller en rapport en haut, et appeler l'action dans la route
+    ```javascript
+    const controller: MonController = new MonController();
+    router.post('/api/module/action', async (ctx: Context): Promise<void> => await controller.monAction(ctx));
+    ```
