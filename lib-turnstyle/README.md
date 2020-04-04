@@ -10,6 +10,6 @@ import { ExampleModels, NomModel, TestModel } from '@osmo6/models
 # Usage
 
 * Créer un fichier au model: NameModel.ts
-* Ajouter ce fichier dans /projects/models/serc/lib/
+* Ajouter ce fichier dans /projects/models/src/lib/
 * Ajouter l'export dans public-api.ts: export * from './lib/RouteModel';
 * Go build
