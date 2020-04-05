@@ -1,5 +1,4 @@
-/* tslint:disable */
-export class RouteModel {
+export interface RouteInterface {
   path: string;
   isActive: boolean;
   title: string;

@@ -1,4 +1,4 @@
-export class InsertReturnModel {
+export interface InsertReturnInterface {
     fieldcout: number;
     affectedRows: number;
     insertId: number;
