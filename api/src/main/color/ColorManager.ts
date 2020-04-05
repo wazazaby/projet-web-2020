@@ -1,6 +1,6 @@
-import { Db } from '../../OCFram/Db';
+import { Db } from '../../libs/Db';
 import { Color } from './ColorEntity';
-import { ColorModel } from '@osmo6/models';
+import { ColorInterface, InsertReturnInterface } from '@osmo6/models';
 
 export class ManagerColor {
 
@@ -10,7 +10,7 @@ export class ManagerColor {
             const allColors: any = await Db.pool.execute(sql);
             const tabReturn: Color[] = [];
             if (allColors[0].length > 0) {
-                allColors[0].forEach((color: ColorModel) => {
+                allColors[0].forEach((color: ColorInterface) => {
                     tabReturn.push(new Color(color));
                 });
 
@@ -23,14 +23,14 @@ export class ManagerColor {
         }
     }
 
-    public async insertColor (color: Color): Promise<any> {
+    public async insertColor (color: Color): Promise<InsertReturnInterface> {
         const sql: string = 'INSERT INTO color VALUES (?, ?, ?, ?)';
         try {
             const insert: any = await Db.pool.execute(sql, [
-                color.id,
-                color.label,
-                color.hex,
-                color.rgb
+                color.getId(),
+                color.getLabel(),
+                color.getHex(),
+                color.getRgb()
             ]);
 
             return insert[0];

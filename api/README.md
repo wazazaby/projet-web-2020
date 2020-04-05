@@ -28,7 +28,7 @@ Db.pool.query(...);
 
 La propriété pool represente la connexion.
 
-Structuration des dossiers, et ce qu'ils doivent contenir (dans ORM) :
+Structuration des dossiers, et ce qu'ils doivent contenir (dans main) :
 * Module (nom de l'entité => User, Garment, Outfit par exemple, première lettre en majuscule)
     * ModuleEntity => contient la définition de la Classe principale du module (membres de classes, setters, getters) 
     * ModuleManager => contient toutes les méthodes en rapport avec le module (insert, vérification, mise à jour)
@@ -38,3 +38,14 @@ Structuration des dossiers, et ce qu'ils doivent contenir (dans ORM) :
     const controller: MonController = new MonController();
     router.post('/api/module/action', async (ctx: Context): Promise<void> => await controller.monAction(ctx));
     ```
+
+## Utilisation du mailer
+* Importer la lib (lib/Mailer.ts)
+* L'instancier avec comme paramètre l'adresse mail du destinataire, l'objet du mail et le contenu du mail (sous forme de HTML) comme ceci :
+```javascript
+const mailer: Mailer = new Mailer('email@email.com', 'Message', '<p>Hello, World!</p>');
+``` 
+* Puis enfin envoyer le mail comme ceci :
+```javascript
+mailer.sendMail(); // true | false
+```

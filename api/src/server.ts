@@ -7,12 +7,12 @@ import * as Router from 'koa-router';
 
 
 // L'instance de la connexion à la DB
-import { Db } from './OCFram/Db';
+import { Db } from './libs/Db';
 
 
 // --------------- IMPORT ROUTES ---------------
-import userRooter from './ORM/User/UserRoutes';
-import colorRooter from './ORM/Color/ColorRoutes';
+import userRooter from './main/user/UserRoutes';
+import colorRooter from './main/color/ColorRoutes';
 // --------------- IMPORT ROUTES ---------------
 
 

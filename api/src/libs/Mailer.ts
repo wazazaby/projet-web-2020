@@ -23,9 +23,14 @@ export class Mailer {
         };
     }
 
-    async sendMail (): Promise<nodeMailer.SentMessageInfo> {
+    public async sendMail (): Promise<boolean> {
         try {
-            return await this._transporter.sendMail(this._mailOptions);
+            const mail: nodeMailer.SentMessageInfo = await this._transporter.sendMail(this._mailOptions);
+            if (mail.rejected.length === 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (e) {
             throw e;
         }
