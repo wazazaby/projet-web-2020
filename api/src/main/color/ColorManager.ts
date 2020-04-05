@@ -8,10 +8,12 @@ export class ManagerColor {
         const sql: string = 'SELECT * FROM color';
         try {
             const allColors: any = await Db.pool.execute(sql);
+            const color: ColorInterface[] = allColors[0];
+
             const tabReturn: Color[] = [];
-            if (allColors[0].length > 0) {
-                allColors[0].forEach((color: ColorInterface) => {
-                    tabReturn.push(new Color(color));
+            if (color.length > 0) {
+                color.forEach((c: ColorInterface) => {
+                    tabReturn.push(new Color(c));
                 });
 
                 return tabReturn;
@@ -37,6 +39,33 @@ export class ManagerColor {
         } catch (e) {
             throw e;
         }
+    }
+
+    public async getColor (color: ColorInterface): Promise<Color | null> {
+        const sql: string = `
+            SELECT *
+            FROM color
+            WHERE label_color = ?
+                AND hex_color = ?
+                AND rgb_color = ?`;
+
+        try {
+            const dbColor: any = await Db.pool.execute(sql, [
+                color.label_color,
+                color.hex_color,
+                color.rgb_color
+            ]);
+
+            if (dbColor[0].length > 0) {
+                return dbColor[0];
+            } else {
+                return null;
+            }
+
+        } catch (err) {
+            throw err;
+        }
+
     }
 
 }
