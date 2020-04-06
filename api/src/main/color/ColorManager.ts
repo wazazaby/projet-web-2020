@@ -41,7 +41,7 @@ export class ManagerColor {
         }
     }
 
-    public async getColor (color: ColorInterface): Promise<Color | null> {
+    public async getColor (color: Color): Promise<Color | null> {
         const sql: string = `
             SELECT *
             FROM color

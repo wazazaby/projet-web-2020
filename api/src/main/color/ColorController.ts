@@ -24,6 +24,7 @@ export class ColorController {
             const result: InsertReturnInterface = await this.manager.insertColor(newColor);
 
             if (result.affectedRows == 1 && result.insertId > 0) {
+                newColor.id_color = result.insertId;
                 // Color inséré
                 ctx.body = newColor;
             } else {
