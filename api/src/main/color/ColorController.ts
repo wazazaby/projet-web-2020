@@ -17,36 +17,30 @@ export class ColorController {
             hex_color: ctx.request.body.hex_color,
             rgb_color: ctx.request.body.rgb_color,
         });
-        
-        const allColor: Color[] | null = await this.manager.getAllColors();
 
-        if (allColor.length > 0) {
-            allColor.forEach((color: Color) => {
-                if (
-                    color.getLabel() === newColor.getLabel() 
-                    && color.getHex() === newColor.getHex() 
-                    && color.getRgb() === newColor.getRgb()
-                ) {
-                    // La couleur éxiste déjà
-                    ctx.throw(401, 'La couleur éxiste déjà', {color: newColor});
-                }
-            });
-        }
-        
-        const result: InsertReturnInterface = await this.manager.insertColor(newColor);
+        const isExist: Color | null = await this.manager.getColor(newColor);
 
-        if (result.affectedRows == 1 && result.insertId > 0) {
+        if (isExist === null){
+            const result: InsertReturnInterface = await this.manager.insertColor(newColor);
 
-            // Color inséré
-            ctx.body = newColor;
+            if (result.affectedRows == 1 && result.insertId > 0) {
+                newColor.id_color = result.insertId;
+                // Color inséré
+                ctx.body = newColor;
+            } else {
+                // Echec insert
+                ctx.throw(400, "Une erreur s'est produite", {result: result});
+            }
         } else {
-
-            // Echec insert
-            ctx.throw(400, "Une erreur s'est produite", {result: result});
+            ctx.throw(401, 'La couleur éxiste déjà', {color: newColor});
         }
     }
 
     async getAllColors (ctx: Context): Promise<void> {
         ctx.body = await this.manager.getAllColors();
+    }
+
+    async getColor (ctx: Context): Promise<void> {
+        ctx.body = await this.manager.getColor(ctx.params);
     }
 }
