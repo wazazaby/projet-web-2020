@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
 import { UserInterface, GarmentInterface } from '@osmo6/models';
@@ -7,6 +8,9 @@ import { UserInterface, GarmentInterface } from '@osmo6/models';
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
 
+// Liste des modals
+import { ModalAddGarmentComponent } from './modal-add-garment/modal-add-garment.component';
+
 @Component({
   selector: 'app-garment',
   templateUrl: './garment.component.html',
@@ -14,10 +18,13 @@ import { BridgeService } from 'src/app/services/bridge.service';
 })
 export class GarmentComponent implements OnInit {
 
+  // User
   user: UserInterface = this.stateService.userProfil;
-  garment: GarmentInterface[] = [];
-  isCollapse: boolean = false; // tslint:disable-line
 
+  // Liste des vêtements
+  garment: GarmentInterface[] = [];
+
+  // Liste des filtres
   filterName = [
     {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: false},
     {id: 2, title: 'Types', value: ['tshirt', 'pull', 'sweat'], active: false},
@@ -30,13 +37,15 @@ export class GarmentComponent implements OnInit {
   ];
 
   constructor(private stateService: StatesService,
-              private bridgeService: BridgeService) { }
+              private bridgeService: BridgeService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     // On charge tout les vêtements utilisateur à l'init
     this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
   }
 
+  // ------------------ Filtre ------------------
   // Permet d'activer le filtre selectionner
   openFilter(id: number, bool: boolean) {
     this.filterName.forEach(f => {
@@ -59,10 +68,18 @@ export class GarmentComponent implements OnInit {
       f.active = false;
     });
   }
+  // ------------------ Filtre ------------------
 
-  // Ouvre le modal pour ajouter un vêtement
-  addGarment() {
+  // Ouvre un modal pour ajouter un vêtement
+  addGarment(): void {
     console.log('Ajouter vêtement');
+    const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
+      width: '80%'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+    });
   }
 
   /**

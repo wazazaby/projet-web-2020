@@ -1,5 +1,6 @@
 @import './assets/color.scss';
 
-html {
+html, body {
     background-color: $bg-main;
+    height: 100%;
 }
