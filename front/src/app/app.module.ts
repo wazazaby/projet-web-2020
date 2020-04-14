@@ -10,6 +10,7 @@ import { GarmentComponent } from './components/garment/garment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalAddGarmentComponent } from './components/garment/modal-add-garment/modal-add-garment.component';
+import { DragDropDirective } from './components/garment/drag-drop.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ModalAddGarmentComponent } from './components/garment/modal-add-garment
     HomeComponent,
     OutfitComponent,
     GarmentComponent,
-    ModalAddGarmentComponent
+    ModalAddGarmentComponent,
+    DragDropDirective
   ],
   imports: [
     BrowserModule,

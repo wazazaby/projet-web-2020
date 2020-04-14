@@ -1,1 +1,11 @@
-<p>modal-add-garment works!</p>
+<h3>Ajouter un vêtement</h3>
+
+<div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
+  <input hidden type="file" #fileInput (change)="uploadFile($event.target.files)">
+</div>
+<div  class="files-list" *ngFor="let file of files;let i= index">
+  <p> {{ file }} </p>
+  <button class="delete-file" (click)="deleteAttachment(i)">
+    <i class="fas fa-cloud-upload-alt"></i>
+  </button>
+</div>

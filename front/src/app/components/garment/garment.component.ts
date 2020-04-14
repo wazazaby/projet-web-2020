@@ -74,7 +74,7 @@ export class GarmentComponent implements OnInit {
   addGarment(): void {
     console.log('Ajouter vêtement');
     const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
-      width: '80%'
+      width: '60%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
