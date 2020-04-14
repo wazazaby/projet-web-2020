@@ -2,10 +2,10 @@
 
 <h1>TurnStyle login</h1>
 <div class="container">
-    <form>
-        <input class="form-control" id="emailForm" type="email">
-        <input class="form-control" id="passwordForm" type="password">
-    </form>
-    <button class="btn btn-success" type="submit" (click)="onLogin()">Login</button>
-    <!-- <button [disabled]="!emailForm.valid" class="btn btn-success" type="submit" (click)="onLogin">Login</button> -->
+<form [formGroup]="formSubmit">
+    <input formControlName="email" class="form-control" id="emailForm" type="email">
+    <input formControlName="password" class="form-control" id="passwordForm" type="password">
+</form>
+<button class="btn btn-success" type="submit" (click)="onLogin()">Login</button>
+<!-- <button [disabled]="!emailForm.valid" class="btn btn-success" type="submit" (click)="onLogin">Login</button> -->
 
