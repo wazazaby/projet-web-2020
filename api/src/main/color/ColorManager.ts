@@ -1,22 +1,15 @@
 import { Db } from '../../libs/Db';
 import { Color } from './ColorEntity';
-import { ColorInterface, InsertReturnInterface } from '@osmo6/models';
+import { InsertReturnInterface, ColorInterface } from '@osmo6/models';
 
 export class ManagerColor {
 
     public async getAllColors (): Promise<Color[] | null> {
-        const sql: string = 'SELECT * FROM color';
         try {
-            const allColors: any = await Db.pool.execute(sql);
-            const color: ColorInterface[] = allColors[0];
-
-            const tabReturn: Color[] = [];
+            const dbCall: any = await Db.pool.execute('SELECT * FROM color');
+            const color: ColorInterface[] = dbCall[0];
             if (color.length > 0) {
-                color.forEach((c: ColorInterface) => {
-                    tabReturn.push(new Color(c));
-                });
-
-                return tabReturn;
+                return color.map((color: ColorInterface) => new Color(color));
             } else {
                 return null;
             }
@@ -46,8 +39,9 @@ export class ManagerColor {
             SELECT *
             FROM color
             WHERE label_color = ?
-                AND hex_color = ?
-                AND rgb_color = ?`;
+            AND hex_color = ?
+            AND rgb_color = ?
+        `;
 
         try {
             const dbColor: any = await Db.pool.execute(sql, [
@@ -65,7 +59,5 @@ export class ManagerColor {
         } catch (err) {
             throw err;
         }
-
     }
-
 }
