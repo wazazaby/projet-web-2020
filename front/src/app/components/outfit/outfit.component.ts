@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatesService } from 'src/app/services/states.service';
-import { UserModel } from '@osmo6/models';
+import { UserInterface } from '@osmo6/models';
 
 @Component({
   selector: 'app-outfit',
@@ -11,7 +11,7 @@ export class OutfitComponent implements OnInit {
 
   constructor(private stateService: StatesService) { }
 
-  user: UserModel = this.stateService.userProfil;
+  user: UserInterface = this.stateService.userProfil;
 
   async ngOnInit() {
     console.log('outfit page');

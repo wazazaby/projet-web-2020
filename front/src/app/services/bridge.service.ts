@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import { UserModel } from '@osmo6/models';
+import { UserInterface } from '@osmo6/models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class BridgeService {
    * Le resultat de cette fonction est obligatoirement un 'UserModel'
    */
   getUser() {
-    return this.http.get<UserModel>(environment.apiUrl + 'users');
+    return this.http.get<UserInterface>(environment.apiUrl + 'users');
   }
 
   /**
