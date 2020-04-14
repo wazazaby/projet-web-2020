@@ -10,6 +10,7 @@ $width-side: 4em;
     display: flex;
     position: fixed;
     top: 0;
+    z-index: 999;
 
     .hamburger{
       display: none;
@@ -92,6 +93,7 @@ $width-side: 4em;
     width: 200px;
     height: 100%;
     transition: all 0.3s ease;
+    z-index: 999;
 
     ul{
       li{

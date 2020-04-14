@@ -1,0 +1,126 @@
+@import '../../../assets/color.scss';
+
+
+.garment{
+
+  .filter{
+    position: relative;
+    justify-content: flex-end;
+
+    div{
+      cursor: pointer;
+
+      span{
+
+        &.title{
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+      }
+
+      .filter-menu{
+        position: absolute;
+        top: 2.5em;
+        right: 2.5em;
+        background-color: $bg-main;
+        z-index: 2;
+        border-radius: $radius-x4;
+        min-width: 8em;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+        ul{
+          margin: 0;
+          padding: .2em;
+
+          li.filter-link{
+            padding: 4px;
+            color: $active;
+            text-transform: capitalize;
+
+            &:hover{
+              background-color: $active;
+              color: $white;
+              border-radius: $radius-x4;
+            }
+          }
+        }
+
+      }
+
+    }
+
+    .activeChevron{
+      color: $active;
+    }
+  }
+
+
+  .sect-img{
+    margin-bottom: 2em;
+
+    p, img{
+      margin-bottom: .5em;
+    }
+
+    img{
+      border-radius: $radius-x8;
+    }
+
+    .sect-hover{
+      position: relative;
+      display: block;
+      box-sizing: content-box;
+    }
+
+    .sect-hide{
+      position: absolute;
+      opacity: 0;
+      box-sizing: border-box;
+      margin: auto;
+      top: 0; left: 0; bottom: 0; right: 0;
+
+      .update, .delete{
+        cursor: pointer;
+
+        .icon{
+          margin: auto;
+          justify-content: center;
+          text-align: center;
+          color: $white;
+        }
+      }
+
+      .update{
+        background-color: $update;
+        opacity: .2;
+        border-radius: $radius-x4 0 0 $radius-x4;
+
+        &:hover{
+          opacity: .6;
+        }
+      }
+
+      .delete{
+        background-color: $delete;
+        opacity: .2;
+        border-radius: 0 $radius-x4 $radius-x4 0;
+
+
+        &:hover{
+          opacity: .6;
+        }
+      }
+    }
+
+    &:hover{
+      img{
+        opacity: .4;
+      }
+
+      .sect-hide{
+        opacity: 1;
+      }
+    }
+  }
+
+}
