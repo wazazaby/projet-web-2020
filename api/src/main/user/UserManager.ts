@@ -3,8 +3,16 @@ import { User } from './UserEntity';
 import { InsertReturnInterface } from '@osmo6/models'
 import * as bcrypt from 'bcrypt';
 
-export class ManagerUser {
+/**
+ * Manager User
+ */
+export class UserManager {
 
+    /**
+     * Permet de récupérer un utilisateur en fonction de son mail
+     * @param {string} mail
+     * @returns {Promise<User|null>} l'utilisateur qui correspond au mail, ou null s'il n'existe pas
+     */
     public async getUserByMail (mail: string): Promise<User | null> {
         try {
             const dbUser: any = await Db.pool.execute('SELECT * FROM user WHERE user.email_user = ?', [mail]);
@@ -18,6 +26,11 @@ export class ManagerUser {
         }
     }
 
+    /**
+     * Permet d'insérer un nouvel utilisateur
+     * @param {User} user l'utilisateur à inséré
+     * @returns {Promise<InsertReturnInterface>} le résultats de l'insert
+     */
     public async insertUser (user: User): Promise<InsertReturnInterface> {
         const sql: string = 'INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
         try {
@@ -39,6 +52,11 @@ export class ManagerUser {
         }
     }
 
+    /**
+     * Permet de récuperer un user en fonction de son token d'activation
+     * @param {string} token le token contenu dans le mail d'activation de l'utilisateur
+     * @returns {Promise<User|null>} retourne l'utilisateur en question ou null si rien n'est trouvé
+     */
     public async getUserByToken (token: string): Promise<User | null> {
         const sql: string = 'SELECT * FROM user WHERE user.token_user = ?';
         try {
@@ -53,6 +71,11 @@ export class ManagerUser {
         }
     }
 
+    /**
+     * Permet de mettre à jour un utilisateur depuis son objet User
+     * @param {User} user l'utilisateur à mettre à jour
+     * @returns {Promise<InsertReturnInterface>} le résultat de l'update
+     */
     public async updateUser (user: User): Promise<InsertReturnInterface> {
         const sql: string = `
             UPDATE user
@@ -82,6 +105,13 @@ export class ManagerUser {
         }
     }
 
+    /**
+     * Permet de récupérer un user en fonction de son mail et son mot de passe
+     * L'email et le passe de l'user
+     * @param {string} email 
+     * @param {string} pass
+     * @returns {Promise<User|null>} retourne l'utilisateur trouvé avec ce mail et ce mot de passe, ou null
+     */
     public async getUserByMailAndPass (email: string, pass: string): Promise<User | null> {
         const sql: string = `
             SELECT * FROM user
@@ -89,11 +119,17 @@ export class ManagerUser {
         `;
 
         try {
+
+            // On récupère d'abord un user en fonction du mail
+            // Si il n'existe pas alors on renvoit null
             const dbCall: any = await Db.pool.execute(sql, [email]);
             if (dbCall[0].length === 1) {
-                const user: User = new User(dbCall[0][0]);
 
+                // Si il existe, on va comparer les deux mot de passe (celui du formulaire, et celui qui est crypté en BDD)
+                const user: User = new User(dbCall[0][0]);
                 const match: boolean = await bcrypt.compare(pass, user.getPass());
+
+                // Si ça match, l'utilisateur est connecté
                 if (match) {
                     return user;
                 } else {

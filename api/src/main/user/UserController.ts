@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import { ManagerUser } from './UserManager';
+import { UserManager } from './UserManager';
 import { User } from './UserEntity';
 import { InsertReturnInterface } from '@osmo6/models';
 import { Mailer } from '../../libs/Mailer';
@@ -8,18 +8,30 @@ import * as RandomString from 'randomstring';
 import * as bcrypt from 'bcrypt';
 
 export class UserController {
-    private _manager: ManagerUser;
+    private _manager: UserManager;
     private _hash: number = 10;
 
+    /**
+     * Constructeur de UserController
+     * Initie juste un nouveau UserManager et le place en variable de classe
+     */
     constructor () {
-        this._manager = new ManagerUser();
+        this._manager = new UserManager();
     }
 
+    /**
+     * Permet de créer un utilisateur, et d'envoyer le mail d'activation
+     * @param {Context} ctx 
+     */
     public async createUser (ctx: Context): Promise<void> {
+
+        // En fonction des paramètres passés dans le body de la request, on crée un objet user
         const newUser: User = new User({
             id_user: null,
             name_user: ctx.request.body.name,
             email_user: ctx.request.body.email,
+
+            // Hash du password avec bcrypt
             pass_user: await bcrypt.hash(ctx.request.body.pass, this._hash),
             actif_user: 0,
             rgpd_user: 1,
@@ -28,12 +40,18 @@ export class UserController {
             modification_date_user: null
         });
 
+        // On va vérifier si l'utilisateur existe déjà
         const check: User | null = await this._manager.getUserByMail(newUser.getEmail());
 
+        // Il n'existe pas
         if (check === null) {
+
+            // On l'insert
             const result: InsertReturnInterface = await this._manager.insertUser(newUser);
 
             if (result.affectedRows == 1 && result.insertId > 0) {
+
+                // Si il a bien été crée, on envoi le mail d'activation
                 const mailer: Mailer = new Mailer(
                     newUser.getEmail(), 
                     'Activation de votre compte TurnStyle', 
@@ -61,19 +79,32 @@ export class UserController {
         }
     }
 
+    /**
+     * Passe l'actif du user de 0 à 1 en fonction du token passé dans les paramètres de la requette
+     * @param {Context} ctx
+     */
     public async activateUser (ctx: Context): Promise<void> {
+
+        // On prend le token passé dans la requette, et on tente de récuperer un user avec ce token
         const token: string = ctx.params.token;
         const user: User | null = await this._manager.getUserByToken(token);
-
+        
+        // Si il y a un user avec ce token
         if (user !== null) {
+
+            // On vérifie si son compte est déjà actif ou non
             if (user.getActif() === 0) {
                 user.setActif(1);
+
+                // On met à jour son status et on renvoi le résultat en fonction du succès ou non
                 const result: InsertReturnInterface = await this._manager.updateUser(user);
                 if (result.affectedRows == 1) {
                     ctx.body = new Body(200, 'Votre compte a bien été activé', {email: user.getEmail()});
                 } else {
                     ctx.throw(400, "Problème lors de l'activation de votre compte, merci de rééssayer");
                 }
+
+                // Si son compte est déjà activé, on le redirigera vers la page de login
             } else if (user.getActif() === 1) {
                 ctx.throw(300, 'Votre compte à déjà été activé, vous pouvez vous connecter', {email: user.getEmail()});
             }
@@ -82,18 +113,28 @@ export class UserController {
         }
     }
 
+    /**
+     * Permet de connecter un utilisateur en fonction de son mot de passe et de son email
+     * Sauvegarde ses datas dans une variable de session
+     * @param {Context} ctx 
+     */
     public async connectUser (ctx: Context): Promise<void> {
         const mail: string = ctx.request.body.email;
         const pass: string = ctx.request.body.pass;
 
+        // Si user est null, ça veut dire que les identifiants sont incorrectes ou que l'utilisateur n'existe pas
         const user: User | null = await this._manager.getUserByMailAndPass(mail, pass);
 
         if (user === null) {
             ctx.throw(400, 'Impossible de se connecter avec ces identifiants');
         } else {
+
+            // S'il essaye de se connecter mais qu'il n'a pas activer son compte
             if (user.getActif() === 0) {
                 ctx.throw(400, "Merci d'activer votre compte pour pouvoir vous connecter");
             } else {
+
+                // Si tout est bon, on renvoit son id, name et email au front
                 ctx.body = new Body(200, 'Connexion réussie', {id: user.getId(), name: user.getName(), email: user.getEmail()});
             }
         }

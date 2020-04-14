@@ -1,28 +1,25 @@
 import * as Router from 'koa-router';
-import { Context } from 'koa';
+import { Context, DefaultState } from 'koa';
 import { UserController } from './UserController';
 
-const router: Router = new Router();
+const router: Router<DefaultState, Context> = new Router<DefaultState, Context>();
 const controller: UserController = new UserController();
 
-router.post(
-    '/api/user/add', 
-    async (ctx: Context): Promise<void> => await controller.createUser(ctx)
-);
+// Route de landing pour l'API, ne sert à rien
+router.get('/api', async (ctx: Context): Promise<void> => {
+    ctx.body = {msg: ['Hello, World!', "You've successfully connected to the TurnStyle API"]};
+});
 
-router.get(
-    '/api/user/activate/:token', 
-    async (ctx: Context): Promise<void> => await controller.activateUser(ctx)
-);
+// Ajout d'un utilisateur
+router.post('/api/user/add', async (ctx: Context): Promise<void> => await controller.createUser(ctx));
 
-router.post(
-    '/api/user/login', 
-    async (ctx: Context): Promise<void> => await controller.connectUser(ctx)
-);
+// Activation d'un utilisateur
+router.get('/api/user/activate/:token', async (ctx: Context): Promise<void> => await controller.activateUser(ctx));
 
-router.get(
-    '/api/user/logout', 
-    async (ctx: Context): Promise<void> => { ctx.body = {url: 'logout'} }
-);
+// Connexion d'un utilisateur
+router.post('/api/user/login', async (ctx: Context): Promise<void> => await controller.connectUser(ctx));
+
+// Deconnexion d'un utilisateur
+router.get('/api/user/logout', async (ctx: Context): Promise<void> => { ctx.body = {url: 'logout'} });
 
 export default router;
