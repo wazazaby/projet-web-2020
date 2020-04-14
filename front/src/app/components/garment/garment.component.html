@@ -21,7 +21,12 @@
         <div class="filter-menu p-2" *ngIf="f.active">
           <ul>
             <li (click)="filter(v)" class="filter-link" *ngFor="let v of f.value">
-              <i *ngIf="f.id === 5; else noColor" [style.color]="v" class="fas fa-circle"></i>
+              <div *ngIf="f.id === 5; else noColor">
+                <span>
+                  <i [style.color]="v.hex" class="fas fa-circle"></i>
+                  {{ v.label }}
+                </span>
+              </div>
               <ng-template #noColor>
                 <span>{{v}}</span>
               </ng-template>

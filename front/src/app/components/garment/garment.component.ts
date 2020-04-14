@@ -19,11 +19,14 @@ export class GarmentComponent implements OnInit {
   isCollapse: boolean = false; // tslint:disable-line
 
   filterName = [
-    {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: true},
+    {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: false},
     {id: 2, title: 'Types', value: ['tshirt', 'pull', 'sweat'], active: false},
     {id: 3, title: 'Styles', value: ['sport', 'decontract'], active: false},
     {id: 4, title: 'Saisons', value: ['Hiver', 'Printemps', 'Été', 'Automne'], active: false},
-    {id: 5, title: 'Couleur', value: ['#0ABAB5', '#000000'], active: false},
+    {id: 5, title: 'Couleur', value: [
+      {label: 'cyan', hex: '#0ABAB5'},
+      {label: 'black', hex: '#000000'}
+    ], active: true},
   ];
 
   constructor(private stateService: StatesService,
