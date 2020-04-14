@@ -3,7 +3,7 @@ import { Pool, createPool } from 'mysql2/promise';
 class Connection {
     public pool: Pool;
 
-    async init (): Promise<void> {
+    async init (message?: string): Promise<void> {
         const connection: Pool = await createPool({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
@@ -14,6 +14,7 @@ class Connection {
         });
 
         this.pool = connection;
+        console.log(message ? message : 'http://localhost/phpmyadmin');
     }
 }
 

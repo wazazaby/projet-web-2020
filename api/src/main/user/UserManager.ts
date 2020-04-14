@@ -1,6 +1,7 @@
 import { Db } from '../../libs/Db';
 import { User } from './UserEntity';
 import { InsertReturnInterface } from '@osmo6/models'
+import * as bcrypt from 'bcrypt';
 
 export class ManagerUser {
 
@@ -76,6 +77,31 @@ export class ManagerUser {
             ]);
 
             return update[0];
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    public async getUserByMailAndPass (email: string, pass: string): Promise<User | null> {
+        const sql: string = `
+            SELECT * FROM user
+            WHERE email_user = ?
+        `;
+
+        try {
+            const dbCall: any = await Db.pool.execute(sql, [email]);
+            if (dbCall[0].length === 1) {
+                const user: User = new User(dbCall[0][0]);
+
+                const match: boolean = await bcrypt.compare(pass, user.getPass());
+                if (match) {
+                    return user;
+                } else {
+                    return null;
+                }
+            } else {
+                return null
+            }
         } catch (e) {
             throw e;
         }

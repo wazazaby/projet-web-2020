@@ -34,7 +34,7 @@ app.use(bodyParser());
 
 // Permet de test si l'API est opérationelle
 router.get('/api', async (ctx: Koa.Context): Promise<void> => {
-    ctx.body = {msg: ['Hello, World!', 'You\'ve successfully connected to the TurnStyle API']};
+    ctx.body = {msg: ['Hello, World!', "You've successfully connected to the TurnStyle API"]};
 });
 
 app.use(router.routes());
@@ -51,7 +51,7 @@ app.use(colorRooter.allowedMethods());
 
 
 // Lancement du serveur sur le port 3000 et log l'adresse de l'API pour que ce soit moins chiant
-app.listen(process.env.SERVER_PORT, async () => {
+app.listen(process.env.SERVER_PORT, async (): Promise<void> => {
     console.log(`http://localhost:${process.env.SERVER_PORT}/api`);
     await Db.init();
 });
