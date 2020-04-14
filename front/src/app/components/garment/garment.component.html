@@ -1,1 +1,79 @@
-<p>garment works!</p>
+<div class="col-12 garment">
+  <div class="col-12 d-flex justify-content-between mb-4 pb-4">
+    <button class="btn btn-info btn-add" (click)="addGarment()">
+      <i class="fas fa-plus"></i>
+    </button>
+
+    <div class="filter row col-10">
+      <div *ngFor="let f of filterName" class="col-2">
+        <div class="d-flex row justify-content-around" (click)="openFilter(f.id, f.active)">
+          <span [ngClass]="{activeChevron: f.active}" class="title">{{f.title}}</span>
+          <span *ngIf="f.active; else noActive">
+            <i [ngClass]="{activeChevron: f.active}" class="fas fa-chevron-up"></i>
+          </span>
+          <ng-template #noActive>
+            <span>
+              <i class="fas fa-chevron-down"></i>
+            </span>
+          </ng-template>
+        </div>
+
+        <div class="filter-menu p-2" *ngIf="f.active">
+          <ul>
+            <li (click)="filter(v)" class="filter-link" *ngFor="let v of f.value">
+              <div *ngIf="f.id === 5; else noColor">
+                <span>
+                  <i [style.color]="v.hex" class="fas fa-circle"></i>
+                  {{ v.label }}
+                </span>
+              </div>
+              <ng-template #noColor>
+                <span>{{v}}</span>
+              </ng-template>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+      <p>
+        {{ garment.length }} <span *ngIf="garment.length === 0 || garment.length === 1; else moreGarment">Vêtement</span>
+        <ng-template #moreGarment>
+          Vêtements
+        </ng-template>
+      </p>
+    </div>
+
+  </div>
+
+  <div (click)="resetFilter()" class="col-12 justify-content-center row mx-auto" *ngIf="garment.length != 0">
+    <div *ngFor="let g of garment" class="col-xl-2 col-md-4 col-sm-6 col-12 sect-img">
+      <p [innerText]="g.label_garment"></p>
+      <div class="sect-hover">
+        <img class="img-fluid" [src]="g.url_img_garment + g.label_garment" [alt]="g.label_garment">
+        <div class="sect-hide d-flex">
+          <div class="col-6 d-flex update" (click)="actToGarment(1, g)">
+            <div class="icon row">
+              <i class="fa-2x fas fa-pencil-alt"></i>
+              <span class="col-12">
+                Modifier
+              </span>
+            </div>
+          </div>
+          <div class="col-6 d-flex delete" (click)="actToGarment(0, g)">
+            <div class="icon row">
+              <i class="fa-2x far fa-trash-alt"></i>
+              <span class="col-12">
+                Supprimer
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="desc">
+        <div>
+          <i *ngFor="let c of g.color" [style.color]="c.hex_color" class="fas fa-circle"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
