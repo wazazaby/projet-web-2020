@@ -6,7 +6,7 @@ import { StatesService } from './services/states.service';
 import { BridgeService } from './services/bridge.service';
 
 // interfaces/models
-import { RouteModel, UserModel } from '@osmo6/models';
+import { RouteInterface, UserInterface } from '@osmo6/models';
 
 @Component({
   selector: 'app-root',
@@ -23,20 +23,24 @@ export class AppComponent implements OnInit {
   /**
    * On ajoute les différentes route ici (génére la barre de navigation principal)
    */
-  sideBar: RouteModel[] = [
+  sideBar: RouteInterface[] = [
     {path: '', isActive: true, title: 'Accueil', icon: '<i class="fas fa-home"></i>'},
     {path: 'vetements', isActive: false, title: 'Ajouter vêtemens', icon: '<i class="fas fa-puzzle-piece"></i>'},
     {path: 'garde-robes', isActive: false, title: 'Garde robe', icon: '<i class="fas fa-plus"></i>'},
   ];
 
   // user: UserModel = null;
-  user: UserModel = {
+  user: UserInterface = {
     id_user: 1,
     name_user: 'snow',
     email_user: 'snow@mail.com',
     actif_user: 1,
     img_user: 'assets/sn.jpg',
-    rgpd_user: 1
+    rgpd_user: 1,
+    pass_user: 'pass',
+    token_user: 'token',
+    create_date_user: 1586849406,
+    modification_date_user: 1586849406
   };
 
   constructor(private router: Router,
@@ -76,7 +80,7 @@ export class AppComponent implements OnInit {
    * Récupére les info de navigation au click de la barre de navigation
    * @param r RouteModel path/isActive/title/icon
    */
-  navigation(r: RouteModel) {
+  navigation(r: RouteInterface) {
     // console.log(r);
     this.sideBar.forEach(s => {
       if (s.path === r.path) {
