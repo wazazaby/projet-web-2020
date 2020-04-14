@@ -26,7 +26,7 @@ export class GarmentComponent implements OnInit {
     {id: 5, title: 'Couleur', value: [
       {label: 'cyan', hex: '#0ABAB5'},
       {label: 'black', hex: '#000000'}
-    ], active: true},
+    ], active: false},
   ];
 
   constructor(private stateService: StatesService,
