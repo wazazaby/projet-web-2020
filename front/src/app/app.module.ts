@@ -9,6 +9,9 @@ import { OutfitComponent } from './components/outfit/outfit.component';
 import { GarmentComponent } from './components/garment/garment.component';
 import { LoginComponent } from './components/login/login.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +23,8 @@ import { LoginComponent } from './components/login/login.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

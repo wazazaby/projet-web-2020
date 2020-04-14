@@ -51,7 +51,6 @@ export class AppComponent implements OnInit {
     this.stateService.userProfil = this.user;
   }
 
-  
   /**
    * Permet de fermer/ouvrir la barre de navigation
    * event ou boolean pour fonctionner
@@ -91,11 +90,5 @@ export class AppComponent implements OnInit {
     this.router.navigate([r.path]);
   }
 
-
-  onLogin()
-  
-  {
-    console.log('login is my name, bitch');
-  };
 
 }

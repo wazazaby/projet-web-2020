@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -6,20 +7,28 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit { // contient les var du component
 
-  email='blah';
-  password='';
+  formSubmit: FormGroup;
+  submitted = false;
 
-  constructor() { }
+  email = 'blah';
+  password = '';
+
+  constructor(private formBuild: FormBuilder) { // contient services et imports
+
+}
 
   ngOnInit() {
-
-  function onLogin()
-  {
-    console.log('login is my name, bitch');
-  };
-
+    this.formSubmit = this.formBuild.group({
+      email: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
   }
+
+  onLogin() {
+    console.log('login is my name, bitch');
+  }
+
 
 }
