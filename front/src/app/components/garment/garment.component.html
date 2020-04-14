@@ -35,6 +35,12 @@
         </div>
 
       </div>
+      <p>
+        {{ garment.length }} <span *ngIf="garment.length === 0 || garment.length === 1; else moreGarment">Vêtement</span>
+        <ng-template #moreGarment>
+          Vêtements
+        </ng-template>
+      </p>
     </div>
 
   </div>
