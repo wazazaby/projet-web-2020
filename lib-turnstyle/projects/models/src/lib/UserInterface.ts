@@ -7,6 +7,6 @@ export interface UserInterface {
     rgpd_user: number;
     token_user: string;
     img_user?: string;
-    create_date_user: number;
+    creation_date_user: number;
     modification_date_user?: number;
 }

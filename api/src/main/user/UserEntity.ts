@@ -9,7 +9,7 @@ export class User implements UserInterface {
     public rgpd_user: number;
     public token_user: string;
     public img_user?: string;
-    public create_date_user: number;
+    public creation_date_user: number;
     public modification_date_user?: number;
 
     constructor (user: UserInterface) {
@@ -21,7 +21,7 @@ export class User implements UserInterface {
         this.rgpd_user = user.rgpd_user;
         this.token_user = user.token_user;
         this.img_user = user.img_user;
-        this.create_date_user = user.create_date_user;
+        this.creation_date_user = user.creation_date_user;
         this.modification_date_user = user.modification_date_user;
     }
 
@@ -96,7 +96,7 @@ export class User implements UserInterface {
     }
 
     public getCreationDate (): number {
-        return this.create_date_user;
+        return this.creation_date_user;
     }
 
     public getModificationDate (): number | null {
