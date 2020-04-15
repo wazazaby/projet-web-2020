@@ -11,6 +11,16 @@ export class StatesService {
 
   constructor(private http: HttpClient) { }
 
+  // Var public
+  // Liste des saisons
+  public season = [
+    {val: 0, title: 'Hiver'},
+    {val: 1, title: 'Printemps'},
+    {val: 2, title: 'Été'},
+    {val: 3, title: 'Automne'}
+  ];
+
+  // Var private
   private _user: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(null); // tslint:disable-line
 
   // =============================GETTER/SETTER=============================

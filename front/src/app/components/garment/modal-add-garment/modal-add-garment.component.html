@@ -1,11 +1,54 @@
-<h3>Ajouter un vêtement</h3>
+<div class="modalUpload">
 
-<div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
-  <input hidden type="file" #fileInput (change)="uploadFile($event.target.files)">
-</div>
-<div  class="files-list" *ngFor="let file of files;let i= index">
-  <p> {{ file }} </p>
-  <button class="delete-file" (click)="deleteAttachment(i)">
-    <i class="fas fa-cloud-upload-alt"></i>
-  </button>
+  <div class="container" *ngIf="stepOne; else stepTwo">
+    <h4 class="text-center text-info">Etape n°1</h4>
+    <p>Déposer ou glisser votre fichier</p>
+
+    <div class="uploadfilecontainer d-flex" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
+      <div class="m-auto">
+        <i class="icon fas fa-cloud-upload-alt fa-4x"></i>
+      </div>
+      <input hidden type="file" #fileInput (change)="uploadFile($event.target.files)" accept="image/*">
+    </div>
+  </div>
+
+  <ng-template #stepTwo>
+    <div class="container">
+      <h4 class="text-center text-info">Etape n°2</h4>
+      <p>Merci de remplir les informations suivante</p>
+
+      <div class="row col-xl-8 col-md-10 col-12 justify-content-around margin-z uploadFile">
+        <img [src]="url" class="img-fluid" max-height="25px" max-width="25px">
+        <div class="my-auto">
+          <button class="btn btn-danger" (click)="removeFile()">
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+
+      <form [formGroup]="formGarment">
+        <!-- titre de l'img -->
+        <input  [ngClass]="{'input-invalid': formGarment.controls.label_garment.errors, 'input-valid': !formGarment.controls.label_garment.errors}"
+                formControlName="label_garment" class="form-control mb-2" id="label_garment" placeholder="Titre de la photo" type="text">
+        <div class="text-danger mb-2" *ngIf="formGarment.controls.label_garment.errors">
+            <span *ngIf="formGarment.controls.label_garment.errors.required">Merci de renseigner un titre pour votre image</span>
+        </div>
+
+        <!-- saison -->
+        <select   [ngClass]="{'input-invalid': formGarment.controls.season_id_season.errors, 'input-valid': !formGarment.controls.season_id_season.errors}"
+                  class="form-control mb-2" id="season_id_season" formControlName="season_id_season">
+          <option *ngFor="let s of season" [value]="s.val">{{s.title}}</option>
+        </select>
+        <div class="text-danger mb-2" *ngIf="formGarment.controls.season_id_season.errors">
+            <span *ngIf="formGarment.controls.season_id_season.errors.required">Merci de renseigner une saison pour ce vêtement</span>
+        </div>
+
+      </form>
+      <div class="col-12 d-flex justify-content-end">
+        <button (click)="sendFile()" class="btn btn-success">Send</button>
+      </div>
+
+    </div>
+
+  </ng-template>
 </div>

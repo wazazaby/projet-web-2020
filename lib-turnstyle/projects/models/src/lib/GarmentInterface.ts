@@ -1,5 +1,6 @@
 import { ColorInterface } from './ColorInterface'; 
-import { StyleInterface } from './StyleInterface';  
+import { StyleInterface } from './StyleInterface';
+
 export interface GarmentInterface {   
     id_garment?: number;   
     label_garment: string;   

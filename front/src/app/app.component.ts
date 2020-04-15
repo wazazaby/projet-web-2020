@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
     {path: '', isActive: true, title: 'Accueil', icon: '<i class="fas fa-home"></i>'},
     {path: 'vetements', isActive: false, title: 'Vêtemens', icon: '<i class="fas fa-tshirt"></i>'},
     {path: 'garde-robes', isActive: false, title: 'Garde robe', icon: '<i class="fas fa-plus"></i>'},
-    {path: 'add', isActive: false, title: 'add', icon: '<i class="fas fa-plus"></i>'},
   ];
 
   // user: UserModel = null;
@@ -40,7 +39,7 @@ export class AppComponent implements OnInit {
     rgpd_user: 1,
     pass_user: 'pass',
     token_user: 'token',
-    create_date_user: 1586849406,
+    creation_date_user: 1586849406,
     modification_date_user: 1586849406
   };
 
