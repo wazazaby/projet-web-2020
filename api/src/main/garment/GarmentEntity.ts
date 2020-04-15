@@ -1,18 +1,17 @@
-import { GarmentInterface, ColorInterface, StyleInterface } from '@osmo6/models';
-import { Color } from '../color/ColorEntity';
+import { GarmentInterface, ColorInterface, StyleInterface, TypeInterface } from '@osmo6/models';
 
 export class Garment implements GarmentInterface {
     public id_garment?: number;
     public label_garment: string;
     public url_img_garment: string;
     public creation_date_garment: number;
-    public modification_date_garment?: number;
+    public modification_date_garment: number;
     public user_id_user: number;
     public brand_id_brand: number;
     public season_id_season: number;
-    public type_id_type: number;
-    public garment_has_style?: StyleInterface[];
-    public garment_has_color?: ColorInterface[];
+    public type_id_type: TypeInterface;
+    public style?: StyleInterface[];
+    public color?: ColorInterface[];
 
     constructor (garment: GarmentInterface) {
         this.id_garment = garment.id_garment;
@@ -24,8 +23,8 @@ export class Garment implements GarmentInterface {
         this.brand_id_brand = garment.brand_id_brand;
         this.season_id_season = garment.season_id_season;
         this.type_id_type = garment.type_id_type;
-        this.garment_has_style = garment.garment_has_style;
-        this.garment_has_color = garment.garment_has_color;
+        this.style = garment.style;
+        this.color = garment.color;
     }
 
     // ================ GETTERS ================
@@ -62,7 +61,7 @@ export class Garment implements GarmentInterface {
         return this.season_id_season;
     }
 
-    public getIdType (): number {
+    public getIdType (): TypeInterface {
         return this.type_id_type;
     }
 
@@ -97,18 +96,18 @@ export class Garment implements GarmentInterface {
         return this;
     }
 
-    public setIdType (val: number): Garment {
+    public setIdType (val: TypeInterface): Garment {
         this.type_id_type = val;
         return this;
     }
 
     public setColors (val: ColorInterface[]): Garment {
-        this.garment_has_color = val;
+        this.color = val;
         return this;
     }
 
     public setStyles (val: StyleInterface[]): Garment {
-        this.garment_has_style = val;
+        this.style = val;
         return this;
     }
 
