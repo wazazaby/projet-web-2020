@@ -9,3 +9,4 @@ export * from './lib/SeasonInterface';
 export * from './lib/StyleInterface';
 export * from './lib/TypeInterface';
 export * from './lib/UserInterface';
+export * from './lib/ErrorInterface';
