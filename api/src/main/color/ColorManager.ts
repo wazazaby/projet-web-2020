@@ -2,7 +2,7 @@ import { Db } from '../../libs/Db';
 import { Color } from './ColorEntity';
 import { InsertReturnInterface, ColorInterface } from '@osmo6/models';
 
-export class ManagerColor {
+export class ColorManager {
 
     public async getAllColors (): Promise<Color[] | null> {
         try {

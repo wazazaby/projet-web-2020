@@ -4,6 +4,7 @@ import * as logger from 'koa-logger';
 import * as bodyParser from 'koa-bodyparser';
 import * as DotEnv from 'dotenv';
 import * as Router from 'koa-router';
+import * as session from 'koa-session';
 
 
 // L'instance de la connexion à la DB
@@ -13,39 +14,42 @@ import { Db } from './libs/Db';
 // --------------- IMPORT ROUTES ---------------
 import userRooter from './main/user/UserRoutes';
 import colorRooter from './main/color/ColorRoutes';
+import garmentRooter from './main/garment/GarmentRoutes';
 // --------------- IMPORT ROUTES ---------------
 
 
-const app = new Koa();
-const router = new Router();
+const app: Koa = new Koa();
+const router: Router<Koa.DefaultState, Koa.Context> = new Router<Koa.DefaultState, Koa.Context>();
 
-// Setup des variables d'env
+// Setup des variables d'environnement
 DotEnv.config();
 
-
-// Utilisation du Cross Origin Ressource Sharing et du logger de Koa (permet de checker les retour de requêtes sur l'API)
+// Utilisation du Cross Origin Ressource Sharing
 app.use(cors());
-app.use(logger());
 
+// Utilisation du logger de Koa (pour voir les status des appels à l'API)
+app.use(logger());
 
 // Permet de parse les données envoyées en POST
 app.use(bodyParser());
 
+// Utilisation des variables de sessions
+app.use(session(app));
 
-// Permet de test si l'API est opérationelle
-router.get('/api', async (ctx: Koa.Context): Promise<void> => {
-    ctx.body = {msg: ['Hello, World!', "You've successfully connected to the TurnStyle API"]};
-});
-
-app.use(router.routes());
 
 
 // ---------- ROUTES ----------
+// User
 app.use(userRooter.routes());
 app.use(userRooter.allowedMethods());
 
+// Color
 app.use(colorRooter.routes());
 app.use(colorRooter.allowedMethods());
+
+// Garment
+app.use(garmentRooter.routes());
+app.use(garmentRooter.allowedMethods());
 // ---------- ROUTES ----------
 
 

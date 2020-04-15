@@ -1,13 +1,13 @@
 import { Context } from 'koa';
 import { InsertReturnInterface } from '@osmo6/models';
-import { ManagerColor } from './ColorManager';
+import { ColorManager } from './ColorManager';
 import { Color } from './ColorEntity';
 
 export class ColorController {
-    private manager: ManagerColor;
+    private _manager: ColorManager;
 
     constructor () {
-        this.manager = new ManagerColor();
+        this._manager = new ColorManager();
     }
 
     async createColor (ctx: Context): Promise<void> {
@@ -18,10 +18,10 @@ export class ColorController {
             rgb_color: ctx.request.body.rgb_color,
         });
 
-        const isExist: Color | null = await this.manager.getColor(newColor);
+        const isExist: Color | null = await this._manager.getColor(newColor);
 
         if (isExist === null){
-            const result: InsertReturnInterface = await this.manager.insertColor(newColor);
+            const result: InsertReturnInterface = await this._manager.insertColor(newColor);
 
             if (result.affectedRows == 1 && result.insertId > 0) {
                 newColor.id_color = result.insertId;
@@ -37,10 +37,10 @@ export class ColorController {
     }
 
     async getAllColors (ctx: Context): Promise<void> {
-        ctx.body = await this.manager.getAllColors();
+        ctx.body = await this._manager.getAllColors();
     }
 
     async getColor (ctx: Context): Promise<void> {
-        ctx.body = await this.manager.getColor(ctx.params);
+        ctx.body = await this._manager.getColor(ctx.params);
     }
 }

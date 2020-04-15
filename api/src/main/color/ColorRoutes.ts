@@ -1,8 +1,8 @@
 import * as Router from 'koa-router';
-import { Context } from 'koa';
+import { Context, DefaultState } from 'koa';
 import { ColorController } from './ColorController';
 
-const router: Router = new Router();
+const router: Router<DefaultState, Context> = new Router<DefaultState, Context>();
 const controller: ColorController = new ColorController();
 
 // Recuperation de toutes les couleurs
