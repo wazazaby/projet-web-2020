@@ -7,6 +7,12 @@ import { Body } from '../../libs/Body';
 import * as RandomString from 'randomstring';
 import * as bcrypt from 'bcrypt';
 
+type UserAuth = {
+    id: number,
+    name: string,
+    email: string;
+}
+
 export class UserController {
     private _manager: UserManager;
     private _hash: number = 10;
@@ -30,8 +36,6 @@ export class UserController {
             id_user: null,
             name_user: ctx.request.body.name,
             email_user: ctx.request.body.email,
-
-            // Hash du password avec bcrypt
             pass_user: await bcrypt.hash(ctx.request.body.pass, this._hash),
             actif_user: 0,
             rgpd_user: 1,
@@ -122,6 +126,8 @@ export class UserController {
         const mail: string = ctx.request.body.email;
         const pass: string = ctx.request.body.pass;
 
+        if (ctx.session.auth) console.log(ctx.session.auth);
+
         // Si user est null, ça veut dire que les identifiants sont incorrectes ou que l'utilisateur n'existe pas
         const user: User | null = await this._manager.getUserByMailAndPass(mail, pass);
 
@@ -134,9 +140,20 @@ export class UserController {
                 ctx.throw(400, "Merci d'activer votre compte pour pouvoir vous connecter");
             } else {
 
-                // Si tout est bon, on renvoit son id, name et email au front
-                ctx.body = new Body(200, 'Connexion réussie', {id: user.getId(), name: user.getName(), email: user.getEmail()});
+                // Si tout est bon, on renvoit son id, name et email au front et on les passe en variable de session
+                const auth: UserAuth = {id: user.getId(), name: user.getName(), email: user.getEmail()};
+                ctx.session.auth = auth;
+                ctx.body = new Body(200, 'Connexion réussie', auth);
             }
         }
+    }
+
+    /**
+     * Permet de supprimer la session de l'utilisateur
+     * @param {Context} ctx 
+     */
+    public async disconnectUser (ctx: Context): Promise<void> {
+        ctx.session = null;
+        ctx.body = new Body(200, 'Vous avez été déconnecté');
     }
 }
