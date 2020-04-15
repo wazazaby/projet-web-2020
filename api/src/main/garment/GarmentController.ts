@@ -19,7 +19,13 @@ export class GarmentController {
      */
     public async getAllGarmentsByIdUser (ctx: Context): Promise<void> {
         const idUser: number = ctx.params.idUser;
-        const test: Garment[] | null = await this._manager.getGarmentsByIdUser(idUser);
-        ctx.body = new Body(200, '', test);
+        const garms: any | null = await this._manager.getGarmentsByIdUser(idUser);
+        console.log(garms)
+        if (garms === null) {
+            ctx.throw(400, "Vous n'avez aucun vêtement dans votre garde-robe")
+        } else {
+            ctx.body = new Body(200, '', {garments: garms});
+            //ctx.body = {Hello: "World!"};
+        }
     }
 }

@@ -1,4 +1,5 @@
-import { GarmentInterface } from '@osmo6/models';
+import { GarmentInterface, ColorInterface, StyleInterface } from '@osmo6/models';
+import { Color } from '../color/ColorEntity';
 
 export class Garment implements GarmentInterface {
     public id_garment?: number;
@@ -10,6 +11,8 @@ export class Garment implements GarmentInterface {
     public brand_id_brand: number;
     public season_id_season: number;
     public type_id_type: number;
+    public garment_has_style?: StyleInterface[];
+    public garment_has_color?: ColorInterface[];
 
     constructor (garment: GarmentInterface) {
         this.id_garment = garment.id_garment;
@@ -21,6 +24,8 @@ export class Garment implements GarmentInterface {
         this.brand_id_brand = garment.brand_id_brand;
         this.season_id_season = garment.season_id_season;
         this.type_id_type = garment.type_id_type;
+        this.garment_has_style = garment.garment_has_style;
+        this.garment_has_color = garment.garment_has_color;
     }
 
     // ================ GETTERS ================
@@ -94,6 +99,16 @@ export class Garment implements GarmentInterface {
 
     public setIdType (val: number): Garment {
         this.type_id_type = val;
+        return this;
+    }
+
+    public setColors (val: ColorInterface[]): Garment {
+        this.garment_has_color = val;
+        return this;
+    }
+
+    public setStyles (val: StyleInterface[]): Garment {
+        this.garment_has_style = val;
         return this;
     }
 
