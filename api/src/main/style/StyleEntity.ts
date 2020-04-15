@@ -29,6 +29,6 @@ export class Style implements StyleInterface {
         this.label_style = val;
         return this;
     }
-    
+
     // ================ SETTERS ================
 }
