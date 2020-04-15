@@ -19,10 +19,12 @@ import garmentRooter from './main/garment/GarmentRoutes';
 
 
 const app: Koa = new Koa();
-const router: Router<Koa.DefaultState, Koa.Context> = new Router<Koa.DefaultState, Koa.Context>();
 
 // Setup des variables d'environnement
 DotEnv.config();
+
+// On passe les cookies secret à l'app
+app.keys = [process.env.SECRET1, process.env.SECRET2, process.env.SECRET3];
 
 // Utilisation du Cross Origin Ressource Sharing
 app.use(cors());
