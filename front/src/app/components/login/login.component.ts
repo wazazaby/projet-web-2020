@@ -10,22 +10,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit { // contient les var du component
 
   formSubmit: FormGroup = this.formBuild.group({
-    email: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    email: ['testTonMail@turnstyle.com', Validators.required],
+    password: ['123456', [Validators.required, Validators.minLength(8)]]
   });
 
   submitted = false;
-
-  // inutile s'il y à un FormGroup
-  // -----------------------------------
-  // email = 'blah';
-  // password = '';
-  // -----------------------------------
-  // plus correct comme éxpréssion
-  // formSubmit: FormGroup = this.formBuild.group({
-  //   email: ['test@mail.com', Validators.required],
-  //   password: ['123456', [Validators.required, Validators.minLength(8)]]
-  // });
 
   constructor(private formBuild: FormBuilder) { // contient services et imports
 
@@ -38,8 +27,9 @@ export class LoginComponent implements OnInit { // contient les var du component
   onLogin() {
     console.log('click onLogin()');
 
-    // Data compris dans tes input
+    // Data des inputs
     // this.formSubmit.value.email or this.formSubnmit.value.password
+
     console.log(this.formSubmit);
   }
 
