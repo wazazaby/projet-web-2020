@@ -20,6 +20,6 @@ router.get('/api/user/activate/:token', async (ctx: Context): Promise<void> => a
 router.post('/api/user/login', async (ctx: Context): Promise<void> => await controller.connectUser(ctx));
 
 // Deconnexion d'un utilisateur
-router.get('/api/user/logout', async (ctx: Context): Promise<void> => { ctx.body = {url: 'logout'} });
+router.get('/api/user/logout', async (ctx: Context): Promise<void> => await controller.disconnectUser(ctx));
 
 export default router;
