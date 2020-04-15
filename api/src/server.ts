@@ -15,6 +15,10 @@ import { Db } from './libs/Db';
 import userRooter from './main/user/UserRoutes';
 import colorRooter from './main/color/ColorRoutes';
 import garmentRooter from './main/garment/GarmentRoutes';
+import seasonRooter from './main/season/SeasonRoute';
+import typeRooter from './main/type/TypeRoute';
+import styleRooter from './main/style/StyleRoute';
+import brandRooter from './main/brand/BrandRoute';
 // --------------- IMPORT ROUTES ---------------
 
 
@@ -52,6 +56,22 @@ app.use(colorRooter.allowedMethods());
 // Garment
 app.use(garmentRooter.routes());
 app.use(garmentRooter.allowedMethods());
+
+// Season
+app.use(seasonRooter.routes());
+app.use(seasonRooter.allowedMethods());
+
+// Type
+app.use(typeRooter.routes());
+app.use(typeRooter.allowedMethods());
+
+// Style
+app.use(styleRooter.routes());
+app.use(styleRooter.allowedMethods());
+
+// Brand
+app.use(brandRooter.routes());
+app.use(brandRooter.allowedMethods());
 // ---------- ROUTES ----------
 
 

@@ -4,3 +4,5 @@ api/node_modules/
 api/.env
 
 front/package-lock.json
+lib-turnStyle/package-lock.json
+api/package-lock.json
