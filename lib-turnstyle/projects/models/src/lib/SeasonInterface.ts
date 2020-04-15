@@ -1,8 +1,4 @@
-export interface InsertReturnInterface {
-  fieldcout: number;
-  affectedRows: number;
-  insertId: number;
-  info: string;
-  serverStatus: number;
-  warningStatus: number;
+export interface SeasonInterface {
+  id_season?: number;
+  label_season: string;
 }
