@@ -8,9 +8,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { OutfitComponent } from './components/outfit/outfit.component';
 import { GarmentComponent } from './components/garment/garment.component';
 import { LoginComponent } from './components/login/login.component';
+import { CreationCompteComponent } from './components/creation-compte/creation-compte.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
-
 
 @NgModule({
   declarations: [
@@ -18,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     OutfitComponent,
     GarmentComponent,
-    LoginComponent
+    LoginComponent,
+    CreationCompteComponent
   ],
   imports: [
     BrowserModule,
