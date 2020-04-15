@@ -2,6 +2,7 @@ export * from './lib/BrandInterface';
 export * from './lib/ColorInterface';
 export * from './lib/GarmentInterface';
 export * from './lib/GlobalReturnInterface';
+export * from './lib/InsertReturnInterface';
 export * from './lib/OutfitInterface';
 export * from './lib/RouteInterface';
 export * from './lib/SeasonInterface';
