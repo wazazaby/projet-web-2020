@@ -16,3 +16,9 @@ h1{
 span{
   color: $danger-red;
 }
+
+input{
+  &:focus{
+    border-color: $danger-red;
+  }
+}
