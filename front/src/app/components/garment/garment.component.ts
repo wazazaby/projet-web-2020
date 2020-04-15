@@ -24,23 +24,30 @@ export class GarmentComponent implements OnInit {
   // Liste des vêtements
   garment: GarmentInterface[] = [];
 
+  season = this.stateService.season;
+
   // Liste des filtres
-  filterName = [
-    {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: false},
-    {id: 2, title: 'Types', value: ['tshirt', 'pull', 'sweat'], active: false},
-    {id: 3, title: 'Styles', value: ['sport', 'decontract'], active: false},
-    {id: 4, title: 'Saisons', value: ['Hiver', 'Printemps', 'Été', 'Automne'], active: false},
-    {id: 5, title: 'Couleur', value: [
-      {label: 'cyan', hex: '#0ABAB5'},
-      {label: 'black', hex: '#000000'}
-    ], active: false},
-  ];
+  filterName = [];
 
   constructor(private stateService: StatesService,
               private bridgeService: BridgeService,
               public dialog: MatDialog) { }
 
   ngOnInit() {
+    const seasonToString = [];
+    this.season.forEach(s => {
+      seasonToString.push(s.title);
+    });
+    this.filterName = [
+      {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: false},
+      {id: 2, title: 'Types', value: ['tshirt', 'pull', 'sweat'], active: false},
+      {id: 3, title: 'Styles', value: ['sport', 'decontract'], active: false},
+      {id: 4, title: 'Saisons', value: seasonToString, active: false},
+      {id: 5, title: 'Couleur', value: [
+        {label: 'cyan', hex: '#0ABAB5'},
+        {label: 'black', hex: '#000000'}
+      ], active: false},
+    ];
     // On charge tout les vêtements utilisateur à l'init
     this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
   }
@@ -75,6 +82,7 @@ export class GarmentComponent implements OnInit {
     console.log('Ajouter vêtement');
     const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
       width: '60%',
+      data: {userId: this.user.id_user}
     });
 
     dialogRef.afterClosed().subscribe(result => {

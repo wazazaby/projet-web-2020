@@ -2,7 +2,7 @@ import { ColorInterface } from './ColorInterface';
 import { StyleInterface } from './StyleInterface';
 
 export interface GarmentInterface {
-  id_garment: number;
+  id_garment?: number;
   label_garment: string;
   url_img_garment: string;
   creation_date_garment: number;

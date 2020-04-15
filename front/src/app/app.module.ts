@@ -11,20 +11,26 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalAddGarmentComponent } from './components/garment/modal-add-garment/modal-add-garment.component';
 
+import { DragDropDirective } from './directive/draganddrop.directive';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     OutfitComponent,
     GarmentComponent,
-    ModalAddGarmentComponent
+    ModalAddGarmentComponent,
+    DragDropDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
     ModalAddGarmentComponent

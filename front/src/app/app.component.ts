@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
     {path: '', isActive: true, title: 'Accueil', icon: '<i class="fas fa-home"></i>'},
     {path: 'vetements', isActive: false, title: 'Vêtemens', icon: '<i class="fas fa-tshirt"></i>'},
     {path: 'garde-robes', isActive: false, title: 'Garde robe', icon: '<i class="fas fa-plus"></i>'},
-    {path: 'add', isActive: false, title: 'add', icon: '<i class="fas fa-plus"></i>'},
   ];
 
   // user: UserModel = null;
