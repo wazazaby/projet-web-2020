@@ -1,28 +1,43 @@
-<!-- <p>login works!</p> -->
+<div class="mainContainer col-12 justify-content-around">
+    <h1>TurnStyle login</h1>
 
-<h1>TurnStyle login</h1>
-<div class="container">
-<form [formGroup]="formSubmit">
-    <input formControlName="email" class="form-control" id="emailForm" type="email">
-    <div *ngIf="formSubmit.controls.email.errors">
-        <span *ngIf="formSubmit.controls.email.errors.required">email vide</span>
-        <span *ngIf="formSubmit.controls.email.errors.pattern">Error email pattern</span>
+    <div class="row" max-height="1.5em" max-width="1.5em">
+        <div class="subContainer">
+            <!-- login form -->
+            <form [formGroup]="formSubmit">
+                <input placeholder="Votre email" formControlName="email" class="form-control" id="emailForm" type="email">
+                <div *ngIf="formSubmit.controls.email.errors">
+                    <span *ngIf="formSubmit.controls.email.errors.required">Veuillez renseigner votre email</span>
+                    <span *ngIf="formSubmit.controls.email.errors.pattern">L'email doit respecter la forme habituelle des emails</span>
+                </div>
+                <input placeholder="Votre mot de passe" formControlName="password" class="form-control" id="passwordForm" type="password">
+
+                <div *ngIf="formSubmit.controls.password.errors">
+                    <span *ngIf="formSubmit.controls.password.errors.required">Veuillez renseigner votre mot de passe</span>
+                    <span *ngIf="formSubmit.controls.password.errors.minlength">Le mot de passe doit faire 8 caractères minimum</span>
+                </div>
+
+                <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
+                <button class="btn btn-info" type="submit" (click)="onLogin()">Login</button>
+            </form>
+        </div>
     </div>
-    <!-- <span>Email pas bon</span> -->
-    <input formControlName="password" class="form-control" id="passwordForm" type="password">
 
-    <div *ngIf="formSubmit.controls.password.errors">
-        <span *ngIf="formSubmit.controls.password.errors.required">Password vide</span>
-        <span *ngIf="formSubmit.controls.password.errors.minlength">Password trop court</span>
+    <div class="row">
+        <div class="subContainer">
+            <div >Pas encore de compte ?
+            </div>
+            <div>
+                <a href="#">Inscrivez-vous !</a>
+            </div>
+        </div>
     </div>
 
-    <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
-    <button class="btn btn-info" type="submit" (click)="onLogin()">test</button>
-</form>
 
 
-<pre style="color:orangered;font-size: 16px;">
-    {{ formSubmit.controls.email.errors | json }}
+
+
+    <pre style="color:orangered;font-size: 16px;">
+    <!-- {{ formSubmit.controls.email.errors | json }} -->
     <!-- {{ formSubmit.controls.password.errors.minLength }} -->
 </pre>
-

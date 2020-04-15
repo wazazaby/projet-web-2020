@@ -9,13 +9,27 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
 export class LoginComponent implements OnInit { // contient les var du component
 
+  emailPattern = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$';
+
+
   formSubmit: FormGroup = this.formBuild.group({
-    email: ['testTonMail@turnstyle.com', Validators.compose([
+    email: ['', Validators.compose([
       Validators.required,
-      Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      Validators.pattern(this.emailPattern)
     ])],
-    password: ['12345678', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.required, Validators.minLength(8)]]
+
   });
+
+  // décommenter pour démo
+  // formSubmit: FormGroup = this.formBuild.group({
+  //   email: ['example@example.com', Validators.compose([
+  //     Validators.required,
+  //     Validators.pattern(this.emailPattern)
+  //   ])],
+  //   password: ['passwordExample', [Validators.required, Validators.minLength(8)]]
+
+  // });
 
   submitted = false;
 
