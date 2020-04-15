@@ -16,6 +16,7 @@ import userRooter from './main/user/UserRoutes';
 import colorRooter from './main/color/ColorRoutes';
 import garmentRooter from './main/garment/GarmentRoutes';
 import seasonRooter from './main/season/SeasonRoute';
+import typeRooter from './main/type/TypeRoute';
 // --------------- IMPORT ROUTES ---------------
 
 
@@ -55,6 +56,10 @@ app.use(garmentRooter.allowedMethods());
 // Season
 app.use(seasonRooter.routes());
 app.use(seasonRooter.allowedMethods());
+
+// Type
+app.use(typeRooter.routes());
+app.use(typeRooter.allowedMethods());
 // ---------- ROUTES ----------
 
 
