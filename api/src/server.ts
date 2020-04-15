@@ -18,6 +18,7 @@ import garmentRooter from './main/garment/GarmentRoutes';
 import seasonRooter from './main/season/SeasonRoute';
 import typeRooter from './main/type/TypeRoute';
 import styleRooter from './main/style/StyleRoute';
+import brandRooter from './main/brand/BrandRoute';
 // --------------- IMPORT ROUTES ---------------
 
 
@@ -65,6 +66,10 @@ app.use(typeRooter.allowedMethods());
 // Style
 app.use(styleRooter.routes());
 app.use(styleRooter.allowedMethods());
+
+// Brand
+app.use(brandRooter.routes());
+app.use(brandRooter.allowedMethods());
 // ---------- ROUTES ----------
 
 
