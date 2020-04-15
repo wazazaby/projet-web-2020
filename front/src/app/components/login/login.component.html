@@ -1,43 +1,45 @@
-<div class="mainContainer col-12 justify-content-around">
-    <h1>TurnStyle login</h1>
-
-    <div class="row" max-height="1.5em" max-width="1.5em">
-        <div class="subContainer">
-            <!-- login form -->
-            <form [formGroup]="formSubmit">
-                <input placeholder="Votre email" formControlName="email" class="form-control" id="emailForm" type="email">
-                <div *ngIf="formSubmit.controls.email.errors">
-                    <span *ngIf="formSubmit.controls.email.errors.required">Veuillez renseigner votre email</span>
-                    <span *ngIf="formSubmit.controls.email.errors.pattern">L'email doit respecter la forme habituelle des emails</span>
-                </div>
-                <input placeholder="Votre mot de passe" formControlName="password" class="form-control" id="passwordForm" type="password">
-
-                <div *ngIf="formSubmit.controls.password.errors">
-                    <span *ngIf="formSubmit.controls.password.errors.required">Veuillez renseigner votre mot de passe</span>
-                    <span *ngIf="formSubmit.controls.password.errors.minlength">Le mot de passe doit faire 8 caractères minimum</span>
-                </div>
-
-                <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
-                <button class="btn btn-info" type="submit" (click)="onLogin()">Login</button>
-            </form>
-        </div>
-    </div>
-
+<div class="mainContainer justify-content-around">
     <div class="row">
-        <div class="subContainer">
-            <div >Pas encore de compte ?
-            </div>
-            <div>
-                <a href="#">Inscrivez-vous !</a>
-            </div>
+        <div class="img col-sm-6">
+            <img src="../../../assets/blank_monitor.png">
         </div>
-    </div>
+
+        <div class="col-sm-6">
+            <!-- colonne de droite -->
+            <h1>TurnStyle login</h1>
+
+            <div class="row" max-height="1.5em" max-width="1.5em">
+                <div class="subContainer col-6">
+                    <!-- login form -->
+                    <form [formGroup]="formSubmit">
+                        <input placeholder="Votre email" formControlName="email" class="form-control" id="emailForm" type="email">
+                        <div *ngIf="formSubmit.controls.email.errors">
+                            <span *ngIf="formSubmit.controls.email.errors.required">Veuillez renseigner votre email</span>
+                            <span *ngIf="formSubmit.controls.email.errors.pattern">L'email doit respecter la forme habituelle des emails</span>
+                        </div>
+                        <input placeholder="Votre mot de passe" formControlName="password" class="form-control" id="passwordForm" type="password">
+                        <div *ngIf="formSubmit.controls.password.errors">
+                            <span *ngIf="formSubmit.controls.password.errors.required">Veuillez renseigner votre mot de passe</span>
+                            <span *ngIf="formSubmit.controls.password.errors.minlength">Le mot de passe doit faire 8 caractères minimum</span>
+                        </div>
+                        <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
+                        <button class="btn btn-info" type="submit" (click)="onLogin()">Login</button>
+                    </form>
+                </div>
+            </div>
+                <div class="subContainer">
+                    <div >Pas encore de compte ?
+                    </div>
+                    <div>
+                        <a href="#">Inscrivez-vous !</a>
+                    </div>
+                </div>
+
+        </div>
+      </div>
 
 
-
-
-
-    <pre style="color:orangered;font-size: 16px;">
+    <!-- <pre style="color:orangered;font-size: 16px;"> -->
     <!-- {{ formSubmit.controls.email.errors | json }} -->
     <!-- {{ formSubmit.controls.password.errors.minLength }} -->
-</pre>
+    <!-- </pre> -->
