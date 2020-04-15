@@ -50,8 +50,8 @@ export class ModalAddGarmentComponent implements OnInit {
     // Preview image
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(event[0]);
-    reader.onload = (evt) => {
-      if (evt.target) {
+    reader.onload = (evt: any) => {
+      if (evt.target && evt.target.result) {
         this.url = evt.target.result;
       }
 
