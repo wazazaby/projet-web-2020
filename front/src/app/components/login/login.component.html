@@ -4,9 +4,25 @@
 <div class="container">
 <form [formGroup]="formSubmit">
     <input formControlName="email" class="form-control" id="emailForm" type="email">
+    <div *ngIf="formSubmit.controls.email.errors">
+        <span *ngIf="formSubmit.controls.email.errors.required">email vide</span>
+        <span *ngIf="formSubmit.controls.email.errors.pattern">Error email pattern</span>
+    </div>
+    <!-- <span>Email pas bon</span> -->
     <input formControlName="password" class="form-control" id="passwordForm" type="password">
+
+    <div *ngIf="formSubmit.controls.password.errors">
+        <span *ngIf="formSubmit.controls.password.errors.required">Password vide</span>
+        <span *ngIf="formSubmit.controls.password.errors.minlength">Password trop court</span>
+    </div>
+
+    <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
+    <button class="btn btn-info" type="submit" (click)="onLogin()">test</button>
 </form>
-<span ng-if="formSubmit.status: INVALID">Votre email n'est pas valide</span>
-<button class="btn btn-success" type="submit" (click)="onLogin()">Login</button>
-<!-- <button [disabled]="!emailForm.valid" class="btn btn-success" type="submit" (click)="onLogin">Login</button> -->
+
+
+<pre style="color:orangered;font-size: 16px;">
+    {{ formSubmit.controls.email.errors | json }}
+    <!-- {{ formSubmit.controls.password.errors.minLength }} -->
+</pre>
 
