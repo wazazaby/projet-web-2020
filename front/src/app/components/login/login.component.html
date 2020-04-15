@@ -1,15 +1,17 @@
 <div class="mainContainer justify-content-around">
     <div class="row">
-        <div class="img col-sm-6">
+        <div class="col-2">
+        </div>
+        <div class="img col-4">
             <img src="../../../assets/monitor_montage-sm.png">
         </div>
 
-        <div class="col-sm-6">
-            <!-- colonne de droite -->
-            <h1>TurnStyle login</h1>
+        <div class="col-4">
 
-            <div class="row" max-height="1.5em" max-width="1.5em">
-                <div class="subContainer col-6">
+            <!-- colonne de droite -->
+                <div class="subContainer">
+                <h1>TurnStyle</h1>
+
                     <!-- login form -->
                     <form [formGroup]="formSubmit">
                         <input placeholder="Votre email" formControlName="email" class="form-control" id="emailForm" type="email">
@@ -26,17 +28,18 @@
                         <button class="btn btn-info" type="submit" (click)="onLogin()">Login</button>
                     </form>
                 </div>
-            </div>
-                <div class="subContainer">
-                    <div >Pas encore de compte ?
-                    </div>
-                    <div>
-                        <a href="#">Inscrivez-vous !</a>
-                    </div>
+
+            <div class="subContainer">
+                <div >Pas encore de compte ?
                 </div>
+                <div>
+                    <a href="#">Inscrivez-vous !</a>
+                </div>
+            </div>
 
         </div>
-      </div>
+
+    </div>
 
 
     <!-- <pre style="color:orangered;font-size: 16px;"> -->
