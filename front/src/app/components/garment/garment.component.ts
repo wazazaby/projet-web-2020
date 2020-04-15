@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
-import { UserInterface, GarmentInterface } from '@osmo6/models';
+import { UserInterface, GarmentInterface, SeasonInterface, TypeInterface } from '@osmo6/models';
 
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
@@ -24,7 +24,8 @@ export class GarmentComponent implements OnInit {
   // Liste des vêtements
   garment: GarmentInterface[] = [];
 
-  season = this.stateService.season;
+  season: SeasonInterface[] = this.stateService.season;
+  type: TypeInterface[] = this.stateService.type;
 
   // Liste des filtres
   filterName = [];
@@ -35,12 +36,19 @@ export class GarmentComponent implements OnInit {
 
   ngOnInit() {
     const seasonToString = [];
+    const typeToString = [];
+
     this.season.forEach(s => {
-      seasonToString.push(s.title);
+      seasonToString.push(s.label_season);
     });
+
+    this.type.forEach(t => {
+      typeToString.push(t.label_type);
+    });
+
     this.filterName = [
       {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: false},
-      {id: 2, title: 'Types', value: ['tshirt', 'pull', 'sweat'], active: false},
+      {id: 2, title: 'Types', value: typeToString, active: false},
       {id: 3, title: 'Styles', value: ['sport', 'decontract'], active: false},
       {id: 4, title: 'Saisons', value: seasonToString, active: false},
       {id: 5, title: 'Couleur', value: [

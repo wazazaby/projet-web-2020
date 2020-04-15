@@ -52,6 +52,13 @@ export class AppComponent implements OnInit {
     // this.user = await this.bridgeService.login();
     // On enregistre le USER dans l'etat de app
     this.stateService.userProfil = this.user;
+    this.initApp();
+  }
+
+  async initApp() {
+    this.bridgeService.getBrand();
+    this.bridgeService.getSeason();
+    this.bridgeService.getType();
   }
 
   /**

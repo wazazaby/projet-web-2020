@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import { UserInterface, GarmentInterface } from '@osmo6/models';
+import { UserInterface, GarmentInterface, BrandInterface, GlobalReturnInterface, ErrorInterface, SeasonInterface, TypeInterface } from '@osmo6/models';
+import { StatesService } from './states.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BridgeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private stateService: StatesService) { }
 
   /**
    * Exemple crud: actuelement Read
@@ -21,17 +23,51 @@ export class BridgeService {
   }
 
   /**
-   * Exemple crud: actuelement Read
-   * Récupére les data de la table test
+   * Connexion
    */
-  getTest() {
-    return this.http.get(environment.apiUrl + 'test');
-  }
-
   login() {
     console.log('login');
   }
 
+  getBrand() {
+    return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'brand/all').subscribe(res => {
+      if (this.stateService.checkStatus(res.status)) {
+        const data: BrandInterface[] = res.data;
+        this.stateService.brand = data;
+      } else {
+        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'brand/all'};
+        this.stateService.errors = err;
+      }
+    });
+  }
+
+  getSeason() {
+    return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'season/all').subscribe(res => {
+      if (this.stateService.checkStatus(res.status)) {
+        const data: SeasonInterface[] = res.data;
+        this.stateService.season = data;
+      } else {
+        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'season/all'};
+        this.stateService.errors = err;
+      }
+    });
+  }
+
+  getType() {
+    return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'type/all').subscribe(res => {
+      if (this.stateService.checkStatus(res.status)) {
+        const data: TypeInterface[] = res.data;
+        this.stateService.type = data;
+      } else {
+        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'type/all'};
+        this.stateService.errors = err;
+      }
+    });
+  }
+
+  /**
+   * Inscription
+   */
   register() {
     console.log('register');
   }
