@@ -10,6 +10,8 @@ import { GarmentComponent } from './components/garment/garment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalAddGarmentComponent } from './components/garment/modal-add-garment/modal-add-garment.component';
+import { LoginComponent } from './components/login/login.component';
+import { CreationCompteComponent } from './components/creation-compte/creation-compte.component';
 
 import { DragDropDirective } from './directive/draganddrop.directive';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     GarmentComponent,
     ModalAddGarmentComponent,
     DragDropDirective
+    LoginComponent,
+    CreationCompteComponent
   ],
   imports: [
     BrowserModule,

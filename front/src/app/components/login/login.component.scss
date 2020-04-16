@@ -1,0 +1,24 @@
+@import '../../../assets/color.scss';
+
+h1{
+  font-style: italic;
+}
+
+.subContainer{
+  text-align: center;
+  width: 18em;
+  border: 0.1em solid $bg-sidebar;
+  border-radius: 0.2em;
+  padding: 0.5em;
+  margin: 1.5em;
+}
+
+span{
+  color: $danger-red;
+}
+
+input{
+  &:focus{
+    border-color: $danger-red;
+  }
+}
