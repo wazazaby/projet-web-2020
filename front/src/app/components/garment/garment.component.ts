@@ -58,6 +58,12 @@ export class GarmentComponent implements OnInit {
     ];
     // On charge tout les vêtements utilisateur à l'init
     this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
+
+    console.log(this.stateService.reloadApp);
+    console.log(this.stateService.brand);
+
+    // Permet de savoir si l'app à besoin de refresh ou non les data
+    // this.bridgeService.initData(this.stateService.reloadApp);
   }
 
   // ------------------ Filtre ------------------

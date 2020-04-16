@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import { UserInterface, GarmentInterface, BrandInterface, GlobalReturnInterface, ErrorInterface, SeasonInterface, TypeInterface } from '@osmo6/models';
+import {  UserInterface, GarmentInterface, BrandInterface, GlobalReturnInterface,
+          ErrorInterface, SeasonInterface, TypeInterface } from '@osmo6/models';
 import { StatesService } from './states.service';
 
 @Injectable({
@@ -29,6 +30,19 @@ export class BridgeService {
     console.log('login');
   }
 
+  initData(b: boolean): void {
+    console.log('init', b);
+    if (b) {
+      this.stateService.reloadApp = false;
+      this.getBrand();
+      this.getSeason();
+      this.getType();
+    }
+  }
+
+  /**
+   * Récupére toute les marques de vêtement
+   */
   getBrand() {
     return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'brand/all').subscribe(res => {
       if (this.stateService.checkStatus(res.status)) {
@@ -41,6 +55,9 @@ export class BridgeService {
     });
   }
 
+  /**
+   * Récupére toute les saisons
+   */
   getSeason() {
     return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'season/all').subscribe(res => {
       if (this.stateService.checkStatus(res.status)) {
@@ -53,6 +70,9 @@ export class BridgeService {
     });
   }
 
+  /**
+   * Récupére toute les types de vêtement
+   */
   getType() {
     return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'type/all').subscribe(res => {
       if (this.stateService.checkStatus(res.status)) {

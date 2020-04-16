@@ -52,14 +52,11 @@ export class AppComponent implements OnInit {
     // this.user = await this.bridgeService.login();
     // On enregistre le USER dans l'etat de app
     this.stateService.userProfil = this.user;
-    this.initApp();
+
+    // Permet de savoir si l'app à besoin de refresh ou non les data
+    // this.bridgeService.initData(this.stateService.reloadApp);
   }
 
-  async initApp() {
-    this.bridgeService.getBrand();
-    this.bridgeService.getSeason();
-    this.bridgeService.getType();
-  }
 
   /**
    * Permet de fermer/ouvrir la barre de navigation

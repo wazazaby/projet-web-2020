@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UserInterface, BrandInterface, ColorInterface, SeasonInterface, StyleInterface, TypeInterface, ErrorInterface } from '@osmo6/models';
+import {  UserInterface, BrandInterface, ColorInterface, SeasonInterface,
+          StyleInterface, TypeInterface, ErrorInterface } from '@osmo6/models';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,9 @@ export class StatesService {
   private _user: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(null); // tslint:disable-line
   private _errors: BehaviorSubject<ErrorInterface> = new BehaviorSubject<ErrorInterface>(null); // tslint:disable-line
 
+  // Permet de refresh les data en ca de F5
+  private _reloadApp: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true); // tslint:disable-line
+
   /**
    * Fonction de vérification des code de status de l'api
    * @param n: number
@@ -40,6 +44,17 @@ export class StatesService {
   }
 
   // =============================GETTER/SETTER=============================
+
+  // ***********************************************************************
+  // ============================= Début errors =============================
+  public get reloadApp(): boolean {
+    return this._reloadApp.getValue();
+  }
+
+  public set reloadApp(u: boolean) {
+    this._reloadApp.next(u);
+  }
+  // ============================= Fin errors =============================
 
   // ***********************************************************************
   // ============================= Début errors =============================
