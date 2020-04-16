@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     // Aprés la connexion
     // this.user = await this.bridgeService.login();
-    // On enregistre le USER dans l'etat de app
+    // On enregistre le USER dans l'état de app
     this.stateService.userProfil = this.user;
 
     // Permet de savoir si l'app à besoin de refresh ou non les data
