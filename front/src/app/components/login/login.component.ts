@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { StatesService } from 'src/app/services/states.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -33,12 +35,22 @@ export class LoginComponent implements OnInit { // contient les var du component
 
   submitted = false;
 
-  constructor(private formBuild: FormBuilder) { // contient services et imports
+  constructor(private formBuild: FormBuilder,
+              private stateService: StatesService,
+              private route: Router) { // contient services et imports
 
 }
 
   ngOnInit() {
     // console.log(this.formSubmit);
+  }
+
+  login() {
+    this.stateService.login();
+  }
+
+  logout() {
+    this.stateService.logout();
   }
 
   onLogin() {

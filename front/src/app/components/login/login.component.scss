@@ -14,11 +14,11 @@ h1{
 }
 
 span{
-  color: $danger-red;
+  color: $invalid;
 }
 
 input{
   &:focus{
-    border-color: $danger-red;
+    border-color: $invalid;
   }
 }

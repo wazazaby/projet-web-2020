@@ -11,10 +11,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalAddGarmentComponent } from './components/garment/modal-add-garment/modal-add-garment.component';
 import { LoginComponent } from './components/login/login.component';
-import { CreationCompteComponent } from './components/creation-compte/creation-compte.component';
+import { RegisterComponent } from './components/register/register.component';
 
 import { DragDropDirective } from './directive/draganddrop.directive';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
@@ -24,9 +25,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     OutfitComponent,
     GarmentComponent,
     ModalAddGarmentComponent,
-    DragDropDirective
+    DragDropDirective,
     LoginComponent,
-    CreationCompteComponent
+    RegisterComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
