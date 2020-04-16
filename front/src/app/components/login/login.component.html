@@ -1,0 +1,56 @@
+<div class="mainContainer justify-content-around">
+    <div class="row">
+        <div class="col-2">
+        </div>
+        <div class="img col-4">
+            <img src="../../../assets/monitor_montage-sm.png">
+        </div>
+
+        <div class="col-4">
+
+            <!-- colonne de droite -->
+                <div class="subContainer">
+                <h1>TurnStyle</h1>
+<!-- <button (click)="onClickMe()">Click me!</button> -->
+                    <!-- login form -->
+                    <form [formGroup]="formSubmit">
+                        <input placeholder="Votre email" formControlName="email" class="form-control" id="emailForm" type="email">
+                        <div *ngIf="formSubmit.controls.email.errors">
+                            <span *ngIf="formSubmit.controls.email.errors.required">Veuillez renseigner votre email</span>
+                            <span *ngIf="formSubmit.controls.email.errors.pattern">L'email doit respecter la forme habituelle des emails</span>
+                        </div>
+                        <input placeholder="Votre mot de passe" formControlName="password" class="form-control" id="passwordForm" type="password">
+                        <div *ngIf="formSubmit.controls.password.errors">
+                            <span *ngIf="formSubmit.controls.password.errors.required">Veuillez renseigner votre mot de passe</span>
+                            <span *ngIf="formSubmit.controls.password.errors.minlength">Le mot de passe doit faire 8 caractères minimum</span>
+                        </div>
+                        <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
+                        <button class="btn btn-info" type="submit" (click)="onLogin()">Login</button>
+                    </form>
+                </div>
+
+            <div class="subContainer">
+                <div >Pas encore de compte ?
+                </div>
+                <div>
+                    <a [routerLink]="['/auth', { outlets: {'main':['inscription'] }, skipLocationChange: true }]">Inscrivez-vous !</a>
+                </div>
+            </div>
+
+            <div class="d-flex row">
+                A supprimer quand le login sera fonctionnel
+                * Bypass le controle du login
+                <a class="col-12" (click)="login()" routerLink="/accueil">on</a>
+                <a class="col-12" (click)="logout()" routerLink="/connexion">out</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- <pre style="color:orangered;font-size: 16px;"> -->
+    <!-- {{ formSubmit.controls.email.errors | json }} -->
+    <!-- {{ formSubmit.controls.password.errors.minLength }} -->
+    <!-- </pre> -->

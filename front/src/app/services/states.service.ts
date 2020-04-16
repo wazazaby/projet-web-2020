@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {  UserInterface, BrandInterface, ColorInterface, SeasonInterface,
           StyleInterface, TypeInterface, ErrorInterface } from '@osmo6/models';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatesService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   // Var public
   // Liste des saisons
@@ -30,6 +31,23 @@ export class StatesService {
 
   // Permet de refresh les data en ca de F5
   private _reloadApp: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true); // tslint:disable-line
+
+  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
+
+  login() {
+    this.loggedIn.next(true);
+    this.router.navigate(['/accueil']);
+  }
+
+  logout() {
+    this.loggedIn.next(false);
+    this.router.navigated = false;
+    this.router.navigate(['/']);
+  }
 
   /**
    * Fonction de vérification des code de status de l'api
