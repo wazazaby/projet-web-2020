@@ -53,6 +53,7 @@ export class NavbarComponent implements OnInit {
     // Redirige l'utilisateur si pas connecter
     // todo géré les cas de refresh de la page
     this.stateService.isLoggedIn.subscribe(res => {
+      this.bridgeService.initData(!res);
       if (!res) {
         this.router.navigate(['/']);
       }
