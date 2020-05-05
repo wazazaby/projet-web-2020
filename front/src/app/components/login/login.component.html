@@ -1,4 +1,4 @@
-<div class="mainContainer justify-content-around">
+<div class="mainContainer justify-content-around" *ngIf="isLogin">
     <div class="row">
         <div class="col-2">
         </div>
@@ -47,6 +47,15 @@
         </div>
 
     </div>
+</div>
+
+<div *ngIf="isRegistered">
+    register
+</div>
+
+<div *ngIf="isConnected">
+    is connected
+</div>
 
 
 

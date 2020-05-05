@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import {  UserInterface, GarmentInterface, BrandInterface, GlobalReturnInterface,
@@ -26,16 +26,12 @@ export class BridgeService {
   /**
    * Connexion
    */
-  login(user: string, password: string) {
-    console.log('login', user, password);
-
+  login(email: string, pass: string) {
     const body = {
-      email: user,
-      pass: password
-    };
-    return this.http.post(environment.apiUrl + 'user/login', body).subscribe(res => {
-      console.log(res);
-    });
+        email,
+        pass
+      };
+    return this.http.post<GlobalReturnInterface>(environment.apiUrl + 'user/login', body);
   }
 
   initData(b: boolean): void {
