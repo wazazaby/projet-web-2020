@@ -7,6 +7,7 @@ import { Body } from '../../libs/Body';
 import * as RandomString from 'randomstring';
 import * as bcrypt from 'bcrypt';
 
+// Type simple pour le contenu de la session
 type UserAuth = {
     id_user: number;
     name_user: string;
@@ -154,7 +155,7 @@ export class UserController {
                     creation_date_user: user.getCreationDate(),
                     modification_date_user: user.getModificationDate()
                 };
-                
+
                 ctx.session.auth = auth;
                 ctx.body = new Body(200, 'Connexion réussie', auth);
             }
