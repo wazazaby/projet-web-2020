@@ -8,9 +8,13 @@ import * as RandomString from 'randomstring';
 import * as bcrypt from 'bcrypt';
 
 type UserAuth = {
-    id: number,
-    name: string,
-    email: string;
+    id_user: number;
+    name_user: string;
+    email_user: string;
+    token_user: string;
+    img_user?: string;
+    creation_date_user: number;
+    modification_date_user?: number;
 }
 
 export class UserController {
@@ -32,11 +36,13 @@ export class UserController {
     public async createUser (ctx: Context): Promise<void> {
 
         // En fonction des paramètres passés dans le body de la request, on crée un objet user
+        const userPass = await bcrypt.hash(ctx.request.body.pass, this._hash);
         const newUser: User = new User({
             id_user: null,
             name_user: ctx.request.body.name,
             email_user: ctx.request.body.email,
-            pass_user: await bcrypt.hash(ctx.request.body.pass, this._hash),
+            pass_user: userPass,
+            url_img_user: null,
             actif_user: 0,
             rgpd_user: 1,
             token_user: RandomString.generate(),
@@ -102,7 +108,7 @@ export class UserController {
 
                 // On met à jour son status et on renvoi le résultat en fonction du succès ou non
                 const result: InsertReturnInterface = await this._manager.updateUser(user);
-                if (result.affectedRows == 1) {
+                if (result.affectedRows === 1) {
                     ctx.body = new Body(200, 'Votre compte a bien été activé', {email: user.getEmail()});
                 } else {
                     ctx.throw(400, "Problème lors de l'activation de votre compte, merci de rééssayer");
@@ -126,10 +132,8 @@ export class UserController {
         const mail: string = ctx.request.body.email;
         const pass: string = ctx.request.body.pass;
 
-        if (ctx.session.auth) console.log(ctx.session.auth);
-
         // Si user est null, ça veut dire que les identifiants sont incorrectes ou que l'utilisateur n'existe pas
-        const user: User | null = await this._manager.getUserByMailAndPass(mail, pass);
+        const user: User|null = await this._manager.getUserByMailAndPass(mail, pass);
 
         if (user === null) {
             ctx.throw(400, 'Impossible de se connecter avec ces identifiants');
@@ -141,7 +145,16 @@ export class UserController {
             } else {
 
                 // Si tout est bon, on renvoit son id, name et email au front et on les passe en variable de session
-                const auth: UserAuth = {id: user.getId(), name: user.getName(), email: user.getEmail()};
+                const auth: UserAuth = {
+                    id_user: user.getId(), 
+                    name_user: user.getName(), 
+                    email_user: user.getEmail(),
+                    token_user: user.getToken(),
+                    img_user: user.getImg(),
+                    creation_date_user: user.getCreationDate(),
+                    modification_date_user: user.getModificationDate()
+                };
+                
                 ctx.session.auth = auth;
                 ctx.body = new Body(200, 'Connexion réussie', auth);
             }

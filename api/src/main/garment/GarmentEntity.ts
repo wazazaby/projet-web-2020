@@ -10,8 +10,6 @@ export class Garment implements GarmentInterface {
     public brand_id_brand: number;
     public season_id_season: number;
     public type_id_type: number;
-    public has_styles?: StyleInterface[];
-    public has_colors?: ColorInterface[];
 
     constructor (garment: GarmentInterface) {
         this.id_garment = garment.id_garment;
@@ -23,8 +21,6 @@ export class Garment implements GarmentInterface {
         this.brand_id_brand = garment.brand_id_brand;
         this.season_id_season = garment.season_id_season;
         this.type_id_type = garment.type_id_type;
-        this.has_styles = garment.has_styles;
-        this.has_colors = garment.has_colors;
     }
 
     // ================ GETTERS ================
@@ -98,16 +94,6 @@ export class Garment implements GarmentInterface {
 
     public setIdType (val: number): Garment {
         this.type_id_type = val;
-        return this;
-    }
-
-    public setColors (val: ColorInterface[]): Garment {
-        this.has_colors = val;
-        return this;
-    }
-
-    public setStyles (val: StyleInterface[]): Garment {
-        this.has_styles = val;
         return this;
     }
 

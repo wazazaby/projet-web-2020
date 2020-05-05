@@ -13,7 +13,7 @@ export class UserManager {
      * @param {string} mail
      * @returns {Promise<User|null>} l'utilisateur qui correspond au mail, ou null s'il n'existe pas
      */
-    public async getUserByMail (mail: string): Promise<User | null> {
+    public async getUserByMail (mail: string): Promise<User|null> {
         try {
             const dbUser: any = await Db.pool.execute('SELECT * FROM user WHERE user.email_user = ?', [mail]);
             if (dbUser[0].length === 1) {
@@ -32,13 +32,14 @@ export class UserManager {
      * @returns {Promise<InsertReturnInterface>} le résultats de l'insert
      */
     public async insertUser (user: User): Promise<InsertReturnInterface> {
-        const sql: string = 'INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const sql: string = 'INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         try {
             const insert: any = await Db.pool.execute(sql, [
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getPass(),
+                user.getImg(),
                 user.getActif(),
                 user.getRgpd(),
                 user.getToken(),
@@ -57,7 +58,7 @@ export class UserManager {
      * @param {string} token le token contenu dans le mail d'activation de l'utilisateur
      * @returns {Promise<User|null>} retourne l'utilisateur en question ou null si rien n'est trouvé
      */
-    public async getUserByToken (token: string): Promise<User | null> {
+    public async getUserByToken (token: string): Promise<User|null> {
         const sql: string = 'SELECT * FROM user WHERE user.token_user = ?';
         try {
             const dataUser: any = await Db.pool.execute(sql, [token]);
@@ -112,7 +113,7 @@ export class UserManager {
      * @param {string} pass
      * @returns {Promise<User|null>} retourne l'utilisateur trouvé avec ce mail et ce mot de passe, ou null
      */
-    public async getUserByMailAndPass (email: string, pass: string): Promise<User | null> {
+    public async getUserByMailAndPass (email: string, pass: string): Promise<User|null> {
         const sql: string = `
             SELECT * FROM user
             WHERE email_user = ?
