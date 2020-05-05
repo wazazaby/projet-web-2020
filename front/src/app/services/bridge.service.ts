@@ -26,8 +26,16 @@ export class BridgeService {
   /**
    * Connexion
    */
-  login() {
-    console.log('login');
+  login(user: string, password: string) {
+    console.log('login', user, password);
+
+    const body = {
+      email: user,
+      pass: password
+    };
+    return this.http.post(environment.apiUrl + 'user/login', body).subscribe(res => {
+      console.log(res);
+    });
   }
 
   initData(b: boolean): void {

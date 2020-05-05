@@ -25,7 +25,7 @@
                             <span *ngIf="formSubmit.controls.password.errors.minlength">Le mot de passe doit faire 8 caractères minimum</span>
                         </div>
                         <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
-                        <button class="btn btn-info" type="submit" (click)="onLogin()">Login</button>
+                        <button class="btn btn-info" type="submit" (click)="login()">Login</button>
                     </form>
                 </div>
 
@@ -40,7 +40,7 @@
             <div class="d-flex row">
                 A supprimer quand le login sera fonctionnel
                 * Bypass le controle du login
-                <a class="col-12" (click)="login()" routerLink="/accueil">on</a>
+                <a class="col-12" (click)="byPass()" routerLink="/accueil">on</a>
                 <a class="col-12" (click)="logout()" routerLink="/connexion">out</a>
             </div>
 

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { StatesService } from 'src/app/services/states.service';
 import { Router } from '@angular/router';
+import { BridgeService } from 'src/app/services/bridge.service';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit { // contient les var du component
 
   constructor(private formBuild: FormBuilder,
               private stateService: StatesService,
+              private bridgeService: BridgeService,
               private route: Router) { // contient services et imports
 
 }
@@ -45,8 +47,12 @@ export class LoginComponent implements OnInit { // contient les var du component
     // console.log(this.formSubmit);
   }
 
-  login() {
+  byPass() {
     this.stateService.login();
+  }
+
+  login() {
+    this.bridgeService.login('test', 'motdepasse');
   }
 
   logout() {
