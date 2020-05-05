@@ -8,9 +8,13 @@ import * as RandomString from 'randomstring';
 import * as bcrypt from 'bcrypt';
 
 type UserAuth = {
-    id: number,
-    name: string,
-    email: string;
+    id_user: number;
+    name_user: string;
+    email_user: string;
+    token_user: string;
+    img_user?: string;
+    creation_date_user: number;
+    modification_date_user?: number;
 }
 
 export class UserController {
@@ -141,7 +145,15 @@ export class UserController {
             } else {
 
                 // Si tout est bon, on renvoit son id, name et email au front et on les passe en variable de session
-                const auth: UserAuth = {id: user.getId(), name: user.getName(), email: user.getEmail()};
+                const auth: UserAuth = {
+                    id_user: user.getId(),
+                    name_user: user.getName(),
+                    email_user: user.getEmail(),
+                    token_user: user.getToken(),
+                    img_user: user.getImg(),
+                    creation_date_user: user.getCreationDate(),
+                    modification_date_user: user.getModificationDate()
+                };
                 ctx.session.auth = auth;
                 ctx.body = new Body(200, 'Connexion réussie', auth);
             }
