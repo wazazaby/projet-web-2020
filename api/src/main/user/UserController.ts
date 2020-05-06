@@ -76,8 +76,7 @@ export class UserController {
                     `
                 );
 
-                const sentMail: boolean = await mailer.sendMail();
-                if (sentMail) {
+                if (await mailer.sendMail()) {
                     ctx.body = new Body(204, "Un mail d'activation vous a été envoyé");
                 } else {
                     ctx.throw(400, "Problème lors de l'envoie du mail d'activation");
@@ -169,5 +168,42 @@ export class UserController {
     public async disconnectUser (ctx: Context): Promise<void> {
         ctx.session = null;
         ctx.body = new Body(200, 'Vous avez été déconnecté');
+    }
+
+    /**
+     * Envoie un mail de réinitialisation de mot de passe à l'utilisateur
+     * @param {Context} ctx 
+     */
+    public async getPasswordResetMail (ctx: Context): Promise<void> {
+        const mail: string = ctx.request.body.email;
+
+        const currUser: User|null = await this._manager.getUserByMail(mail);
+
+        if (currUser !== null) {
+            if (currUser.getActif() === 1) {
+                const mailer: Mailer = new Mailer(
+                    currUser.getEmail(), 
+                    'Réinitialisation de votre mot de passe TurnStyle', 
+                    `
+                    <div>
+                        <h2>Votre demande de réinitialisation de mot de passe</h2>
+                        <p>
+                            <a href="">Merci de cliquer sur ce lien pour réinitialiser votre mot de passe !</a>
+                        </p>
+                    </div>
+                    `
+                );
+
+                if (await mailer.sendMail()) {
+                    ctx.body = new Body(204, "Un mail de réinitialisation vous a été envoyé");
+                } else {
+                    ctx.throw(400, "Problème lors de l'envoie du mail de réinitialisation");
+                }
+            } else {
+                ctx.throw(400, "Vous ne pouvez pas réinitialiser votre mot de passe car vous n'avez pas de compte actif sur notre plateforme")
+            }
+        } else {
+           ctx.throw(400, "Si cet email existe sur notre plateforme, vous recevrez un mail de réinitialisatoin");
+        }
     }
 }
