@@ -5,7 +5,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {  UserInterface, BrandInterface, ColorInterface, SeasonInterface,
-          StyleInterface, TypeInterface, ErrorInterface } from '@osmo6/models';
+          StyleInterface, TypeInterface, ErrorInterface, GarmentColorStyleWrapperInterface } from '@osmo6/models';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -24,6 +24,7 @@ export class StatesService {
   private _style: BehaviorSubject<StyleInterface[]> = new BehaviorSubject<StyleInterface[]>([]); // tslint:disable-line
   private _type: BehaviorSubject<TypeInterface[]> = new BehaviorSubject<TypeInterface[]>([]); // tslint:disable-line
   private _user: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(null); // tslint:disable-line
+  private _garment: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
   private _errors: BehaviorSubject<ErrorInterface> = new BehaviorSubject<ErrorInterface>(null); // tslint:disable-line
 
   private _loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // tslint:disable-line
@@ -180,5 +181,20 @@ export class StatesService {
     return this._loggedIn.asObservable();
   }
   // ============================= fin login =============================
+
+  // ***********************************************************************
+  // ============================= Début Garment =============================
+  public get garment(): GarmentColorStyleWrapperInterface[] {
+    return this._garment.getValue();
+  }
+
+  public set garment(u: GarmentColorStyleWrapperInterface[]) {
+    this._garment.next(u);
+  }
+
+  public garmentAsObservable(): Observable<GarmentColorStyleWrapperInterface[]> {
+    return this._garment.asObservable();
+  }
+  // ============================= Fin Garment =============================
   // =============================GETTER/SETTER=============================
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
-import { UserInterface, GarmentInterface, SeasonInterface, TypeInterface } from '@osmo6/models';
+import { UserInterface, GarmentInterface, SeasonInterface, TypeInterface, GarmentColorStyleWrapperInterface } from '@osmo6/models';
 
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
@@ -22,7 +22,7 @@ export class GarmentComponent implements OnInit {
   user: UserInterface = this.stateService.userProfil;
 
   // Liste des vêtements
-  garment: GarmentInterface[] = [];
+  garment: GarmentColorStyleWrapperInterface[] = [];
 
   season: SeasonInterface[] = this.stateService.season;
   type: TypeInterface[] = this.stateService.type;
@@ -46,6 +46,9 @@ export class GarmentComponent implements OnInit {
       typeToString.push(t.label_type);
     });
 
+    /**
+     * Liste des filtres
+     */
     this.filterName = [
       {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: false},
       {id: 2, title: 'Types', value: typeToString, active: false},
@@ -57,9 +60,18 @@ export class GarmentComponent implements OnInit {
       ], active: false},
     ];
     // On charge tout les vêtements utilisateur à l'init
-    // if (this.user) {
-    //   this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
-    // }
+    if (this.user) {
+      // Envoie une requete pour recup les garments du user
+      this.bridgeService.getGarmentUser(this.user.id_user);
+      /**
+       * Permet de récuperé les Garments stocker dans l'application
+       * (écoute l'observable {garmentAsObservable()} et permet de rafraichir les data si un nouvelle item est ajouter)
+       */
+      this.stateService.garmentAsObservable().subscribe(res => {
+        this.garment = res;
+        console.log(res);
+      });
+    }
   }
 
   // ------------------ Filtre ------------------

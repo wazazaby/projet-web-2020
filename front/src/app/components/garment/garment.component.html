@@ -47,9 +47,9 @@
 
   <div (click)="resetFilter()" class="col-12 justify-content-center row mx-auto" *ngIf="garment.length != 0">
     <div *ngFor="let g of garment" class="col-xl-2 col-md-4 col-sm-6 col-12 sect-img">
-      <p [innerText]="g.label_garment"></p>
+      <p [innerText]="g.garment.label_garment"></p>
       <div class="sect-hover">
-        <img class="img-fluid" [src]="g.url_img_garment + g.label_garment" [alt]="g.label_garment">
+        <img class="img-fluid" [src]="g.garment.url_img_garment" [alt]="g.garment.label_garment">
         <div class="sect-hide d-flex">
           <div class="col-6 d-flex update" (click)="actToGarment(1, g)">
             <div class="icon row">
@@ -71,7 +71,7 @@
       </div>
       <div class="desc">
         <div>
-          <i *ngFor="let c of g.color" [style.color]="c.hex_color" class="fas fa-circle"></i>
+          <i *ngFor="let c of g.colors" [style.color]="c.hex_color" class="fas fa-circle"></i>
         </div>
       </div>
     </div>
