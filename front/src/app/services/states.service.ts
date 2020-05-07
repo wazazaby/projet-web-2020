@@ -55,19 +55,6 @@ export class StatesService {
   }
 
   /**
-   * Permet de vérifier que la session utilisateur est ouverte sur l'api
-   */
-  refrehApp(token) {
-    if (token) {
-      console.log(token);
-      // Contacte l'API pour vérifier que la session user existe
-      // this.bridgeService.getUserByToken(token);
-    } else {
-      this.router.navigate(['/auth']);
-    }
-  }
-
-  /**
    * Fonction de vérification des code de status de l'api
    * @param n: number
    */

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StatesService } from './services/states.service';
 import { BridgeService } from './services/bridge.service';
+import { ErrorInterface } from '@osmo6/models';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +15,17 @@ export class AppComponent {
               private stateService: StatesService,
               private bridgeService: BridgeService) {
 
-    const token = localStorage.getItem('tkn');
-    this.stateService.refrehApp(token);
+    // Permet de garder en mémoire l'utilisateur
+    // this.stateService.isLoggedIn().subscribe(res => {
+    //   if (!res) {
+    //     const token = localStorage.getItem('tkn');
+    //     this.bridgeService.checkToken(token);
+    //   }
+    // });
 
     // Load toute les data dont l'app à besoin
     this.bridgeService.initData(true);
+
   }
 
   /**

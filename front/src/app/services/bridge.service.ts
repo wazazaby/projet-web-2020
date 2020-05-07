@@ -30,6 +30,7 @@ export class BridgeService {
     public userGarment = '/garment/all';
     public logout = 'user/logout';
     public snackBar = null;
+    public checkTkn = 'user/verify-auth';
 
 /*
  ******************************* function d'auth *******************************
@@ -57,7 +58,6 @@ export class BridgeService {
     disconnect() {
         this.disconnectReq().subscribe(res => {
             if (this.stateService.checkStatus(res.status)) {
-                console.log('logout', res);
                 localStorage.clear();
                 this.stateService.isLogin = false;
                 this.router.navigated = false;
@@ -68,6 +68,22 @@ export class BridgeService {
                 this.stateService.errors = err;
             }
         });
+    }
+
+    checkToken(token) {
+        console.log('checktoken', token);
+        if (token) {
+            this.checkTokenReq(token).subscribe(res => {
+                if (this.stateService.checkStatus(res.status)) {
+                    console.log('r', res);
+                } else {
+                    const err: ErrorInterface = {
+                        code: res.status, message: res.message, route: environment.apiUrl + this.checkTkn};
+                    this.stateService.errors = err;
+                    console.log(err);
+                }
+            });
+        }
     }
 
 // ****************************************************************************************
@@ -230,6 +246,17 @@ export class BridgeService {
      */
     disconnectReq() {
         return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.logout);
+    }
+
+    /**
+     * Permet de vérifier si l'utilisateur est toujours Auth sur l'API
+     * @param token: string
+     */
+    checkTokenReq(token: string) {
+        const body = {
+            token
+        };
+        return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.checkTkn, body);
     }
 
 // ****************************************************************************************
