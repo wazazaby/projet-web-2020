@@ -26,23 +26,11 @@ export class NavbarComponent implements OnInit {
     {path: 'garde-robes', isActive: false, title: 'Garde robe', icon: '<i class="fas fa-plus"></i>'}
   ];
 
-  // user: UserModel = null;
-  user: UserInterface = {
-    id_user: 1,
-    name_user: 'snow',
-    email_user: 'snow@mail.com',
-    actif_user: 1,
-    url_img_user: 'assets/sn.jpg',
-    rgpd_user: 1,
-    pass_user: 'pass',
-    token_user: 'token',
-    creation_date_user: 1586849406,
-    modification_date_user: 1586849406
-  };
+  // Load l'utilisateur
+  user: UserInterface = this.stateService.userProfil;
 
   // Permet de savoir si l'utilisateur est auth (gestion de router différent)
   isLoggedIn$: boolean;
-
 
   constructor(private router: Router,
               private stateService: StatesService) {}
@@ -52,23 +40,6 @@ export class NavbarComponent implements OnInit {
     this.stateService.isLoggedIn().subscribe(b => {
       this.isLoggedIn$ = b;
     });
-
-    console.log(this.stateService.userProfil);
-
-    // Redirige l'utilisateur si pas connecter
-    // todo géré les cas de refresh de la page
-    // this.stateService.isLoggedIn.subscribe(res => {
-    //   this.bridgeService.initData(!res);
-    //   if (!res) {
-    //     this.router.navigate(['/']);
-    //   }
-    // });
-
-    // Aprés la connexion
-    // this.user = await this.bridgeService.login();
-    // On enregistre le USER dans l'état de app
-    // this.stateService.userProfil = this.user;
-
   }
 
   logout() {
