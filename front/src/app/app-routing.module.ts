@@ -6,6 +6,7 @@ import { GarmentComponent } from './components/garment/garment.component';
 import { OutfitComponent } from './components/outfit/outfit.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -15,9 +16,9 @@ const routes: Routes = [
       { path: 'inscription', component: RegisterComponent, outlet: 'main', pathMatch: 'full', },
     ]
   },
-  { path: 'accueil', component: HomeComponent },
-  { path: 'vetements', component: GarmentComponent },
-  { path: 'garde-robes', component: OutfitComponent },
+  { path: 'accueil', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'vetements', component: GarmentComponent, canActivate: [AuthGuardService] },
+  { path: 'garde-robes', component: OutfitComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
 ];
 
