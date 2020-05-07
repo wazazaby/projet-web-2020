@@ -12,7 +12,7 @@
             </li>
           <li>
             <a class="d-flex">
-              <img class="userProfil" *ngIf="user.img_user; else noImg" [src]='user.img_user' alt="profil">
+              <img class="userProfil" *ngIf="user.url_img_user; else noImg" [src]='user.url_img_user' alt="profil">
 
               <ng-template #noImg>
                 <i class="fas fa-user"></i>

@@ -57,9 +57,9 @@ export class GarmentComponent implements OnInit {
       ], active: false},
     ];
     // On charge tout les vêtements utilisateur à l'init
-    if (this.user) {
-      this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
-    }
+    // if (this.user) {
+    //   this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
+    // }
   }
 
   // ------------------ Filtre ------------------

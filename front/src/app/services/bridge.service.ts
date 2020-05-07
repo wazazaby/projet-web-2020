@@ -30,9 +30,9 @@ export class BridgeService {
    * Récupére les data de la route /users
    * Le resultat de cette fonction est obligatoirement un 'UserModel'
    */
-  getUser() {
-    return this.http.get<UserInterface>(environment.apiUrl + 'users');
-  }
+  // getUser() {
+  //   return this.http.get<UserInterface>(environment.apiUrl + 'users');
+  // }
 
   /**
    * Connexion
@@ -135,183 +135,183 @@ export class BridgeService {
     console.log('register');
   }
 
-  getGarmentUSer(userId: number, val: number): GarmentInterface[] {
+  getGarmentUSer(userId: number, val: number) {
     console.log('garment', userId);
-    const res: GarmentInterface[] = [
-      {
-        id_garment: 1,
-        label_garment: 't1.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 2, label_style: 'streetwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't2.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't3.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't4.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't4.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't4.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't4.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't4.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      },
-      {
-        id_garment: 1,
-        label_garment: 't4.jpg',
-        url_img_garment: '/assets/1/',
-        creation_date_garment: 1586849406,
-        modification_date_garment: 1586849406,
-        user_id_user: 1,
-        brand_id_brand: 1,
-        season_id_season: 1,
-        type_id_type: 1,
-        has_styles: [
-          {id_style: 1, label_style: 'sportwear'},
-          {id_style: 3, label_style: 'smart'}
-        ],
-        has_colors: [
-          {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
-          {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
-        ]
-      }
-    ];
-    return res;
+    // const res: GarmentInterface[] = [
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't1.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //   },
+    //       has_styles: [
+    //         {id_style: 1, label_style: 'sportwear'},
+    //         {id_style: 2, label_style: 'streetwear'},
+    //         {id_style: 3, label_style: 'smart'}
+    //       ],
+    //       has_colors: [
+    //         {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //         {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //       ]
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't2.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   },
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't3.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   },
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't4.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   },
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't4.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   },
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't4.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   },
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't4.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   },
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't4.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   },
+    //   {
+    //     id_garment: 1,
+    //     label_garment: 't4.jpg',
+    //     url_img_garment: '/assets/1/',
+    //     creation_date_garment: 1586849406,
+    //     modification_date_garment: 1586849406,
+    //     user_id_user: 1,
+    //     brand_id_brand: 1,
+    //     season_id_season: 1,
+    //     type_id_type: 1,
+    //     has_styles: [
+    //       {id_style: 1, label_style: 'sportwear'},
+    //       {id_style: 3, label_style: 'smart'}
+    //     ],
+    //     has_colors: [
+    //       {id_color: 1, label_color: 'cyan', hex_color: '#0ABAB5', rgb_color: 'rgb(10,186,181)'},
+    //       {id_color: 2, label_color: 'black', hex_color: '#000000', rgb_color: 'rgb(0,0,0)'},
+    //     ]
+    //   }
+    // ];
+    // return res;
   }
 
 }

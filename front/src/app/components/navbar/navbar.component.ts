@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
     name_user: 'snow',
     email_user: 'snow@mail.com',
     actif_user: 1,
-    img_user: 'assets/sn.jpg',
+    url_img_user: 'assets/sn.jpg',
     rgpd_user: 1,
     pass_user: 'pass',
     token_user: 'token',
