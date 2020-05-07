@@ -1,3 +1,7 @@
+/**
+ * Ne mettre dans ce fichier que les variables d'état de l'application
+ */
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {  UserInterface, BrandInterface, ColorInterface, SeasonInterface,
@@ -12,13 +16,6 @@ export class StatesService {
   constructor(private router: Router) { }
 
   // Var public
-  // Liste des saisons
-  // public season = [
-  //   {val: 0, title: 'Hiver'},
-  //   {val: 1, title: 'Printemps'},
-  //   {val: 2, title: 'Été'},
-  //   {val: 3, title: 'Automne'}
-  // ];
 
   // Var private
   private _brand: BehaviorSubject<BrandInterface[]> = new BehaviorSubject<BrandInterface[]>([]); // tslint:disable-line
@@ -29,24 +26,48 @@ export class StatesService {
   private _user: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(null); // tslint:disable-line
   private _errors: BehaviorSubject<ErrorInterface> = new BehaviorSubject<ErrorInterface>(null); // tslint:disable-line
 
-  // Permet de refresh les data en ca de F5
-  private _reloadApp: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true); // tslint:disable-line
+  private _loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // tslint:disable-line
 
-  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  get isLoggedIn() {
-    return this.loggedIn.asObservable();
+  /**
+   * Permet de rediriger l'utilisateur après que la connexion soit établie
+   */
+  login() {
+    // Si l'utilisateur est activer
+    if (this.userProfil.actif_user === 1) {
+      // console.log('Auth OK');
+      setTimeout(() => {
+        this.isLogin = true;
+        // stock le token dans le navigateur: localstorage
+        localStorage.setItem('tkn', this.userProfil.token_user);
+        // redirige vers ...
+        this.router.navigate(['/accueil']);
+      }, 500);
+    } else {
+      setTimeout(() => {
+        this.isLogin = null;
+        // redirige vers ...
+        this.router.navigate(['/auth']);
+      }, 500);
+    }
   }
 
-  login() {
-    this.loggedIn.next(true);
-    this.router.navigate(['/accueil']);
+  /**
+   * Permet de vérifier que la session utilisateur est ouverte sur l'api
+   */
+  refrehApp(token) {
+    if (token) {
+      console.log(token);
+      // Contacte l'API pour vérifier que la session user existe
+      // this.bridgeService.getUserByToken(token);
+    } else {
+      this.router.navigate(['/auth']);
+    }
   }
 
   logout() {
-    this.loggedIn.next(false);
+    this.isLogin = false;
     this.router.navigated = false;
-    this.router.navigate(['/']);
+    this.router.navigate(['/auth']);
   }
 
   /**
@@ -62,17 +83,6 @@ export class StatesService {
   }
 
   // =============================GETTER/SETTER=============================
-
-  // ***********************************************************************
-  // ============================= Début errors =============================
-  public get reloadApp(): boolean {
-    return this._reloadApp.getValue();
-  }
-
-  public set reloadApp(u: boolean) {
-    this._reloadApp.next(u);
-  }
-  // ============================= Fin errors =============================
 
   // ***********************************************************************
   // ============================= Début errors =============================
@@ -154,5 +164,21 @@ export class StatesService {
     return this._user.asObservable();
   }
   // ============================= Fin User =============================
+
+  // ***********************************************************************
+  // ============================= Début login =============================
+
+  public get isLogin(): boolean {
+    return this._loggedIn.getValue();
+  }
+
+  public set isLogin(s: boolean) {
+    this._loggedIn.next(s);
+  }
+
+  public isLoggedIn(): Observable<boolean> {
+    return this._loggedIn.asObservable();
+  }
+  // ============================= fin login =============================
   // =============================GETTER/SETTER=============================
 }

@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ModalAddGarmentComponent } from './modal-add-garment.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('ModalAddGarmentComponent', () => {
   let component: ModalAddGarmentComponent;
@@ -8,7 +11,15 @@ describe('ModalAddGarmentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalAddGarmentComponent ]
+      declarations: [ ModalAddGarmentComponent ],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ]
     })
     .compileComponents();
   }));

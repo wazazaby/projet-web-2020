@@ -1,3 +1,8 @@
+/**
+ * Ne mettre dans ce fichier que les liens avec l'API
+ * Pas de variable d'état de l'application ici
+ */
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -5,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import {  UserInterface, GarmentInterface, BrandInterface, GlobalReturnInterface,
           ErrorInterface, SeasonInterface, TypeInterface } from '@osmo6/models';
 import { StatesService } from './states.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +19,11 @@ export class BridgeService {
 
   constructor(private http: HttpClient,
               private stateService: StatesService) { }
+
+  // url pour API node
+  public brandAll = 'brand/all';
+  public seasonAll = 'season/all';
+  public typeAll = 'type/all';
 
   /**
    * Exemple crud: actuelement Read
@@ -25,6 +36,8 @@ export class BridgeService {
 
   /**
    * Connexion
+   * Permet d'identifier l'utilisateur
+   * @return GlobalReturnInterface
    */
   login(email: string, pass: string) {
     const body = {
@@ -34,26 +47,53 @@ export class BridgeService {
     return this.http.post<GlobalReturnInterface>(environment.apiUrl + 'user/login', body);
   }
 
-  initData(b: boolean): void {
-    console.log('init', b);
+  initData(b: boolean): boolean {
+    let isGood = false;
     if (b) {
-      this.stateService.reloadApp = false;
+      console.log('init les data de l\'application', b);
       this.getBrand();
       this.getSeason();
       this.getType();
+
+      if (this.stateService.brand && this.stateService.season && this.stateService.type) {
+        isGood = true;
+      }
     }
+    return isGood;
+  }
+
+  /**
+   * Attribue les marques de vêtement à la var global
+   */
+  getBrand() {
+    return this.getBrandReq().subscribe(res => {
+      if (this.stateService.checkStatus(res.status)) {
+        const data: BrandInterface[] = res.data;
+        this.stateService.brand = data;
+      } else {
+        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.brandAll};
+        this.stateService.errors = err;
+      }
+    });
   }
 
   /**
    * Récupére toute les marques de vêtement
    */
-  getBrand() {
-    return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'brand/all').subscribe(res => {
+  getBrandReq() {
+    return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.brandAll);
+  }
+
+  /**
+   * Attribue les saisons à la var global
+   */
+  getSeason() {
+    return this.getSeasonReq().subscribe(res => {
       if (this.stateService.checkStatus(res.status)) {
-        const data: BrandInterface[] = res.data;
-        this.stateService.brand = data;
+        const data: SeasonInterface[] = res.data;
+        this.stateService.season = data;
       } else {
-        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'brand/all'};
+        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.seasonAll};
         this.stateService.errors = err;
       }
     });
@@ -62,13 +102,20 @@ export class BridgeService {
   /**
    * Récupére toute les saisons
    */
-  getSeason() {
-    return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'season/all').subscribe(res => {
+  getSeasonReq() {
+    return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.seasonAll);
+  }
+
+  /**
+   * Attribue les types de vêtement à la var global
+   */
+  getType() {
+    return this.getTypeReq().subscribe(res => {
       if (this.stateService.checkStatus(res.status)) {
-        const data: SeasonInterface[] = res.data;
-        this.stateService.season = data;
+        const data: TypeInterface[] = res.data;
+        this.stateService.type = data;
       } else {
-        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'season/all'};
+        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.typeAll};
         this.stateService.errors = err;
       }
     });
@@ -77,16 +124,8 @@ export class BridgeService {
   /**
    * Récupére toute les types de vêtement
    */
-  getType() {
-    return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'type/all').subscribe(res => {
-      if (this.stateService.checkStatus(res.status)) {
-        const data: TypeInterface[] = res.data;
-        this.stateService.type = data;
-      } else {
-        const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'type/all'};
-        this.stateService.errors = err;
-      }
-    });
+  getTypeReq() {
+    return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.typeAll);
   }
 
   /**

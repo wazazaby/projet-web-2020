@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit { // contient les var du component
   // });
 
   submitted = false;
-  isLogin: boolean = true;
-  isRegistered: boolean = false;
-  isConnected: boolean = false;
+  isLogin: boolean = true; // tslint:disable-line
+  isRegistered: boolean = false; // tslint:disable-line
+  isConnected: boolean = false; // tslint:disable-line
 
   constructor(private formBuild: FormBuilder,
               private stateService: StatesService,
@@ -51,9 +51,8 @@ export class LoginComponent implements OnInit { // contient les var du component
 }
 
   ngOnInit() {
-    // console.log(this.formSubmit);
     console.log('test url', this.route.routerState.snapshot);
-    const token = "ougyifvm";
+    const token = 'ougyifvm';
     /**
      * if query param
      * isLogin && isRegistered = false
@@ -65,21 +64,17 @@ export class LoginComponent implements OnInit { // contient les var du component
      */
   }
 
-  byPass() {
-    this.stateService.login();
-  }
-
   login() {
     this.bridgeService.login('mail@mail.com', 'motdepasse').subscribe(res => {
       if (this.stateService.checkStatus(res.status)) {
         const data: UserInterface = res.data;
         this.stateService.userProfil = data;
-        console.log(true);
-        this.byPass();
+        console.log('Login OK', true);
+        this.stateService.login();
       } else {
         const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'user/login'};
         this.stateService.errors = err;
-        console.log(false);
+        console.log('Login Error', false);
       }
     });
   }

@@ -40,36 +40,40 @@ export class NavbarComponent implements OnInit {
     modification_date_user: 1586849406
   };
 
-  isLoggedIn$: Observable<boolean>;
+  // Permet de savoir si l'utilisateur est auth (gestion de router différent)
+  isLoggedIn$: boolean;
 
 
   constructor(private router: Router,
-              private stateService: StatesService,
-              private bridgeService: BridgeService) {}
+              private stateService: StatesService) {}
 
   ngOnInit() {
-    this.isLoggedIn$ = this.stateService.isLoggedIn;
+    // Permet d'utiliser 2 router différents
+    this.stateService.isLoggedIn().subscribe(b => {
+      this.isLoggedIn$ = b;
+    });
+
+    console.log(this.stateService.userProfil);
 
     // Redirige l'utilisateur si pas connecter
     // todo géré les cas de refresh de la page
-    this.stateService.isLoggedIn.subscribe(res => {
-      this.bridgeService.initData(!res);
-      if (!res) {
-        this.router.navigate(['/']);
-      }
-    });
+    // this.stateService.isLoggedIn.subscribe(res => {
+    //   this.bridgeService.initData(!res);
+    //   if (!res) {
+    //     this.router.navigate(['/']);
+    //   }
+    // });
 
     // Aprés la connexion
     // this.user = await this.bridgeService.login();
     // On enregistre le USER dans l'état de app
-    this.stateService.userProfil = this.user;
+    // this.stateService.userProfil = this.user;
 
-    // Permet de savoir si l'app à besoin de refresh ou non les data
-    // this.bridgeService.initData(this.stateService.reloadApp);
   }
 
   logout() {
     this.stateService.logout();
+    localStorage.clear();
   }
 
   /**
@@ -99,7 +103,6 @@ export class NavbarComponent implements OnInit {
    * @param r RouteModel path/isActive/title/icon
    */
   navigation(r: RouteInterface) {
-    // console.log(r);
     this.sideBar.forEach(s => {
       if (s.path === r.path) {
         s.isActive = !s.isActive;

@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="{'collapseCustom': !isCollapse}" *ngIf="isLoggedIn$ | async as isLoggedIn">
+<div class="wrapper" [ngClass]="{'collapseCustom': !isCollapse}" *ngIf="isLoggedIn$">
 
     <nav class="top_navbar">
       <div class="hamburger" (click)="collapse()">

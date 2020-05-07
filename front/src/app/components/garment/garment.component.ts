@@ -57,13 +57,9 @@ export class GarmentComponent implements OnInit {
       ], active: false},
     ];
     // On charge tout les vêtements utilisateur à l'init
-    this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
-
-    console.log(this.stateService.reloadApp);
-    console.log(this.stateService.brand);
-
-    // Permet de savoir si l'app à besoin de refresh ou non les data
-    // this.bridgeService.initData(this.stateService.reloadApp);
+    if (this.user) {
+      this.garment = this.bridgeService.getGarmentUSer(this.user.id_user, 1);
+    }
   }
 
   // ------------------ Filtre ------------------
@@ -94,14 +90,16 @@ export class GarmentComponent implements OnInit {
   // Ouvre un modal pour ajouter un vêtement
   addGarment(): void {
     console.log('Ajouter vêtement');
-    const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
-      width: '60%',
-      data: {userId: this.user.id_user}
-    });
+    if (this.user) {
+      const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
+        width: '60%',
+        data: {userId: this.user.id_user}
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+      });
+    }
   }
 
   /**

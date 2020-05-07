@@ -1,13 +1,14 @@
 {
   "name": "turn-style",
-  "version": "0.0.1",
+  "version": "0.4.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "check": "ng lint && ng test --watch=false"
   },
   "private": true,
   "dependencies": {

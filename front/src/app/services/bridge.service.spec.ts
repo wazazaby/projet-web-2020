@@ -1,12 +1,52 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync } from '@angular/core/testing';
 
 import { BridgeService } from './bridge.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BridgeService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [
+      HttpClientModule,
+      RouterTestingModule
+    ]
+  }));
 
-  it('should be created', () => {
+  it('Get all brand should be loaded', (done) => {
     const service: BridgeService = TestBed.get(BridgeService);
-    expect(service).toBeTruthy();
+    service.getBrandReq().subscribe(res => {
+      expect(res.status).toEqual(200 || 403 || 404);
+      done();
+    });
   });
+
+  it('Get all season should be loaded', (done) => {
+    const service: BridgeService = TestBed.get(BridgeService);
+    service.getSeasonReq().subscribe(res => {
+      expect(res.status).toEqual(200 || 403 || 404);
+      done();
+    });
+  });
+
+  it('Get all type should be loaded', (done) => {
+    const service: BridgeService = TestBed.get(BridgeService);
+    service.getTypeReq().subscribe(res => {
+      expect(res.status).toEqual(200 || 403 || 404);
+      done();
+    });
+  });
+
+  it('Init all loaded', () => {
+    const service: BridgeService = TestBed.get(BridgeService);
+    expect(service.initData(true)).toBeDefined(Boolean);
+  });
+
+  it('Should login OK', (done) => {
+    const service: BridgeService = TestBed.get(BridgeService);
+    service.login('mail@mail.com', 'motdepasse').subscribe(res => {
+      expect(res.status).toEqual(200 || 403 || 404);
+      done();
+    });
+  });
+
 });

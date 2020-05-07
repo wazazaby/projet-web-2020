@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarComponent } from './navbar.component';
+import { StatesService } from 'src/app/services/states.service';
+import { BridgeService } from 'src/app/services/bridge.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -8,7 +11,13 @@ describe('NavbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavbarComponent ]
+      declarations: [ NavbarComponent ],
+      imports: [
+        RouterTestingModule
+      ],
+      providers: [
+        StatesService
+      ]
     })
     .compileComponents();
   }));
@@ -21,5 +30,13 @@ describe('NavbarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should loggin is OK', () => {
+    expect(component.isLoggedIn$).toBeDefined(Boolean);
+  });
+
+  it('should collapse is OK', () => {
+    expect(component.collapse(null, true)).toBeDefined(Boolean);
   });
 });
