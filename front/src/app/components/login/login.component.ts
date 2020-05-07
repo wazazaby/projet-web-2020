@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit { // contient les var du component
       if (this.stateService.checkStatus(res.status)) {
         const data: UserInterface = res.data;
         this.stateService.userProfil = data;
-        console.log('Login OK', true);
+        console.log('Login OK', true, data.url_img_user);
         this.stateService.login();
       } else {
         const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'user/login'};

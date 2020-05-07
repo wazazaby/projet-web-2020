@@ -37,8 +37,12 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     // Permet d'utiliser 2 router différents
-    this.stateService.isLoggedIn().subscribe(b => {
+    this.stateService.isLoggedIn().subscribe((b: boolean) => {
       this.isLoggedIn$ = b;
+    });
+
+    this.stateService.userProfilsAsObservable.subscribe((u: UserInterface) => {
+      this.user = u;
     });
   }
 

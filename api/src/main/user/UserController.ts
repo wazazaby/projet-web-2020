@@ -13,7 +13,7 @@ type UserAuth = {
     name_user: string;
     email_user: string;
     token_user: string;
-    img_user?: string;
+    url_img_user?: string;
     actif_user?: number;
     creation_date_user: number;
     modification_date_user?: number;
@@ -151,7 +151,7 @@ export class UserController {
                     name_user: user.getName(), 
                     email_user: user.getEmail(),
                     token_user: user.getToken(),
-                    img_user: user.getImg(),
+                    url_img_user: user.getImg(),
                     actif_user: user.getActif(),
                     creation_date_user: user.getCreationDate(),
                     modification_date_user: user.getModificationDate()
