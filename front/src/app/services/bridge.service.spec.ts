@@ -3,12 +3,14 @@ import { TestBed, fakeAsync } from '@angular/core/testing';
 import { BridgeService } from './bridge.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('BridgeService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
       HttpClientModule,
-      RouterTestingModule
+      RouterTestingModule,
+      MatSnackBarModule
     ]
   }));
 

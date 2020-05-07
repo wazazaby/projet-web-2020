@@ -79,10 +79,6 @@ export class LoginComponent implements OnInit { // contient les var du component
     });
   }
 
-  logout() {
-    this.stateService.logout();
-  }
-
   onLogin() {
     console.log('click onLogin()');
 
@@ -90,6 +86,5 @@ export class LoginComponent implements OnInit { // contient les var du component
     // this.formSubmit.value.email or this.formSubnmit.value.password
     console.log(this.formSubmit);
   }
-
 
 }

@@ -4,6 +4,7 @@ import { ModalAddGarmentComponent } from './modal-add-garment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('ModalAddGarmentComponent', () => {
   let component: ModalAddGarmentComponent;
@@ -15,7 +16,8 @@ describe('ModalAddGarmentComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MatSnackBarModule
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },

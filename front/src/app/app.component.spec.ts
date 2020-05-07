@@ -3,19 +3,20 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { GlobalReturnInterface } from '@osmo6/models';
+import { MatSnackBarModule,  MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        MatSnackBarModule
       ],
       declarations: [
         AppComponent,
         NavbarComponent
-      ],
+      ]
     }).compileComponents();
   }));
 

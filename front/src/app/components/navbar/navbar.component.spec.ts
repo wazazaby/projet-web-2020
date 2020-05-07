@@ -4,6 +4,8 @@ import { NavbarComponent } from './navbar.component';
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -13,10 +15,13 @@ describe('NavbarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ NavbarComponent ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientModule,
+        MatSnackBarModule
       ],
       providers: [
-        StatesService
+        StatesService,
+        BridgeService
       ]
     })
     .compileComponents();

@@ -7,13 +7,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {  UserInterface, BrandInterface, ColorInterface, SeasonInterface,
           StyleInterface, TypeInterface, ErrorInterface, GarmentColorStyleWrapperInterface } from '@osmo6/models';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatesService {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              public snackBar: MatSnackBar) { }
 
   // Var public
 
@@ -65,12 +67,6 @@ export class StatesService {
     }
   }
 
-  logout() {
-    this.isLogin = false;
-    this.router.navigated = false;
-    this.router.navigate(['/auth']);
-  }
-
   /**
    * Fonction de vérification des code de status de l'api
    * @param n: number
@@ -82,6 +78,21 @@ export class StatesService {
       return false;
     }
   }
+
+   /**
+    * Permet d'afficher une barre d'information du le site
+    * @param message: string
+    * @param action: string
+    * @param time: number
+    * @param verticalPos: string
+    * @param horizontalPos: string
+    */
+  openSnackBar( message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'top'
+    });
+}
 
   // =============================GETTER/SETTER=============================
 

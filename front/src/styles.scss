@@ -4,3 +4,13 @@ html, body {
     background-color: $bg-main;
     height: 100%;
 }
+
+// Surcharge Angular Material
+.mat-snack-bar-container{
+    background-color: $bg-sidebar;
+    color: $white;
+
+    button{
+        color: $white;
+    }
+}

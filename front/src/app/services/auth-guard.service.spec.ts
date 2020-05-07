@@ -2,11 +2,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthGuardService } from './auth-guard.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('AuthGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
-      RouterTestingModule
+      RouterTestingModule,
+      MatSnackBarModule
     ]
   }));
 

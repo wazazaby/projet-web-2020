@@ -16,6 +16,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { DragDropDirective } from './directive/draganddrop.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatSnackBarModule,
     ReactiveFormsModule
   ],
   entryComponents: [

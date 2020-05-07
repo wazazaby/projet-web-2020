@@ -4,6 +4,7 @@ import { LoginComponent } from './login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -15,7 +16,8 @@ describe('LoginComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        MatSnackBarModule
       ],
       declarations: [ LoginComponent ]
     })

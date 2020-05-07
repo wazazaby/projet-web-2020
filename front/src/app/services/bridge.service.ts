@@ -4,13 +4,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import {  UserInterface, GarmentInterface, BrandInterface, GlobalReturnInterface,
-          ErrorInterface, SeasonInterface, TypeInterface, GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
+import {  BrandInterface, GlobalReturnInterface,
+          ErrorInterface, SeasonInterface, TypeInterface,
+          GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
 import { StatesService } from './states.service';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,17 @@ import { Observable } from 'rxjs';
 export class BridgeService {
 
     constructor(private http: HttpClient,
-                private stateService: StatesService) { }
+                private stateService: StatesService,
+                private router: Router) { }
 
-    // url pour API node
+    // url pour API
     public brandAll = 'brand/all';
     public seasonAll = 'season/all';
     public typeAll = 'type/all';
     public colorAll = 'color/all';
     public userGarment = '/garment/all';
+    public logout = 'user/logout';
+    public snackBar = null;
 
 /*
  ******************************* function d'auth *******************************
@@ -48,6 +52,22 @@ export class BridgeService {
      */
     register() {
         console.log('register');
+    }
+
+    disconnect() {
+        this.disconnectReq().subscribe(res => {
+            if (this.stateService.checkStatus(res.status)) {
+                console.log('logout', res);
+                localStorage.clear();
+                this.stateService.isLogin = false;
+                this.router.navigated = false;
+                this.router.navigate(['/auth']);
+                this.stateService.openSnackBar(res.message.toString(), null);
+            } else {
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.logout};
+                this.stateService.errors = err;
+            }
+        });
     }
 
 // ****************************************************************************************
@@ -83,13 +103,13 @@ export class BridgeService {
      */
     getType() {
         return this.getTypeReq().subscribe(res => {
-        if (this.stateService.checkStatus(res.status)) {
-            const data: TypeInterface[] = res.data;
-            this.stateService.type = data;
-        } else {
-            const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.typeAll};
-            this.stateService.errors = err;
-        }
+            if (this.stateService.checkStatus(res.status)) {
+                const data: TypeInterface[] = res.data;
+                this.stateService.type = data;
+            } else {
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.typeAll};
+                this.stateService.errors = err;
+            }
         });
     }
 
@@ -169,7 +189,6 @@ export class BridgeService {
 /*
  *******************************Requete simple*******************************
  */
-
     /**
      * Créer un observable des couleurs de vêtement à la var global
      */
@@ -206,7 +225,12 @@ export class BridgeService {
         return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.brandAll);
     }
 
-
+    /**
+     * Permet de clean la session API du user
+     */
+    disconnectReq() {
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.logout);
+    }
 
 // ****************************************************************************************
 

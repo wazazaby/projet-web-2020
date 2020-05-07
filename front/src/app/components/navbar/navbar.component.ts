@@ -33,7 +33,8 @@ export class NavbarComponent implements OnInit {
   isLoggedIn$: boolean;
 
   constructor(private router: Router,
-              private stateService: StatesService) {}
+              private stateService: StatesService,
+              private bridgeService: BridgeService) {}
 
   ngOnInit() {
     // Permet d'utiliser 2 router différents
@@ -47,8 +48,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.stateService.logout();
-    localStorage.clear();
+    this.bridgeService.disconnect();
   }
 
   /**
