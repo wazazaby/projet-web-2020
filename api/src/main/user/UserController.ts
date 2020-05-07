@@ -40,7 +40,7 @@ export class UserController {
 
         if (ctx.session.auth !== null) {
             if (ctx.session.auth.token_user === token) {
-                ctx.body = ctx.session.auth;
+                ctx.body = new Body(200, '', ctx.session.auth);
             } else {
                 ctx.throw(403);
             }
