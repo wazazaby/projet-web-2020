@@ -36,6 +36,14 @@ describe('BridgeService', () => {
     });
   });
 
+  it('Get all color should be loaded', (done) => {
+    const service: BridgeService = TestBed.get(BridgeService);
+    service.getColorReq().subscribe(res => {
+      expect(res.status).toEqual(200 || 403 || 404);
+      done();
+    });
+  });
+
   it('Get all garment for one user should be loaded', (done) => {
     const service: BridgeService = TestBed.get(BridgeService);
     service.getGarmentUserReq(2).subscribe(res => {

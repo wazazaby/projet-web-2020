@@ -2,7 +2,8 @@ import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
-import { UserInterface, GarmentInterface, SeasonInterface, TypeInterface, GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
+import {  UserInterface, GarmentInterface, SeasonInterface, TypeInterface,
+          GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
 
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
