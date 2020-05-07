@@ -29,6 +29,6 @@ router.post('/api/user/password-reset', async (ctx: Context): Promise<void> => a
 router.get('/api/user/password-reset/:token', ctx => ctx.body =  { 'Hello': 'World!' });
 
 // Check de l'authentification de l'user en session
-router.post('api/user/verify-auth', ctx => ctx.body = { 'Hello': 'World!' });
+router.post('/api/user/verify-auth', async (ctx: Context): Promise<void> => await controller.verifyAuth(ctx));
 
 export default router;

@@ -32,6 +32,24 @@ export class UserController {
     }
 
     /**
+     * Permet de vérifier si l'user a une sessions pour le login
+     * @param {Context} ctx 
+     */
+    public async verifyAuth (ctx: Context): Promise<void> {
+        const token: string = ctx.request.body.token;
+
+        if (ctx.session.auth !== null) {
+            if (ctx.session.auth.token_user === token) {
+                ctx.body = ctx.session.auth;
+            } else {
+                ctx.throw(403);
+            }
+        } else {
+            ctx.throw(403);
+        }
+    }
+
+    /**
      * Permet de créer un utilisateur, et d'envoyer le mail d'activation
      * @param {Context} ctx 
      */
@@ -110,14 +128,14 @@ export class UserController {
                 // On met à jour son status et on renvoi le résultat en fonction du succès ou non
                 const result: InsertReturnInterface = await this._manager.updateUser(user);
                 if (result.affectedRows === 1) {
-                    ctx.body = new Body(200, 'Votre compte a bien été activé', {email: user.getEmail()});
+                    ctx.body = new Body(200, 'Votre compte a bien été activé', { email: user.getEmail() });
                 } else {
                     ctx.throw(400, "Problème lors de l'activation de votre compte, merci de rééssayer");
                 }
 
                 // Si son compte est déjà activé, on le redirigera vers la page de login
             } else if (user.getActif() === 1) {
-                ctx.throw(300, 'Votre compte à déjà été activé, vous pouvez vous connecter', {email: user.getEmail()});
+                ctx.throw(300, 'Votre compte à déjà été activé, vous pouvez vous connecter', { email: user.getEmail() });
             }
         } else {
             ctx.throw(400, "Votre lien d'activation n'est pas valide");
@@ -190,7 +208,7 @@ export class UserController {
                     <div>
                         <h2>Votre demande de réinitialisation de mot de passe</h2>
                         <p>
-                            <a href="">Merci de cliquer sur ce lien pour réinitialiser votre mot de passe !</a>
+                            <a href="http://localhost:4200/auth/${currUser.getToken()}">Merci de cliquer sur ce lien pour réinitialiser votre mot de passe !</a>
                         </p>
                     </div>
                     `
