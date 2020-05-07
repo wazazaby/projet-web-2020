@@ -5,3 +5,7 @@ SERVER_PORT=3000
 
 MAIL_MAIL=mail
 MAIL_PASSWORD=pass
+
+SECRET1=secret1
+SECRET2=secret2
+SECRET3=secret3
