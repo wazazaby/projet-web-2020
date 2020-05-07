@@ -1,6 +1,3 @@
-import { ColorInterface } from './ColorInterface';
-import { StyleInterface } from './StyleInterface';
-
 export interface GarmentInterface {
     id_garment?: number;
     label_garment: string;
@@ -11,6 +8,4 @@ export interface GarmentInterface {
     brand_id_brand: number;
     season_id_season: number;
     type_id_type: number;
-    has_styles?: StyleInterface[];
-    has_colors?: ColorInterface[];
 }

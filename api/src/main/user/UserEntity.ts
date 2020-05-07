@@ -5,10 +5,10 @@ export class User implements UserInterface {
     public name_user: string;
     public email_user: string;
     public pass_user: string;
+    public url_img_user?: string;
     public actif_user: number;
     public rgpd_user: number;
     public token_user: string;
-    public img_user?: string;
     public creation_date_user: number;
     public modification_date_user?: number;
 
@@ -17,10 +17,10 @@ export class User implements UserInterface {
         this.name_user = user.name_user;
         this.email_user = user.email_user;
         this.pass_user = user.pass_user;
+        this.url_img_user = user.url_img_user;
         this.actif_user = user.actif_user;
         this.rgpd_user = user.rgpd_user;
         this.token_user = user.token_user;
-        this.img_user = user.img_user;
         this.creation_date_user = user.creation_date_user;
         this.modification_date_user = user.modification_date_user;
     }
@@ -48,7 +48,7 @@ export class User implements UserInterface {
     }
 
     public setImg (val: string): User {
-        this.img_user = val;
+        this.url_img_user = val;
         return this;
     }
 
@@ -92,7 +92,7 @@ export class User implements UserInterface {
     }
 
     public getImg (): string | null {
-        return this.img_user;
+        return this.url_img_user;
     }
 
     public getCreationDate (): number {

@@ -22,4 +22,13 @@ router.post('/api/user/login', async (ctx: Context): Promise<void> => await cont
 // Deconnexion d'un utilisateur
 router.get('/api/user/logout', async (ctx: Context): Promise<void> => await controller.disconnectUser(ctx));
 
+// Recevoir un mail de réinitialisation de mot de passe
+router.post('/api/user/password-reset', async (ctx: Context): Promise<void> => await controller.getPasswordResetMail(ctx));
+
+// Réinitialisation du mot de passe
+router.get('/api/user/password-reset/:token', ctx => ctx.body =  { 'Hello': 'World!' });
+
+// Check de l'authentification de l'user en session
+router.post('api/user/verify-auth', ctx => ctx.body = { 'Hello': 'World!' });
+
 export default router;

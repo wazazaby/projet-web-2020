@@ -2,6 +2,7 @@ import { GarmentManager } from './GarmentManager';
 import { Context } from 'koa';
 import { Garment } from './GarmentEntity';
 import { Body } from '../../libs/Body';
+import { GarmentColorStyleWrapperInterface } from '@osmo6/models';
 
 export class GarmentController {
     private _manager: GarmentManager;
@@ -22,16 +23,12 @@ export class GarmentController {
 
         // Cette condition est a enlevée en prod
         if (ctx.session.auth) {
-            if (ctx.session.auth.id != idUser) {
+            if (ctx.session.auth.id_user != idUser) {
                 ctx.throw(403, "Vous n'avez pas accès à ce contenu");
             }
         }
 
-        const garms: Garment[]|null = await this._manager.getGarmentsByIdUser(idUser);
-        if (garms === null) {
-            ctx.throw(400, "Vous n'avez aucun vêtement dans votre garde-robe")
-        } else {
-            ctx.body = new Body(200, "", garms);
-        }
+        const garms: GarmentColorStyleWrapperInterface[] = await this._manager.getGarmentsByIdUser(idUser);
+        ctx.body = new Body(200, "", garms);
     }
 }

@@ -7,6 +7,7 @@ import { Body } from '../../libs/Body';
 import * as RandomString from 'randomstring';
 import * as bcrypt from 'bcrypt';
 
+// Type simple pour le contenu de la session
 type UserAuth = {
     id_user: number;
     name_user: string;
@@ -36,11 +37,13 @@ export class UserController {
     public async createUser (ctx: Context): Promise<void> {
 
         // En fonction des paramètres passés dans le body de la request, on crée un objet user
+        const userPass = await bcrypt.hash(ctx.request.body.pass, this._hash);
         const newUser: User = new User({
             id_user: null,
             name_user: ctx.request.body.name,
             email_user: ctx.request.body.email,
-            pass_user: await bcrypt.hash(ctx.request.body.pass, this._hash),
+            pass_user: userPass,
+            url_img_user: null,
             actif_user: 0,
             rgpd_user: 1,
             token_user: RandomString.generate(),
@@ -73,8 +76,7 @@ export class UserController {
                     `
                 );
 
-                const sentMail: boolean = await mailer.sendMail();
-                if (sentMail) {
+                if (await mailer.sendMail()) {
                     ctx.body = new Body(204, "Un mail d'activation vous a été envoyé");
                 } else {
                     ctx.throw(400, "Problème lors de l'envoie du mail d'activation");
@@ -106,7 +108,7 @@ export class UserController {
 
                 // On met à jour son status et on renvoi le résultat en fonction du succès ou non
                 const result: InsertReturnInterface = await this._manager.updateUser(user);
-                if (result.affectedRows == 1) {
+                if (result.affectedRows === 1) {
                     ctx.body = new Body(200, 'Votre compte a bien été activé', {email: user.getEmail()});
                 } else {
                     ctx.throw(400, "Problème lors de l'activation de votre compte, merci de rééssayer");
@@ -130,10 +132,8 @@ export class UserController {
         const mail: string = ctx.request.body.email;
         const pass: string = ctx.request.body.pass;
 
-        if (ctx.session.auth) console.log(ctx.session.auth);
-
         // Si user est null, ça veut dire que les identifiants sont incorrectes ou que l'utilisateur n'existe pas
-        const user: User | null = await this._manager.getUserByMailAndPass(mail, pass);
+        const user: User|null = await this._manager.getUserByMailAndPass(mail, pass);
 
         if (user === null) {
             ctx.throw(400, 'Impossible de se connecter avec ces identifiants');
@@ -146,14 +146,15 @@ export class UserController {
 
                 // Si tout est bon, on renvoit son id, name et email au front et on les passe en variable de session
                 const auth: UserAuth = {
-                    id_user: user.getId(),
-                    name_user: user.getName(),
+                    id_user: user.getId(), 
+                    name_user: user.getName(), 
                     email_user: user.getEmail(),
                     token_user: user.getToken(),
                     img_user: user.getImg(),
                     creation_date_user: user.getCreationDate(),
                     modification_date_user: user.getModificationDate()
                 };
+
                 ctx.session.auth = auth;
                 ctx.body = new Body(200, 'Connexion réussie', auth);
             }
@@ -167,5 +168,42 @@ export class UserController {
     public async disconnectUser (ctx: Context): Promise<void> {
         ctx.session = null;
         ctx.body = new Body(200, 'Vous avez été déconnecté');
+    }
+
+    /**
+     * Envoie un mail de réinitialisation de mot de passe à l'utilisateur
+     * @param {Context} ctx 
+     */
+    public async getPasswordResetMail (ctx: Context): Promise<void> {
+        const mail: string = ctx.request.body.email;
+
+        const currUser: User|null = await this._manager.getUserByMail(mail);
+
+        if (currUser !== null) {
+            if (currUser.getActif() === 1) {
+                const mailer: Mailer = new Mailer(
+                    currUser.getEmail(), 
+                    'Réinitialisation de votre mot de passe TurnStyle', 
+                    `
+                    <div>
+                        <h2>Votre demande de réinitialisation de mot de passe</h2>
+                        <p>
+                            <a href="">Merci de cliquer sur ce lien pour réinitialiser votre mot de passe !</a>
+                        </p>
+                    </div>
+                    `
+                );
+
+                if (await mailer.sendMail()) {
+                    ctx.body = new Body(204, "Un mail de réinitialisation vous a été envoyé");
+                } else {
+                    ctx.throw(400, "Problème lors de l'envoie du mail de réinitialisation");
+                }
+            } else {
+                ctx.throw(400, "Vous ne pouvez pas réinitialiser votre mot de passe car vous n'avez pas de compte actif sur notre plateforme")
+            }
+        } else {
+           ctx.throw(400, "Si cet email existe sur notre plateforme, vous recevrez un mail de réinitialisatoin");
+        }
     }
 }
