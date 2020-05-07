@@ -22,7 +22,7 @@ export class GarmentComponent implements OnInit {
   user: UserInterface = this.stateService.userProfil;
 
   // Liste des vêtements
-  garment: GarmentColorStyleWrapperInterface[] = [];
+  garment: GarmentColorStyleWrapperInterface[] = this.stateService.garment;
 
   season: SeasonInterface[] = this.stateService.season;
   type: TypeInterface[] = this.stateService.type;
@@ -62,14 +62,16 @@ export class GarmentComponent implements OnInit {
     // On charge tout les vêtements utilisateur à l'init
     if (this.user) {
       // Envoie une requete pour recup les garments du user
-      this.bridgeService.getGarmentUser(this.user.id_user);
+
+      if (this.garment.length === 0) {
+        this.bridgeService.getGarmentUser(this.user.id_user);
+      }
       /**
        * Permet de récuperé les Garments stocker dans l'application
        * (écoute l'observable {garmentAsObservable()} et permet de rafraichir les data si un nouvelle item est ajouter)
        */
       this.stateService.garmentAsObservable().subscribe(res => {
         this.garment = res;
-        console.log(res);
       });
     }
   }
