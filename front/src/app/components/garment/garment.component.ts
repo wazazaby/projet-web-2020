@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
-import { UserInterface, GarmentInterface, SeasonInterface, TypeInterface, GarmentColorStyleWrapperInterface } from '@osmo6/models';
+import { UserInterface, GarmentInterface, SeasonInterface, TypeInterface, GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
 
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
@@ -26,6 +26,7 @@ export class GarmentComponent implements OnInit {
 
   season: SeasonInterface[] = this.stateService.season;
   type: TypeInterface[] = this.stateService.type;
+  color: ColorInterface[] = this.stateService.color;
 
   // Liste des filtres
   filterName = [];
@@ -54,10 +55,11 @@ export class GarmentComponent implements OnInit {
       {id: 2, title: 'Types', value: typeToString, active: false},
       {id: 3, title: 'Styles', value: ['sport', 'decontract'], active: false},
       {id: 4, title: 'Saisons', value: seasonToString, active: false},
-      {id: 5, title: 'Couleur', value: [
-        {label: 'cyan', hex: '#0ABAB5'},
-        {label: 'black', hex: '#000000'}
-      ], active: false},
+      {id: 5, title: 'Couleur', value: this.color, active: false},
+      // {id: 5, title: 'Couleur', value: [
+      //   {label: 'cyan', hex: '#0ABAB5'},
+      //   {label: 'black', hex: '#000000'}
+      // ], active: false},
     ];
     // On charge tout les vêtements utilisateur à l'init
     if (this.user) {

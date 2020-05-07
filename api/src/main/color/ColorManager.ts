@@ -8,6 +8,7 @@ export class ColorManager {
         try {
             const dbCall: any = await Db.pool.execute('SELECT * FROM color');
             const color: ColorInterface[] = dbCall[0];
+
             if (color.length > 0) {
                 return color.map((color: ColorInterface) => new Color(color));
             } else {

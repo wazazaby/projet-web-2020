@@ -23,8 +23,8 @@
             <li (click)="filter(v)" class="filter-link" *ngFor="let v of f.value">
               <div *ngIf="f.id === 5; else noColor">
                 <span>
-                  <i [style.color]="v.hex" class="fas fa-circle"></i>
-                  {{ v.label }}
+                  <i [style.color]="v.hex_color" class="fas fa-circle"></i>
+                  {{ v.label_color }}
                 </span>
               </div>
               <ng-template #noColor>

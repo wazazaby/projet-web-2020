@@ -1,7 +1,8 @@
 import { Context } from 'koa';
-import { InsertReturnInterface } from '@osmo6/models';
+import { InsertReturnInterface, ColorInterface } from '@osmo6/models';
 import { ColorManager } from './ColorManager';
 import { Color } from './ColorEntity';
+import { Body } from '../../libs/Body';
 
 export class ColorController {
     private _manager: ColorManager;
@@ -37,7 +38,12 @@ export class ColorController {
     }
 
     async getAllColors (ctx: Context): Promise<void> {
-        ctx.body = await this._manager.getAllColors();
+        const result: ColorInterface[] = await this._manager.getAllColors();
+        if (result) {
+            ctx.body = new Body(200, 'Ok', result);
+        } else {
+            ctx.throw(403, "Aucune couleurs n'a été trouver");
+        }
     }
 
     async getColor (ctx: Context): Promise<void> {

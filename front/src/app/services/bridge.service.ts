@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import {  UserInterface, GarmentInterface, BrandInterface, GlobalReturnInterface,
-          ErrorInterface, SeasonInterface, TypeInterface, GarmentColorStyleWrapperInterface } from '@osmo6/models';
+          ErrorInterface, SeasonInterface, TypeInterface, GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
 import { StatesService } from './states.service';
 import { Observable } from 'rxjs';
 
@@ -24,6 +24,7 @@ export class BridgeService {
   public brandAll = 'brand/all';
   public seasonAll = 'season/all';
   public typeAll = 'type/all';
+  public colorAll = 'color/all';
   public userGarment = '/garment/all';
 
   /**
@@ -55,8 +56,9 @@ export class BridgeService {
       this.getBrand();
       this.getSeason();
       this.getType();
+      this.getColor();
 
-      if (this.stateService.brand && this.stateService.season && this.stateService.type) {
+      if (this.stateService.brand && this.stateService.season && this.stateService.type && this.stateService.color) {
         isGood = true;
       }
     }
@@ -129,13 +131,6 @@ export class BridgeService {
     return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.typeAll);
   }
 
-  /**
-   * Inscription
-   */
-  register() {
-    console.log('register');
-  }
-
   getGarmentUser(userId: number) {
     return this.getGarmentUserReq(userId).subscribe(res => {
       if (this.stateService.checkStatus(res.status)) {
@@ -154,6 +149,33 @@ export class BridgeService {
 
   getGarmentUserReq(userId: number) {
     return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'user/' + userId + this.userGarment);
+  }
+
+  getColor() {
+    return this.getColorReq().subscribe(res => {
+      if (this.stateService.checkStatus(res.status)) {
+        const data: ColorInterface[] = res.data;
+        this.stateService.color = data;
+      } else {
+        const err: ErrorInterface = {
+          code: res.status,
+          message: res.message,
+          route: environment.apiUrl + this.colorAll
+        };
+        this.stateService.errors = err;
+      }
+    });
+  }
+
+  getColorReq() {
+    return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.colorAll);
+  }
+
+  /**
+   * Inscription
+   */
+  register() {
+    console.log('register');
   }
 
 }
