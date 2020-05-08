@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
 
 describe('GarmentComponent', () => {
   let component: GarmentComponent;
@@ -16,7 +17,8 @@ describe('GarmentComponent', () => {
         RouterTestingModule,
         HttpClientModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatBadgeModule
       ],
       declarations: [ GarmentComponent ]
     })
