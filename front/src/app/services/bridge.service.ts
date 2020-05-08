@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import {  BrandInterface, GlobalReturnInterface,
           ErrorInterface, SeasonInterface, TypeInterface,
-          GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
+          GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface } from '@osmo6/models';
 import { StatesService } from './states.service';
 import { Router } from '@angular/router';
 
@@ -27,6 +27,7 @@ export class BridgeService {
     public seasonAll = 'season/all';
     public typeAll = 'type/all';
     public colorAll = 'color/all';
+    public styleAll = 'style/all';
     public userGarment = '/garment/all';
     public logout = 'user/logout';
     public snackBar = null;
@@ -101,8 +102,10 @@ export class BridgeService {
             this.getSeason();
             this.getType();
             this.getColor();
+            this.getStyle();
 
-            if (this.stateService.brand && this.stateService.season && this.stateService.type && this.stateService.color) {
+            if (this.stateService.brand && this.stateService.season && this.stateService.type &&
+                this.stateService.color && this.stateService.style) {
                 isGood = true;
             }
         }
@@ -198,6 +201,21 @@ export class BridgeService {
         });
     }
 
+    /**
+     * Attribue les styles de vêtement à la variable global {this.stateService.brand}
+     */
+    getStyle() {
+        return this.getStyleReq().subscribe(res => {
+            if (this.stateService.checkStatus(res.status)) {
+                const data: StyleInterface[] = res.data;
+                this.stateService.style = data;
+            } else {
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.styleAll};
+                this.stateService.errors = err;
+            }
+        });
+    }
+
 
 // ****************************************************************************************
 
@@ -239,6 +257,13 @@ export class BridgeService {
      */
     getBrandReq() {
         return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.brandAll);
+    }
+
+    /**
+     * Créer un observable des styles de vêtement
+     */
+    getStyleReq() {
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.styleAll);
     }
 
     /**
