@@ -79,7 +79,31 @@ export class StatesService {
       duration: 2000,
       verticalPosition: 'top'
     });
-}
+  }
+
+  /**
+   * Organise tableaux
+   * @var arr: Array[]
+   * @var key:string
+   */
+  public orderArray(arr, where, key, order) {
+    let x = 0;
+    let y = 0;
+
+    if (order === 'DESC') {
+      x = 1;
+      y = -1;
+    } else {
+      x = -1;
+      y = 1;
+    }
+
+    arr.sort((a, b) => {
+      if (a[where][key] < b[where][key]) { return x; }
+      if (a[where][key] > b[where][key]) { return y; }
+      return 0;
+    });
+  }
 
   // =============================GETTER/SETTER=============================
 

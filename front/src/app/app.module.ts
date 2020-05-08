@@ -17,6 +17,7 @@ import { DragDropDirective } from './directive/draganddrop.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     BrowserAnimationsModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatBadgeModule,
     ReactiveFormsModule
   ],
   entryComponents: [

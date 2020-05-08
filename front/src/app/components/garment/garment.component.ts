@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
 import {  UserInterface, GarmentInterface, SeasonInterface, TypeInterface,
-          GarmentColorStyleWrapperInterface, ColorInterface } from '@osmo6/models';
+          GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface } from '@osmo6/models';
 
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
@@ -24,13 +24,17 @@ export class GarmentComponent implements OnInit {
 
   // Liste des vêtements
   garment: GarmentColorStyleWrapperInterface[] = this.stateService.garment;
-
+  // Liste: saison, type, couleurs, style
   season: SeasonInterface[] = this.stateService.season;
   type: TypeInterface[] = this.stateService.type;
   color: ColorInterface[] = this.stateService.color;
+  style: StyleInterface[] = this.stateService.style;
 
   // Liste des filtres
   filterName = [];
+  // Ensemble des filtres
+  allFilter = [];
+  filterSelect = [];
 
   constructor(private stateService: StatesService,
               private bridgeService: BridgeService,
@@ -39,29 +43,43 @@ export class GarmentComponent implements OnInit {
   ngOnInit() {
     const seasonToString = [];
     const typeToString = [];
+    const colorToString = [];
+    const styleToString = [];
+    const valueToStyle = [
+      { label: 'Plus recent', active: false },
+      { label: 'Plus ancien', active: false },
+    ];
 
     this.season.forEach(s => {
-      seasonToString.push(s.label_season);
+      seasonToString.push({label: s.label_season, active: false, id: s.id_season, type: 'season'});
     });
 
     this.type.forEach(t => {
-      typeToString.push(t.label_type);
+      typeToString.push({label: t.label_type, active: false, id: t.id_type, type: 'type'});
+    });
+
+    this.color.forEach(c => {
+      colorToString.push({label: c.label_color, hex: c.hex_color, active: false , id: c.id_color, type: 'color'});
+    });
+
+    this.style.forEach(s => {
+      styleToString.push({label: s.label_style, active: false, id: s.id_style, type: 'style'});
     });
 
     /**
      * Liste des filtres
      */
     this.filterName = [
-      {id: 1, title: 'Trier par', value: ['Plus recent', 'Plus ancien'], active: false},
+      {id: 1, title: 'Trier par', value: valueToStyle, active: false},
       {id: 2, title: 'Types', value: typeToString, active: false},
-      {id: 3, title: 'Styles', value: ['sport', 'decontract'], active: false},
+      {id: 3, title: 'Styles', value: styleToString, active: false},
       {id: 4, title: 'Saisons', value: seasonToString, active: false},
-      {id: 5, title: 'Couleur', value: this.color, active: false},
-      // {id: 5, title: 'Couleur', value: [
-      //   {label: 'cyan', hex: '#0ABAB5'},
-      //   {label: 'black', hex: '#000000'}
-      // ], active: false},
+      {id: 5, title: 'Couleur', value: colorToString, active: false},
     ];
+
+    // Fusionne tout les filtres ensemble
+    this.allFilter = [].concat(valueToStyle, typeToString, styleToString, seasonToString, colorToString);
+
     // On charge tout les vêtements utilisateur à l'init
     if (this.user) {
       // Envoie une requete pour recup les garments du user
@@ -75,6 +93,7 @@ export class GarmentComponent implements OnInit {
        */
       this.stateService.garmentAsObservable().subscribe(res => {
         this.garment = res;
+        this.stateService.orderArray(this.garment, 'garment', 'creation_date_garment', 'ASC');
       });
     }
   }
@@ -92,8 +111,47 @@ export class GarmentComponent implements OnInit {
   }
 
   // Permet de refresh les vêtemens en fonction du filtre choisi
-  filter(val) {
-    console.log('Filtre', val);
+  filter(val: {label: string, hex?: string, active: boolean}) {
+    this.allFilter.forEach(f => {
+      if (val.label === 'Plus ancien' && f.label === 'Plus recent') {
+        if (f.active) {
+          f.active = false;
+          this.removeItem(f);
+        }
+      } else if (val.label === 'Plus recent' && f.label === 'Plus ancien') {
+        if (f.active) {
+          f.active = false;
+          this.removeItem(f);
+        }
+      }
+
+      if (val.label === f.label) {
+        f.active = !f.active;
+      }
+    });
+
+    const isExit = this.filterSelect.find(fi =>  val.label === fi.label);
+    if (!isExit) {
+      this.filterSelect.push(val);
+    } else {
+      this.removeItem(val);
+    }
+
+    this.activeFilter(this.filterSelect);
+  }
+
+  /**
+   * Permet de supprimer un item du tableau des filtres
+   * @param val: object
+   */
+  removeItem(val) {
+    let x = 0;
+    this.filterSelect.forEach(fi => {
+      if (fi.label === val.label) {
+        this.filterSelect.splice(x, 1);
+      }
+      x++;
+    });
   }
 
   // Ferme tout les filtres
@@ -102,6 +160,126 @@ export class GarmentComponent implements OnInit {
       f.active = false;
     });
   }
+
+  /**
+   * Permet de filtrer le tableau des vêtements
+   * @param arr: []
+   */
+  async activeFilter(filter: any) {
+    this.stateService.garmentAsObservable().subscribe(res => {
+      // Liste des vêtements stocker dans l'app
+      const garmentRes: GarmentColorStyleWrapperInterface[]  = res;
+      // Liste des vêtements: pas encore filtrer croisée
+      const tmpGarment: GarmentColorStyleWrapperInterface[] = [];
+      // Liste des vêtements final (filtrer sa mere)
+      let saveGarment: GarmentColorStyleWrapperInterface[] = [];
+      // Liste des filtres utiliser
+      const filterUse = {season: false, type: false, style: false, color: false};
+
+      if (filter.length !== 0) {
+        saveGarment = [];
+        filter.forEach(f => {
+          // Pour chaque vêtement on répartie suivant les filtres utiliser
+          garmentRes.forEach(g => {
+            switch (f.type) {
+              case 'season':
+                filterUse.season = true;
+                if (g.garment.season_id_season === f.id) {
+                  if (!tmpGarment.find(x => x.garment.id_garment === g.garment.id_garment)) {
+                    tmpGarment.push(g);
+                  }
+                }
+                break;
+              case 'type':
+                filterUse.type = true;
+                if (g.garment.type_id_type === f.id) {
+                  if (!tmpGarment.find(x => x.garment.id_garment === g.garment.id_garment)) {
+                    tmpGarment.push(g);
+                  }
+                }
+                break;
+              case 'style':
+                filterUse.style = true;
+                g.styles.forEach(s => {
+                  if (!tmpGarment.find(x => x.garment.id_garment === g.garment.id_garment)) {
+                    tmpGarment.push(g);
+                  }
+                });
+                break;
+              case 'color':
+                filterUse.color = true;
+                g.colors.forEach(s => {
+                  if (s.id_color === f.id) {
+                    if (!tmpGarment.find(x => x.garment.id_garment === g.garment.id_garment)) {
+                      tmpGarment.push(g);
+                    }
+                  }
+                });
+                break;
+            }
+          });
+
+          switch (f.label) {
+            case 'Plus recent':
+              this.stateService.orderArray(saveGarment, 'garment', 'creation_date_garment', 'DESC');
+              break;
+            case 'Plus ancien':
+              this.stateService.orderArray(saveGarment, 'garment', 'creation_date_garment', 'ASC');
+              break;
+          }
+        });
+
+        // Pour chaque vêtements on croise les filtre
+        tmpGarment.forEach(g => {
+          // On attribut les filtres utiliser
+          let seasonFound = !filterUse.season;
+          let typeFound = !filterUse.type;
+          let styleFound = !filterUse.style;
+          let colorFound = !filterUse.color;
+
+          filter.forEach(f => {
+            if (filterUse.season) {
+              if (f.type === 'season' && g.garment.season_id_season === f.id) {
+                seasonFound = true;
+              }
+            }
+
+            if (filterUse.type) {
+              if (f.type === 'type' && g.garment.type_id_type === f.id) {
+                typeFound = true;
+              }
+            }
+
+            if (filterUse.style) {
+              g.styles.forEach(s => {
+                if (f.type === 'style' && s.id_style === f.id) {
+                  styleFound = true;
+                }
+              });
+            }
+
+            if (filterUse.color) {
+              g.colors.forEach(c => {
+                if (f.type === 'color' && c.id_color === f.id) {
+                  colorFound = true;
+                }
+              });
+            }
+          });
+
+          if (seasonFound && typeFound && styleFound && colorFound) {
+            saveGarment.push(g);
+          }
+        });
+
+      } else {
+        saveGarment = garmentRes;
+      }
+
+      this.garment = saveGarment;
+    });
+  }
+
   // ------------------ Filtre ------------------
 
   // Ouvre un modal pour ajouter un vêtement

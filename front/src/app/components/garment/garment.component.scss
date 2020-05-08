@@ -54,6 +54,31 @@
     }
   }
 
+  .filterList{
+    cursor: pointer;
+
+    .badgeFilter{
+      label{
+        cursor: pointer;
+      }
+
+      .icon{
+        background-color: $badge;
+        border-radius: .2em;
+      }
+
+      &:hover{
+        background-color: $badge;
+
+        .icon{
+          background-color: $badgeOver;
+          color: $white;
+        }
+      }
+
+    }
+  }
+
 
   .sect-img{
     margin-bottom: 2em;

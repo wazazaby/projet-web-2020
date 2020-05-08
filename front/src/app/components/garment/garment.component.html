@@ -1,11 +1,14 @@
 <div class="col-12 garment">
+  <!-- Ajoute des vêtements -->
   <div class="col-12 d-flex justify-content-between mb-4 pb-4">
     <button class="btn btn-info btn-add" (click)="addGarment()">
       <i class="fas fa-plus"></i>
     </button>
 
     <div class="filter row col-10">
+      <!-- Filtre -->
       <div *ngFor="let f of filterName" class="col-2">
+        <!-- Filter name -->
         <div class="d-flex row justify-content-around" (click)="openFilter(f.id, f.active)">
           <span [ngClass]="{activeChevron: f.active}" class="title">{{f.title}}</span>
           <span *ngIf="f.active; else noActive">
@@ -18,23 +21,35 @@
           </ng-template>
         </div>
 
+        <!-- Filter sub-name -->
         <div class="filter-menu p-2" *ngIf="f.active">
           <ul>
-            <li (click)="filter(v)" class="filter-link" *ngFor="let v of f.value">
+            <li (click)="filter(v)" class="d-flex filter-link justify-content-around" *ngFor="let v of f.value">
               <div *ngIf="f.id === 5; else noColor">
                 <span>
-                  <i [style.color]="v.hex_color" class="fas fa-circle"></i>
-                  {{ v.label_color }}
+                  <i [style.color]="v.hex" class="fas fa-circle"></i>
+                  {{ v.label }}
                 </span>
               </div>
-              <ng-template #noColor>
-                <span>{{v}}</span>
+              <ng-template #noColor >
+                <!-- If btn activer -->
+                <span class="col-2" *ngIf="v.active">
+                  <i class="far fa-dot-circle"></i>
+                </span>
+                <span class="col-2" *ngIf="!v.active">
+                  <i class="fas fa-circle"></i>
+                </span>
+
+                <span class="col-10">{{v.label}}</span>
               </ng-template>
             </li>
           </ul>
         </div>
+        <!-- Fin filter -->
 
       </div>
+
+      <!-- Taille de la liste des vêtements user -->
       <p *ngIf="garment">
         {{ garment.length }} <span *ngIf="garment.length === 0 || garment.length === 1; else moreGarment">Vêtement</span>
         <ng-template #moreGarment>
@@ -42,10 +57,41 @@
         </ng-template>
       </p>
     </div>
-
   </div>
 
-  <div (click)="resetFilter()" class="col-12 justify-content-center row mx-auto" *ngIf="garment.length != 0">
+  <div (click)="resetFilter()" *ngIf="filterSelect.length !== 0" class="col-12 d-flex justify-content-start">
+    <p  color="primary"
+        [matBadge]="filterSelect.length"
+        matBadgePosition="after"
+        matBadgeColor="primary"
+        class="m-0 p-0 text-center"
+    >
+      Filtres
+      <br>
+      sélectionner:
+    </p>
+
+    <!-- Liste des filtres selectionner -->
+    <div class="d-flex row ml-2 col-11">
+      <div *ngFor="let f of filterSelect" class="filterList">
+        <div *ngIf="f.active">
+          <div class="badgeFilter justify-content-start mr-2">
+            <div class="d-flex justify-content-center m-2" (click)="filter(f)">
+              <div class="col-11 m-auto">
+                <label class="p-0 m-0">{{f.label}}</label>
+              </div>
+              <div class="col p-2 icon">
+                <i class="fas fa-times"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partie card garment -->
+  <div (click)="resetFilter()" class="col-12 justify-content-center row mx-auto" *ngIf="garment.length != 0; else noGarment">
     <div *ngFor="let g of garment" class="col-xl-2 col-md-4 col-sm-6 col-12 sect-img">
       <p [innerText]="g.garment.label_garment"></p>
       <div class="sect-hover">
@@ -73,7 +119,14 @@
         <div>
           <i *ngFor="let c of g.colors" [style.color]="c.hex_color" class="fas fa-circle"></i>
         </div>
+        <div>
+          <label *ngFor="let s of g.style"> {{s.label}} </label>
+        </div>
       </div>
     </div>
   </div>
+
+  <ng-template #noGarment>
+    Aucun vêtements trouver
+  </ng-template>
 </div>
