@@ -128,10 +128,9 @@ export class UserManager {
 
                 // Si il existe, on va comparer les deux mot de passe (celui du formulaire, et celui qui est crypté en BDD)
                 const user: User = new User(dbCall[0][0]);
-                const match: boolean = await bcrypt.compare(pass, user.getPass());
-
+                
                 // Si ça match, l'utilisateur est connecté
-                if (match) {
+                if (await bcrypt.compare(pass, user.getPass())) {
                     return user;
                 } else {
                     return null;

@@ -21,11 +21,13 @@ export class GarmentController {
     public async getAllGarmentsByIdUser (ctx: Context): Promise<void> {
         const idUser: number = ctx.params.idUser;
 
-        // Cette condition est a enlevée en prod
-        if (ctx.session.auth) {
-            if (ctx.session.auth.id_user != idUser) {
-                ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+        // Vérification de l'auth de l'user
+        if (ctx.session.isNew === undefined) {
+            if (ctx.session.auth.id_user !== Number(idUser)) {
+                ctx.throw(403)
             }
+        } else {
+            ctx.throw(403);
         }
 
         const garms: GarmentColorStyleWrapperInterface[] = await this._manager.getGarmentsByIdUser(idUser);
