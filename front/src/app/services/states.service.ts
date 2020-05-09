@@ -70,9 +70,6 @@ export class StatesService {
     * Permet d'afficher une barre d'information du le site
     * @param message: string
     * @param action: string
-    * @param time: number
-    * @param verticalPos: string
-    * @param horizontalPos: string
     */
   openSnackBar( message: string, action: string) {
     this.snackBar.open(message, action, {

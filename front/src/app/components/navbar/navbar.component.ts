@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
     console.log(this.user);
     if (this.user) {
       const dialogRef = this.dialog.open(ModalProfilComponent, {
-        width: '60%',
+        // width: '50%',
         data: {user: this.user}
       });
 

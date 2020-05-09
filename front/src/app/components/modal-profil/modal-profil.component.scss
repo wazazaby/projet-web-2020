@@ -1,0 +1,9 @@
+@import '../../../assets/color.scss';
+
+.deleteLabel{
+    margin: 2em;
+    padding: 2em;
+    border: solid $invalid 1px;
+    border-radius: 4px;
+    background-color: $invalidOpacity;
+}
