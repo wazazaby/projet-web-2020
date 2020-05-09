@@ -15,17 +15,19 @@ export class AppComponent {
               private stateService: StatesService,
               private bridgeService: BridgeService) {
 
-    // Permet de garder en mémoire l'utilisateur
-    // this.stateService.isLoggedIn().subscribe(res => {
-    //   if (!res) {
-    //     const token = localStorage.getItem('tkn');
-    //     this.bridgeService.checkToken(token);
-    //   }
-    // });
-
     // Load toute les data dont l'app à besoin
     this.bridgeService.initData(true);
+  }
 
+  /**
+   * Permet de vérifier que l'on utilise bien le bon router
+   */
+  isAuth(): boolean {
+    if (this.route.url === '/auth' || this.route.url.slice(0, 6) === '/auth?') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { StatesService } from 'src/app/services/states.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BridgeService } from 'src/app/services/bridge.service';
 import { ErrorInterface, UserInterface } from '@osmo6/models';
 
@@ -43,16 +43,24 @@ export class LoginComponent implements OnInit { // contient les var du component
   isRegistered: boolean = false; // tslint:disable-line
   isConnected: boolean = false; // tslint:disable-line
 
+  private token: string;
+
   constructor(private formBuild: FormBuilder,
               private stateService: StatesService,
               private bridgeService: BridgeService,
-              private route: Router) { // contient services et imports
+              private route: Router,
+              private activeRoute: ActivatedRoute) { // contient services et imports
 
 }
 
   ngOnInit() {
-    console.log('test url', this.route.routerState.snapshot);
-    const token = 'ougyifvm';
+    // test d'url
+    // http://localhost:4200/auth?t=testdetoken
+
+    this.activeRoute.queryParams.subscribe(res => {
+      this.token = res.t;
+    });
+
     /**
      * if query param
      * isLogin && isRegistered = false

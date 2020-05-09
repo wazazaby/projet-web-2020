@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalAddGarmentComponent } from './components/garment/modal-add-garment/modal-add-garment.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
 
 import { DragDropDirective } from './directive/draganddrop.directive';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +29,6 @@ import { ModalProfilComponent } from './components/modal-profil/modal-profil.com
     ModalAddGarmentComponent,
     DragDropDirective,
     LoginComponent,
-    RegisterComponent,
     NavbarComponent,
     ModalProfilComponent,
   ],

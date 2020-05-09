@@ -1,3 +1,4 @@
 <app-navbar></app-navbar>
-<router-outlet *ngIf="route.url === '/auth' || route.url === '/auth/(main:inscription)'" name="main"></router-outlet>
-<!-- {{route.url}} -->
+<router-outlet *ngIf="isAuth()" name="main"></router-outlet>
+<!-- {{route.url}}
+{{isAuth()}} -->
