@@ -6,6 +6,7 @@ import { BridgeService } from 'src/app/services/bridge.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -17,7 +18,8 @@ describe('NavbarComponent', () => {
       imports: [
         RouterTestingModule,
         HttpClientModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatDialogModule
       ],
       providers: [
         StatesService,

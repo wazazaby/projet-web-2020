@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalProfilComponent } from '../modal-profil/modal-profil.component';
 
 @Component({
   selector: 'app-navbar',
@@ -34,7 +36,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(private router: Router,
               private stateService: StatesService,
-              private bridgeService: BridgeService) {}
+              private bridgeService: BridgeService,
+              public dialog: MatDialog) {}
 
   ngOnInit() {
     // Permet d'utiliser 2 router différents
@@ -47,8 +50,26 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  /**
+   * Permet de ce deconnecter de l'application
+   */
   logout() {
     this.bridgeService.disconnect();
+  }
+
+  // Ouvre un modal pour afficher le profil utilisateur
+  openModal(): void {
+    console.log(this.user);
+    if (this.user) {
+      const dialogRef = this.dialog.open(ModalProfilComponent, {
+        width: '60%',
+        data: {user: this.user}
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+      });
+    }
   }
 
   /**

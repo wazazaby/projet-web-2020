@@ -13,9 +13,7 @@ export class OutfitComponent implements OnInit {
 
   user: UserInterface = this.stateService.userProfil;
 
-  async ngOnInit() {
-    console.log('outfit page');
-    console.log(this.user);
+  ngOnInit() {
   }
 
 }

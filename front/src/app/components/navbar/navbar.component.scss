@@ -49,6 +49,10 @@ $width-side: 4em;
       ul{
         display: flex;
 
+        .profil{
+          cursor: pointer;
+        }
+
         li{
           a{
             display: block;

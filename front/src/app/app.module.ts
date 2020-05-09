@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatBadgeModule} from '@angular/material/badge';
+import { ModalProfilComponent } from './components/modal-profil/modal-profil.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
+    ModalProfilComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     ReactiveFormsModule
   ],
   entryComponents: [
-    ModalAddGarmentComponent
+    ModalAddGarmentComponent,
+    ModalProfilComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
