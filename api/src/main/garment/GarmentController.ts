@@ -33,4 +33,12 @@ export class GarmentController {
         const garms: GarmentColorStyleWrapperInterface[] = await this._manager.getGarmentsByIdUser(idUser);
         ctx.body = new Body(200, "", garms);
     }
+
+    /**
+     * Créer un garment
+     * @param {Context} ctx 
+     */
+    public async createGarment (ctx: Context): Promise<void> {
+        ctx.body = ctx.request.body;
+    }
 }
