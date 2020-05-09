@@ -1,8 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GarmentInterface } from '@osmo6/models';
+import { FormGroup, FormBuilder, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { GarmentInterface, SeasonInterface, TypeInterface, StyleInterface, BrandInterface, ColorInterface } from '@osmo6/models';
 import { StatesService } from 'src/app/services/states.service';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-modal-add-garment',
@@ -21,27 +29,32 @@ export class ModalAddGarmentComponent implements OnInit {
   url: any;
 
   // Champs obligatoire pour la création d'un vêtement
-  formGarment: FormGroup;
+  formGarment: FormGroup = this.formBuild.group({
+    label_garment: new FormControl('', [Validators.required]),
+    user_id_user: [this.data.userId, Validators.required],
+    brand_id_brand: new FormControl('', [Validators.required]),
+    season_id_season: new FormControl('', [Validators.required]),
+    style: new FormControl('', [Validators.required]),
+    colorPrim: new FormControl('', [Validators.required]),
+    colorSecond: ['', []],
+  });
+
+  // matcher d'erreur input
+  matcher = new MyErrorStateMatcher();
 
   // Etape de création d'un vêtement
   stepOne: boolean;
 
   // Saison
-  season = this.stateService.season;
+  season: SeasonInterface[] = this.stateService.season;
+  type: TypeInterface[] = this.stateService.type;
+  style: StyleInterface[] = this.stateService.style;
+  brand: BrandInterface[] = this.stateService.brand;
+  color: ColorInterface[] = this.stateService.color;
+
 
   ngOnInit() {
     this.stepOne = true;
-    this.formGarment = this.formBuild.group({
-      label_garment: ['', Validators.required],
-      url_img_garment: ['/assets/' + this.data.userId + '/'],
-      creation_date_garment: [new Date().getTime()],
-      modification_date_garment: [new Date().getTime()],
-      user_id_user: [this.data.userId, Validators.required],
-      brand_id_brand: [''],
-      season_id_season: ['', Validators.required],
-      style: [''],
-      color: ['']
-    });
   }
 
   uploadFile(event) {
@@ -70,13 +83,27 @@ export class ModalAddGarmentComponent implements OnInit {
   }
 
   sendFile() {
-    console.log('file', this.file);
-    const dataGarment: GarmentInterface = this.formGarment.value;
-    const formData = new FormData();
-    formData.append('file', this.file);
-    // data.file = formData;;
+    if (this.formGarment.valid) {
+      // send file
+      console.log('file', this.file);
+      const formData = new FormData();
+      formData.append('file', this.file);
+      const color = [this.formGarment.value.colorPrim, this.formGarment.value.colorSecond];
+      const body = {
+        file: formData,
+        label_garment: this.formGarment.value.label_garment,
+        brand_id_brand: this.formGarment.value.brand_id_brand,
+        season_id_season: this.formGarment.value.season_id_season,
+        type_id_type: this.formGarment.value.type_id_type,
+        color,
+        style: this.formGarment.value.style,
+      };
 
-    console.log(formData, dataGarment);
+      console.log(body);
+
+    } else {
+      this.formGarment.markAllAsTouched();
+    }
   }
 
 

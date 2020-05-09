@@ -5,6 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ShowOnDirtyErrorStateMatcher, ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('ModalAddGarmentComponent', () => {
   let component: ModalAddGarmentComponent;
@@ -17,10 +22,18 @@ describe('ModalAddGarmentComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        FormsModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        MatOptionModule,
+        MatSelectModule
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
       ]
     })
     .compileComponents();

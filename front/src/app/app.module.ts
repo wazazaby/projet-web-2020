@@ -18,7 +18,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatBadgeModule} from '@angular/material/badge';
 import { ModalProfilComponent } from './components/modal-profil/modal-profil.component';
-
+import {MatInputModule} from '@angular/material/input';
+import { MatOptionModule } from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,10 @@ import { ModalProfilComponent } from './components/modal-profil/modal-profil.com
     MatDialogModule,
     MatSnackBarModule,
     MatBadgeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   entryComponents: [
     ModalAddGarmentComponent,

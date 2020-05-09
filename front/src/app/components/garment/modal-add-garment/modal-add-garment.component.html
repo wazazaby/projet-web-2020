@@ -26,26 +26,92 @@
         </div>
       </div>
 
-      <form [formGroup]="formGarment">
-        <!-- titre de l'img -->
-        <input  [ngClass]="{'input-invalid': formGarment.controls.label_garment.errors, 'input-valid': !formGarment.controls.label_garment.errors}"
-                formControlName="label_garment" class="form-control mb-2" id="label_garment" placeholder="Titre de la photo" type="text">
-        <div class="text-danger mb-2" *ngIf="formGarment.controls.label_garment.errors">
-            <span *ngIf="formGarment.controls.label_garment.errors.required">Merci de renseigner un titre pour votre image</span>
-        </div>
+      <form [formGroup]="formGarment" class="col-12 d-flex row justify-content-around">
 
-        <!-- saison -->
-        <select   [ngClass]="{'input-invalid': formGarment.controls.season_id_season.errors, 'input-valid': !formGarment.controls.season_id_season.errors}"
-                  class="form-control mb-2" id="season_id_season" formControlName="season_id_season">
-          <option *ngFor="let s of season" [value]="s.val">{{s.title}}</option>
-        </select>
-        <div class="text-danger mb-2" *ngIf="formGarment.controls.season_id_season.errors">
-            <span *ngIf="formGarment.controls.season_id_season.errors.required">Merci de renseigner une saison pour ce vêtement</span>
-        </div>
+        <!-- titre de l'img -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Titre de l'image</mat-label>
+          <input matInput [formControl]="formGarment.controls.label_garment" placeholder="Ex. pull-over" required>
+          <mat-error *ngIf="formGarment.controls.label_garment.hasError('required')">
+            Titre de l'image <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- marque  -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Marques</mat-label>
+          <mat-select [formControl]="formGarment.controls.brand_id_brand" required>
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let s of brand" [value]="s.id_brand">
+              {{s.label_brand}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGarment.controls.brand_id_brand.hasError('required')">
+            Marque <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- saison  -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Saison</mat-label>
+          <mat-select [formControl]="formGarment.controls.season_id_season" required [errorStateMatcher]="matcher">
+            <mat-option>-Saison-</mat-option>
+            <mat-option *ngFor="let s of season" [value]="s.id_season">
+              {{s.label_season}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGarment.controls.season_id_season.hasError('required')">
+            Saison <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- type  -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Style de vêtements</mat-label>
+          <mat-select [formControl]="formGarment.controls.style" required [errorStateMatcher]="matcher">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let s of style" [value]="s.id_style">
+              {{s.label_style}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGarment.controls.style.hasError('required')">
+            Style <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- couleur 1  -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Couleur primaire</mat-label>
+          <mat-select [formControl]="formGarment.controls.colorPrim" required>
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let s of color" [value]="s.id_color">
+              <i [style.color]="s.hex_color" class="fas fa-circle"></i>
+              {{s.label_color}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGarment.controls.colorPrim.hasError('required')">
+            Couleur <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- couleur 2  -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Couleur secondaire</mat-label>
+          <mat-select [formControl]="formGarment.controls.colorSecond">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let s of color" [value]="s.id_color">
+              <i [style.color]="s.hex_color" class="fas fa-circle"></i>
+              {{s.label_color}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
       </form>
+
+      <p class="labelExpl col-12 text-right">Merci de renseigner tout les champs obligatoire *</p>
+
       <div class="col-12 d-flex justify-content-end">
-        <button (click)="sendFile()" class="btn btn-success">Send</button>
+        <button (click)="sendFile()" type="submit" class="btn btn-success">Send</button>
       </div>
 
     </div>

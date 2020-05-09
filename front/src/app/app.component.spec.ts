@@ -5,6 +5,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ShowOnDirtyErrorStateMatcher, ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -13,11 +19,21 @@ describe('AppComponent', () => {
         RouterTestingModule,
         HttpClientModule,
         MatSnackBarModule,
-        MatDialogModule
+        MatDialogModule,
+        FormsModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        MatOptionModule,
+        MatSelectModule
       ],
       declarations: [
         AppComponent,
         NavbarComponent
+      ],
+      providers: [
+        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
       ]
     }).compileComponents();
   }));
