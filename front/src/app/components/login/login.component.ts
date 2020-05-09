@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit { // contient les var du component
   isRegistered: boolean = false; // tslint:disable-line
   isConnected: boolean = false; // tslint:disable-line
 
-  private token: string;
+  public token: string;
 
   constructor(private formBuild: FormBuilder,
               private stateService: StatesService,
