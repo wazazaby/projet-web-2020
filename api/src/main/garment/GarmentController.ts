@@ -2,7 +2,18 @@ import { GarmentManager } from './GarmentManager';
 import { Context } from 'koa';
 import { Garment } from './GarmentEntity';
 import { Body } from '../../libs/Body';
-import { GarmentColorStyleWrapperInterface } from '@osmo6/models';
+import { GarmentColorStyleWrapperInterface, InsertReturnInterface } from '@osmo6/models';
+
+type UploadedFile = {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
+    size: number;
+};
 
 export class GarmentController {
     private _manager: GarmentManager;
@@ -35,10 +46,35 @@ export class GarmentController {
     }
 
     /**
-     * Créer un garment
+     * Créer un garment et retourne le garment inséré avec ses liaisons couleurs / styles
      * @param {Context} ctx 
      */
     public async createGarment (ctx: Context): Promise<void> {
-        ctx.body = ctx.request.body;
+        const file: UploadedFile = ctx.file;
+        const colors: number[] = ctx.request.body.id_color;
+        const styles: number[] = ctx.request.body.id_style;
+
+        const newGarm: Garment = new Garment({
+            id_garment: null,
+            label_garment: ctx.request.body.label_garment,
+            url_img_garment: `${file.destination}${file.filename}`,
+            creation_date_garment: Math.floor(Date.now() / 1000),
+            modification_date_garment: null,
+            user_id_user: ctx.request.body.user_id_user,
+            brand_id_brand: ctx.request.body.brand_id_brand,
+            season_id_season: ctx.request.body.season_id_season,
+            type_id_type: ctx.request.body.type_id_type
+        });
+
+        try {
+            const result: GarmentColorStyleWrapperInterface|null = await this._manager.insertGarment(newGarm, colors, styles);
+            if (result === null) {
+                ctx.throw(400, "Problème lors de la création de votre vêtement");
+            } else {
+                ctx.body = new Body(200, '', result);
+            }
+        } catch (e) {
+            throw e;
+        }
     }
 }

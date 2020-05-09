@@ -1,11 +1,46 @@
 import { Db } from '../../libs/Db';
 import { Garment } from './GarmentEntity';
-import { ColorInterface, GarmentColorStyleWrapperInterface, StyleInterface } from '@osmo6/models';
+import { ColorInterface, GarmentColorStyleWrapperInterface, StyleInterface, InsertReturnInterface } from '@osmo6/models';
 
 /**
  * Manager Garment
  */
 export class GarmentManager {
+
+    /**
+     * Permet de récupérer un garment en fonction de son ID
+     * Retourne un objet si un garment existe, null si aucun garment avec cet id
+     * @param {number} idGarment 
+     * @returns {Promise<GarmentColorStyleWrapperInterface|null>}
+     */
+    public async getGarmentById (idGarment: number): Promise<GarmentColorStyleWrapperInterface|null> {
+        const sql: string = 'SELECT * FROM garment WHERE id_garment = ?';
+        try {
+            const garm: any = await Db.pool.execute(sql, [idGarment]);
+
+            // Si pas de résultat, on renvoit null
+            if (garm[0].length > 0) {
+
+                // On crée le garment et on récupére les couleurs ainsi que les styles
+                const garmObj: Garment = new Garment(garm[0][0]);
+                const resolved: [ColorInterface[], StyleInterface[]] = await Promise.all([
+                    this.getColorsByIdGarment(garmObj.getId()), 
+                    this.getStylesByIdGarment(garmObj.getId())
+                ]);
+
+                // On renvoit l'objet formaté
+                return {
+                    garment: garmObj,
+                    colors: resolved[0],
+                    styles: resolved[1]
+                };
+            } else {
+                return null;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
     
     /**
      * Permet de récupérer la liste des garments d'un utilisateurs, avec pour chaque garment sa liste de styles et de couleurs
@@ -107,5 +142,108 @@ export class GarmentManager {
         } catch (e) {
             throw e;
         }
+    }
+
+
+    /**
+     * Permet d'insérer un nouveau garment, et faire les liaisons avec les couleurs et styles
+     * @param {Garment} garm l'objet garment à insérer
+     * @param {number[]|null} colors le tableau contenant les ID de couleurs pour ce nouveau garment, null si aucune couleur n'est choisit
+     * @param {number[]|null} styles le tableau contennatn les ID de styles pour ce nouveau garment, null si aucun style n'est choisit
+     * @returns {Promise<GarmentColorStyleWrapperInterface|null>}
+     */
+    public async insertGarment (garm: Garment, colors?: number[], styles?: number[]): Promise<GarmentColorStyleWrapperInterface|null> {
+        const sql: string = 'INSERT INTO garment VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        try {
+            const insert: any = await Db.pool.execute(sql, [
+                garm.getId(),
+                garm.getLabel(),
+                garm.getUrlImage(),
+                garm.getCreationDate(),
+                garm.getModificationDate(),
+                garm.getIdUser(),
+                garm.getIdBrand(),
+                garm.getIdSeason(),
+                garm.getIdType()
+            ]);
+            
+            // On vérifie s'il y a bien eu une insertion, dans le cas contraire on return null
+            if (insert[0].affectedRows === 1) {
+
+                // On récupère l'id du garment qui vient d'être inséré
+                const idLastInsertedGarment: number = insert[0].insertId;
+
+                // Pour les couleurs et styles, on vérifie s'ils contiennent bien quelque chose, si c'est le cas on crée les liaisons
+                // S'il n'y a pas eu le même nombre d'insert que d'élément dans les tableaux, on renvoit null pour signaler une erreur
+                if (colors !== null && colors.length > 0) {
+                    if (await this.generateGarmentColorLinks(idLastInsertedGarment, colors) !== colors.length) {
+                        return null;
+                    }
+                }
+
+                if (styles !== null && styles.length > 0) {
+                    if (await this.generateGarmentStyleLinks(idLastInsertedGarment, styles) !== colors.length) {
+                        return null;
+                    }
+                }
+
+                // Si on arrive ici, ça veut dire que tout c'est bien passé et on retourne le garment en question avec des couleurs et styles associés
+                return await this.getGarmentById(idLastInsertedGarment);
+            } else {
+                return null;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Permet de créer les liaisons entre un garment et ses couleurs
+     * @param {number} idGarment l'id du garment à lié
+     * @param {number[]} colors le tableau contenant les ID de couleurs à liées au garment
+     * @returns {Promise<number>} le total d'élément inséré
+     */
+    private async generateGarmentColorLinks (idGarment: number, colors: number[]): Promise<number> {
+        let total: number = 0;
+        if (colors.length > 0) {
+            const cSql: string = 'INSERT INTO garment_has_color VALUES (?, ?, ?)';
+            try {
+                for (const c of colors) {
+                    const result: any = await Db.pool.execute(cSql, [null, idGarment, c]);
+                    total += result[0].affectedRows;
+                }
+            } catch (e) {
+                throw e;
+            }
+        }
+
+        return total;
+    }
+
+    /**
+     * Permet de créer les liaisons entre un garment et ses couleurs
+     * @param {number} idGarment l'id du garment à lié
+     * @param {number[]} styles le tableau contenant les ID de styles à liés au garment
+     * @returns {Promise<number>} le total d'élément inséré
+     */
+    private async generateGarmentStyleLinks (idGarment: number, styles: number[]): Promise<number> {
+        let total: number = 0;
+        if (styles.length > 0) {
+            const cSql: string = 'INSERT INTO garment_has_style VALUES (?, ?, ?)';
+            try {
+                
+                // La fonction ne marchant pas avec le bulk insert, je suis obligé d'inséré dans une boucle pour chaque élément
+                for (const s of styles) {
+                    const result: any = await Db.pool.execute(cSql, [null, idGarment, s]);
+
+                    // J'ajoute le nombres de rows affectées au total
+                    total += result[0].affectedRows;
+                }
+            } catch (e) {
+                throw e;
+            }
+        }
+
+        return total;
     }
 }
