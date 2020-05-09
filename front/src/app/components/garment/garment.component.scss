@@ -34,12 +34,14 @@
 
           li.filter-link{
             padding: 4px;
-            color: $active;
             text-transform: capitalize;
 
+            .activeIcon{
+              color: $active;
+            }
+
             &:hover{
-              background-color: $active;
-              color: $white;
+              background-color: $badge;
               border-radius: $radius-x4;
             }
           }

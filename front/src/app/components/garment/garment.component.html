@@ -22,25 +22,30 @@
         </div>
 
         <!-- Filter sub-name -->
-        <div class="filter-menu p-2" *ngIf="f.active">
+        <div class="filter-menu p-1" *ngIf="f.active">
           <ul>
             <li (click)="filter(v)" class="d-flex filter-link justify-content-around" *ngFor="let v of f.value">
-              <div *ngIf="f.id === 5; else noColor">
-                <span>
+              <div *ngIf="f.id === 5; else noColor" class="col-12 p-0">
+                <span class="col-2 activeIcon" *ngIf="v.active">
+                  <i class="far fa-dot-circle"></i>
+                </span>
+                <span class="col-2" *ngIf="!v.active">
+                  <i class="far fa-circle"></i>
+                </span>
+                <span [ngClass]="{activeIcon: v.active}" class="col-10">
                   <i [style.color]="v.hex" class="fas fa-circle"></i>
                   {{ v.label }}
                 </span>
               </div>
               <ng-template #noColor >
                 <!-- If btn activer -->
-                <span class="col-2" *ngIf="v.active">
+                <span class="col-2 activeIcon" *ngIf="v.active">
                   <i class="far fa-dot-circle"></i>
                 </span>
                 <span class="col-2" *ngIf="!v.active">
-                  <i class="fas fa-circle"></i>
+                  <i class="far fa-circle"></i>
                 </span>
-
-                <span class="col-10">{{v.label}}</span>
+                <span [ngClass]="{activeIcon: v.active}" class="col-10">{{v.label}}</span>
               </ng-template>
             </li>
           </ul>

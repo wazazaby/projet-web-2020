@@ -46,8 +46,8 @@ export class GarmentComponent implements OnInit {
     const colorToString = [];
     const styleToString = [];
     const valueToStyle = [
-      { label: 'Plus recent', active: false },
-      { label: 'Plus ancien', active: false },
+      { label: 'Plus recent', active: false, type: 'ASC' },
+      { label: 'Plus ancien', active: false, type: 'DESC' },
     ];
 
     this.season.forEach(s => {
@@ -170,11 +170,14 @@ export class GarmentComponent implements OnInit {
       // Liste des vêtements stocker dans l'app
       const garmentRes: GarmentColorStyleWrapperInterface[]  = res;
       // Liste des vêtements: pas encore filtrer croisée
-      const tmpGarment: GarmentColorStyleWrapperInterface[] = [];
+      let tmpGarment: GarmentColorStyleWrapperInterface[] = [];
       // Liste des vêtements final (filtrer sa mere)
       let saveGarment: GarmentColorStyleWrapperInterface[] = [];
       // Liste des filtres utiliser
       const filterUse = {season: false, type: false, style: false, color: false};
+
+      // Ordre du filtre
+      let ascFilter: string = 'ASC'; // tslint:disable-line
 
       if (filter.length !== 0) {
         saveGarment = [];
@@ -216,20 +219,19 @@ export class GarmentComponent implements OnInit {
                   }
                 });
                 break;
+              case 'ASC':
+                ascFilter = 'ASC';
+                tmpGarment = garmentRes;
+                break;
+              case 'DESC':
+                ascFilter = 'DESC';
+                tmpGarment = garmentRes;
+                break;
             }
           });
-
-          switch (f.label) {
-            case 'Plus recent':
-              this.stateService.orderArray(saveGarment, 'garment', 'creation_date_garment', 'DESC');
-              break;
-            case 'Plus ancien':
-              this.stateService.orderArray(saveGarment, 'garment', 'creation_date_garment', 'ASC');
-              break;
-          }
         });
 
-        // Pour chaque vêtements on croise les filtre
+        // Pour chaque vêtements on croise les filtres
         tmpGarment.forEach(g => {
           // On attribut les filtres utiliser
           let seasonFound = !filterUse.season;
@@ -271,11 +273,11 @@ export class GarmentComponent implements OnInit {
             saveGarment.push(g);
           }
         });
-
       } else {
         saveGarment = garmentRes;
       }
 
+      this.stateService.orderArray(saveGarment, 'garment', 'creation_date_garment', ascFilter);
       this.garment = saveGarment;
     });
   }
