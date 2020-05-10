@@ -34,6 +34,7 @@ export class ModalAddGarmentComponent implements OnInit {
     user_id_user: [this.data.userId, Validators.required],
     brand_id_brand: new FormControl('', [Validators.required]),
     season_id_season: new FormControl('', [Validators.required]),
+    type_id_type: new FormControl('', [Validators.required]),
     style: new FormControl('', [Validators.required]),
     colorPrim: new FormControl('', [Validators.required]),
     colorSecond: ['', []],
@@ -88,14 +89,19 @@ export class ModalAddGarmentComponent implements OnInit {
       console.log('file', this.file);
       const formData = new FormData();
       formData.append('file', this.file);
-      const color = [this.formGarment.value.colorPrim, this.formGarment.value.colorSecond];
+      const colors = [this.formGarment.value.colorPrim];
+      if (this.formGarment.value.colorSecond) {
+        colors.push(this.formGarment.value.colorSecond);
+      }
+
       const body = {
         file: formData,
+        user_id_user: this.formGarment.value.user_id_user,
         label_garment: this.formGarment.value.label_garment,
         brand_id_brand: this.formGarment.value.brand_id_brand,
         season_id_season: this.formGarment.value.season_id_season,
         type_id_type: this.formGarment.value.type_id_type,
-        color,
+        color: colors,
         style: this.formGarment.value.style,
       };
 
