@@ -257,28 +257,32 @@ export class GarmentManager {
 
         // On récupère l'objet du garment
         const garm: (GarmentColorStyleWrapperInterface|null) = await this.getGarmentById(idGarment);
-        try {
+        if (garm !== null) {
+            try {
 
-            // On supprime l'image
-            await fs.unlink(garm.garment.url_img_garment);
-            if (await this.deleteGarmentLinksByIdGarment(idGarment)) {
-                try {
-    
-                    // Une fois que les liaisons sont supprimées, on delete le garment en lui même et on renvoit true si une seule ligne a bien été affectée
-                    const del: any = await Db.pool.execute('DELETE FROM garment WHERE id_garment = ?', [idGarment]);
-                    if (del[0].affectedRows === 1) {
-                        return true;
-                    } else {
-                        return false;
+                // On supprime l'image
+                await fs.unlink(garm.garment.url_img_garment);
+                if (await this.deleteGarmentLinksByIdGarment(idGarment)) {
+                    try {
+        
+                        // Une fois que les liaisons sont supprimées, on delete le garment en lui même et on renvoit true si une seule ligne a bien été affectée
+                        const del: any = await Db.pool.execute('DELETE FROM garment WHERE id_garment = ?', [idGarment]);
+                        if (del[0].affectedRows === 1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } catch (e) {
+                        throw e;
                     }
-                } catch (e) {
-                    throw e;
+                } else {
+                    return false;
                 }
-            } else {
-                return false;
+            } catch (e) {
+                throw e;
             }
-        } catch (e) {
-            throw e;
+        } else {
+            return false;
         }
     }
 

@@ -87,6 +87,17 @@ export class GarmentController {
      * @param {Context} ctx 
      */
     public async deleteGarment (ctx: Context): Promise<void> {
+
+        // Vérification de l'auth de l'user
+        const idUser: number = Number(ctx.params.idUser);
+        if (ctx.session.auth) {
+            if (ctx.session.auth.id_user !== idUser) {
+                return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+            }
+        } else {
+            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+        }
+
         const idGarment: number = Number(ctx.params.idGarment);
         if (await this._manager.deleteGarmentById(idGarment)) {
             ctx.body = new Body(200, "Vêtement supprimé avec succes");
