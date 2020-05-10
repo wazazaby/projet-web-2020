@@ -50,10 +50,13 @@ export class GarmentController {
      * @param {Context} ctx 
      */
     public async createGarment (ctx: Context): Promise<void> {
+
+        // Récupération du fichier et des couleurs / styles
         const file: UploadedFile = ctx.file;
         const colors: number[] = ctx.request.body.id_color;
         const styles: number[] = ctx.request.body.id_style;
 
+        // Création du garment
         const newGarm: Garment = new Garment({
             id_garment: null,
             label_garment: ctx.request.body.label_garment,
@@ -66,6 +69,7 @@ export class GarmentController {
             type_id_type: ctx.request.body.type_id_type
         });
 
+        // On lance l'ajout, si ça marche on renvoit l'objet du garment en question, sinon on throw une erreur HTTP
         try {
             const result: GarmentColorStyleWrapperInterface|null = await this._manager.insertGarment(newGarm, colors, styles);
             if (result === null) {
@@ -75,6 +79,15 @@ export class GarmentController {
             }
         } catch (e) {
             throw e;
+        }
+    }
+
+    public async deleteGarment (ctx: Context): Promise<void> {
+        const idGarment: number = Number(ctx.params.idGarment);
+        if (await this._manager.deleteGarmentById(idGarment)) {
+            ctx.body = new Body(200, "Vêtement supprimé avec succes");
+        } else {
+            ctx.throw(400, "Problème lors de la suppression de votre vêtement");
         }
     }
 }

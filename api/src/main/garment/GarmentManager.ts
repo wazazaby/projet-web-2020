@@ -246,4 +246,57 @@ export class GarmentManager {
 
         return total;
     }
+
+    /**
+     * Permet de supprimer un garment ainsi que ses liaisons en fonction de son id
+     * @param {number} idGarment
+     * @returns {boolean} true si la suppression s'est bien passée, false s'il y a eu une erreur
+     */
+    public async deleteGarmentById (idGarment: number): Promise<boolean> {
+        if (await this.deleteGarmentLinksByIdGarment(idGarment)) {
+            try {
+
+                // Une fois que les liaisons sont supprimées, on delete le garment en lui même et on renvoit true si une seule ligne a bien été affectée
+                const del: any = await Db.pool.execute('DELETE FROM garment WHERE id_garment = ?', [idGarment]);
+                if (del[0].affectedRows === 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (e) {
+                throw e;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Supprime les liaisons du garment (couleur et style) en fonction de son ID
+     * @param {number} idGarment 
+     * @returns {boolean} true si les liaisons on bien été supprimées, false dans le cas contraire
+     */
+    private async deleteGarmentLinksByIdGarment (idGarment: number): Promise<boolean> {
+
+        // On fait un delete avec un INNER JOIN puisque qu'un garment a forcément une couleur et un style au moins
+        const sql: string = `
+            DELETE c.*, s.*
+            FROM garment_has_color AS c
+            INNER JOIN garment_has_style AS s ON c.garment_id_garment = s.garment_id_garment
+            WHERE c.garment_id_garment = ?
+        `;
+
+        try {
+            const del: any = await Db.pool.execute(sql, [idGarment]);
+
+            // On retourn true si plusieurs lignes on bien été supprimées, false si <= à 0
+            if (del[0].affectedRows > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
 }
