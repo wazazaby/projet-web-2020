@@ -1,6 +1,7 @@
 import { Db } from '../../libs/Db';
 import { Garment } from './GarmentEntity';
 import { ColorInterface, GarmentColorStyleWrapperInterface, StyleInterface, InsertReturnInterface } from '@osmo6/models';
+import {promises as fs} from 'fs';
 
 /**
  * Manager Garment
@@ -152,7 +153,7 @@ export class GarmentManager {
      * @param {number[]|null} styles le tableau contennatn les ID de styles pour ce nouveau garment, null si aucun style n'est choisit
      * @returns {Promise<GarmentColorStyleWrapperInterface|null>}
      */
-    public async insertGarment (garm: Garment, colors?: number[], styles?: number[]): Promise<GarmentColorStyleWrapperInterface|null> {
+    public async insertGarment (garm: Garment, colors?: number[], styles?: number[]): Promise<(GarmentColorStyleWrapperInterface|null)> {
         const sql: string = 'INSERT INTO garment VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
         try {
             const insert: any = await Db.pool.execute(sql, [
@@ -253,21 +254,31 @@ export class GarmentManager {
      * @returns {boolean} true si la suppression s'est bien passée, false s'il y a eu une erreur
      */
     public async deleteGarmentById (idGarment: number): Promise<boolean> {
-        if (await this.deleteGarmentLinksByIdGarment(idGarment)) {
-            try {
 
-                // Une fois que les liaisons sont supprimées, on delete le garment en lui même et on renvoit true si une seule ligne a bien été affectée
-                const del: any = await Db.pool.execute('DELETE FROM garment WHERE id_garment = ?', [idGarment]);
-                if (del[0].affectedRows === 1) {
-                    return true;
-                } else {
-                    return false;
+        // On récupère l'objet du garment
+        const garm: (GarmentColorStyleWrapperInterface|null) = await this.getGarmentById(idGarment);
+        try {
+
+            // On supprime l'image
+            await fs.unlink(garm.garment.url_img_garment);
+            if (await this.deleteGarmentLinksByIdGarment(idGarment)) {
+                try {
+    
+                    // Une fois que les liaisons sont supprimées, on delete le garment en lui même et on renvoit true si une seule ligne a bien été affectée
+                    const del: any = await Db.pool.execute('DELETE FROM garment WHERE id_garment = ?', [idGarment]);
+                    if (del[0].affectedRows === 1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } catch (e) {
+                    throw e;
                 }
-            } catch (e) {
-                throw e;
+            } else {
+                return false;
             }
-        } else {
-            return false;
+        } catch (e) {
+            throw e;
         }
     }
 

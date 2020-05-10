@@ -82,6 +82,10 @@ export class GarmentController {
         }
     }
 
+    /**
+     * Permet de supprimer un garment, retourne un status 200 ou lance une erreur HTTP 400 si ça n'a pas marché
+     * @param {Context} ctx 
+     */
     public async deleteGarment (ctx: Context): Promise<void> {
         const idGarment: number = Number(ctx.params.idGarment);
         if (await this._manager.deleteGarmentById(idGarment)) {
