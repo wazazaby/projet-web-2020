@@ -3,8 +3,8 @@ import * as cors from 'koa-cors';
 import * as logger from 'koa-logger';
 import * as bodyParser from 'koa-bodyparser';
 import * as DotEnv from 'dotenv';
-import * as Router from 'koa-router';
 import * as session from 'koa-session';
+
 
 
 // L'instance de la connexion à la DB

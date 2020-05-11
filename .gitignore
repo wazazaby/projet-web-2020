@@ -2,6 +2,7 @@ node_modules/
 front/node_modules/
 api/node_modules/
 api/.env
+api/uploads
 
 front/package-lock.json
 lib-turnStyle/package-lock.json

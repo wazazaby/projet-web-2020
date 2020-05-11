@@ -5,7 +5,7 @@ export class Garment implements GarmentInterface {
     public label_garment: string;
     public url_img_garment: string;
     public creation_date_garment: number;
-    public modification_date_garment: number;
+    public modification_date_garment?: number;
     public user_id_user: number;
     public brand_id_brand: number;
     public season_id_season: number;
