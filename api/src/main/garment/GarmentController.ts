@@ -3,6 +3,7 @@ import { Context } from 'koa';
 import { Garment } from './GarmentEntity';
 import { Body } from '../../libs/Body';
 import { GarmentColorStyleWrapperInterface, InsertReturnInterface } from '@osmo6/models';
+import {promises as fs} from 'fs';
 
 type UploadedFile = {
     fieldname: string;
@@ -103,6 +104,57 @@ export class GarmentController {
             ctx.body = new Body(200, "Vêtement supprimé avec succes");
         } else {
             ctx.throw(400, "Problème lors de la suppression de votre vêtement");
+        }
+    }
+
+    /**
+     * Permet de modifier / mettre à jour un garment, HTTP 200 si OK, 400+ si erreur
+     * @param {Context} ctx 
+     */
+    public async updateGarment (ctx: Context): Promise<void> {
+        const requestBody: any = ctx.request.body;
+        const idGarment: number = Number(requestBody.id_garment);
+
+        // On récupère le garment entier 
+        const currentGarment: (GarmentColorStyleWrapperInterface|null) = await this._manager.getGarmentById(idGarment);
+        if (currentGarment !== null) {
+
+            // On instancie un objet garment qui sera modifié plus bas
+            const garmObj: Garment = new Garment(currentGarment.garment);
+
+            // Récupération des nouvelles couleurs et styles dans la requette
+            const newColors: number[] = requestBody.id_color;
+            const newStyles: number[] = requestBody.id_style;
+
+            // Récupération de la nouvelle image
+            const file: UploadedFile = ctx.file;
+
+            try {
+
+                // On supprime l'image actuelle du garment
+                await fs.unlink(garmObj.getUrlImage());
+
+                // On met à jour l'objet du garment en question avec les nouvelles données
+                garmObj
+                    .setLabel(requestBody.label_garment)
+                    .setUrlImage(`${file.destination}${file.filename}`)
+                    .setModificationDate(Math.floor(Date.now() / 1000))
+                    .setIdBrand(requestBody.brand_id_brand)
+                    .setIdSeason(requestBody.season_id_season)
+                    .setIdType(requestBody.type_id_type);
+
+                // On renvoie l'objet au manager pour la mise à jour, retourne un objet garment complet si tout s'est bien passé ou null si erreur
+                const newObj: (GarmentColorStyleWrapperInterface|null) = await this._manager.updateGarment(garmObj, newStyles, newColors);
+                if (newObj === null) {
+                    return ctx.throw(400, "Une erreur est parvenue lors de la mise à jour de votre vêtement");
+                } else {
+                    ctx.body = new Body(200, '', newObj);
+                }
+            } catch (e) {
+                return ctx.throw(400, e);
+            }
+        } else {
+            return ctx.throw(403);
         }
     }
 }

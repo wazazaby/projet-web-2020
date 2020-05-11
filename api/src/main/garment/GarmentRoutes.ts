@@ -36,4 +36,7 @@ router.post('/api/garment/add', upload.single('url_img_garment'), async (ctx: Co
 // Suppression d'un garment
 router.delete('/api/user/:idUser/garment/delete/:idGarment', async (ctx: Context): Promise<void> => await controller.deleteGarment(ctx));
 
+// Mise à jour d'un garment
+router.patch('/api/garment/update', upload.single('url_img_garment'), async (ctx: Context): Promise<void> => await controller.updateGarment(ctx));
+
 export default router;

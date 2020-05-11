@@ -14,7 +14,7 @@ export class GarmentManager {
      * @param {number} idGarment 
      * @returns {Promise<GarmentColorStyleWrapperInterface|null>}
      */
-    public async getGarmentById (idGarment: number): Promise<GarmentColorStyleWrapperInterface|null> {
+    public async getGarmentById (idGarment: number): Promise<(GarmentColorStyleWrapperInterface|null)> {
         const sql: string = 'SELECT * FROM garment WHERE id_garment = ?';
         try {
             const garm: any = await Db.pool.execute(sql, [idGarment]);
@@ -312,6 +312,81 @@ export class GarmentManager {
             }
         } catch (e) {
             throw e;
+        }
+    }
+
+    /**
+     * Permet de mettre à jour un Garment en prenant comme param l'objet Garment déjà mis à jour à enregistrer en BDD ainsi que ses nouvelles couleurs et nouveaux styles
+     * @param {Garment} updatedGarm l'objet Garment mis à jour
+     * @param {number[]} newStyles le tableau avec les nouveaux styles
+     * @param {number[]} newColors le tableau avec les nouvelles couleurs
+     * @returns {Promise<(GarmentColorStyleWrapperInterface|null)>} retourne l'objet du garment mis à jour si tout s'est bien passé, null si erreur
+     */
+    public async updateGarment (updatedGarm: Garment, newStyles?: number[], newColors?: number[]): Promise<(GarmentColorStyleWrapperInterface|null)> {
+
+        // En premier lieu, on supprime les liens actuels du garment vers colors et styles
+        if (await this.deleteGarmentLinksByIdGarment(updatedGarm.getId())) {
+
+            // Création du SQL de mise à jour qui prendra les nouvelles valeurs
+            const sql: string = `
+                UPDATE garment
+                SET
+                    label_garment = ?,
+                    url_img_garment = ?,
+                    modification_date_garment = ?,
+                    brand_id_brand = ?,
+                    season_id_season = ?,
+                    type_id_type = ?
+                WHERE id_garment = ?
+            `;
+
+            try {
+
+                // On lance l'update
+                const update: any = await Db.pool.execute(sql, [
+                    updatedGarm.getLabel(),
+                    updatedGarm.getUrlImage(),
+                    updatedGarm.getModificationDate(),
+                    updatedGarm.getIdBrand(),
+                    updatedGarm.getIdSeason(),
+                    updatedGarm.getIdType(),
+                    updatedGarm.getId()
+                ]);
+
+                // Si une seule ligne a bien été affectée, on passe à la suite
+                if (update[0].affectedRows === 1) {
+
+                    // On générer les liens entre le garment et ses couleurs, on vérifie en premier que le tableau contient quelque chose
+                    if (newColors !== null && newColors.length > 0) {
+
+                        // On vérifie si le nombre d'insert correspond au nombre d'entrées dans le nouveau tableau de couleurs pour savoir si tout s'est bien passé
+                        if (await this.generateGarmentColorLinks(updatedGarm.getId(), newColors) !== newColors.length) {
+
+                            // Dans le cas contraire, on retourne null
+                            return null;
+                        }
+                    }
+                    
+                    // Pareil que pour les couleurs
+                    if (newStyles !== null && newStyles.length > 0) {
+                        if (await this.generateGarmentStyleLinks(updatedGarm.getId(), newStyles) !== newStyles.length) {
+                            return null;
+                        }
+                    }
+
+                    // Si on arrive ici, ça veut dire que l'update s'est bien passé et que les liens on été créés
+                    // On peut donc renvoyer le garment mis à jour
+                    return await this.getGarmentById(updatedGarm.getId());
+                } else {
+
+                    // Dans le cas contraire, ça veut dire que l'update ne s'est pas fait alors on renvoit null
+                    return null;
+                }
+            } catch (e) {
+                throw e;
+            }
+        } else {
+            return null;
         }
     }
 }
