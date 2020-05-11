@@ -114,6 +114,15 @@ export class GarmentController {
     public async updateGarment (ctx: Context): Promise<void> {
         const requestBody: any = ctx.request.body;
         const idGarment: number = Number(requestBody.id_garment);
+        const idUser: number = Number(requestBody.user_id_user);
+
+        if (ctx.session.auth) {
+            if (ctx.session.auth.id_user !== idUser) {
+                return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+            }
+        } else {
+            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+        }
 
         // On récupère le garment entier 
         const currentGarment: (GarmentColorStyleWrapperInterface|null) = await this._manager.getGarmentById(idGarment);
