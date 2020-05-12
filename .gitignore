@@ -3,6 +3,7 @@ front/node_modules/
 api/node_modules/
 api/.env
 api/uploads
+api/dist
 
 front/package-lock.json
 lib-turnStyle/package-lock.json
