@@ -4,7 +4,8 @@
 	"description": "Projet web de cours",
 	"main": "./src/server.ts",
 	"scripts": {
-		"dev": "nodemon ./src/server.ts"
+        "dev": "nodemon ./src/server.ts",
+        "build": "tsc -b ./tsconfig.json"
 	},
 	"repository": {
 		"type": "git",
