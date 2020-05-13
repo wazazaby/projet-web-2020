@@ -4,7 +4,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import {  BrandInterface, GlobalReturnInterface,
@@ -46,7 +46,8 @@ export class BridgeService {
             email,
             pass
         };
-        return this.http.post<GlobalReturnInterface>(environment.apiUrl + 'user/login', body);
+
+        return this.http.post<GlobalReturnInterface>(environment.apiUrl + 'user/login', body, { withCredentials: true });
     }
 
     /**
@@ -242,7 +243,10 @@ export class BridgeService {
      * @param userId: number
      */
     getGarmentUserReq(userId: number) {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + 'user/' + userId + this.userGarment);
+        return this.http.get<GlobalReturnInterface>(
+            environment.apiUrl + 'user/' + userId + this.userGarment, 
+            { withCredentials: true }
+        );
     }
 
     /**
