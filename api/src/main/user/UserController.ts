@@ -6,6 +6,7 @@ import { Mailer } from '../../libs/Mailer';
 import { Body } from '../../libs/Body';
 import * as RandomString from 'randomstring';
 import * as bcrypt from 'bcrypt';
+import { Auth } from '../../libs/Auth';
 
 // Type simple pour le contenu de la session
 type UserAuth = {
@@ -37,16 +38,8 @@ export class UserController {
      */
     public async verifyAuth (ctx: Context): Promise<void> {
         const token: string = ctx.request.body.token;
-
-        // Si la session à précedemment été créée
-        if (ctx.session.isNew === undefined) {
-
-            // On compare les tokens
-            if (ctx.session.auth.token_user === token) {
-                ctx.body = new Body(200, '', ctx.session.auth);
-            } else {
-                ctx.throw(403);
-            }
+        if (Auth.byToken(ctx, token)) {
+            ctx.body = new Body(200, '', ctx.session.auth);
         } else {
             ctx.throw(403);
         }
