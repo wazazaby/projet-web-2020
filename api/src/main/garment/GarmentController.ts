@@ -3,7 +3,8 @@ import { Context } from 'koa';
 import { Garment } from './GarmentEntity';
 import { Body } from '../../libs/Body';
 import { GarmentColorStyleWrapperInterface, InsertReturnInterface } from '@osmo6/models';
-import {promises as fs} from 'fs';
+import { promises as fs } from 'fs';
+import { Auth } from '../../libs/Auth'; 
 
 type UploadedFile = {
     fieldname: string;
@@ -31,14 +32,10 @@ export class GarmentController {
      * @param {Context} ctx 
      */
     public async getAllGarmentsByIdUser (ctx: Context): Promise<void> {
-        const idUser: number = ctx.params.idUser;
+        const idUser: number = Number(ctx.params.idUser);
 
         // Vérification de l'auth de l'user
-        if (ctx.session.auth) {
-            if (ctx.session.auth.id_user !== Number(idUser)) {
-                return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
-            }
-        } else {
+        if (!Auth.isValid(ctx, idUser)) {
             return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
         }
 
@@ -52,6 +49,12 @@ export class GarmentController {
      */
     public async createGarment (ctx: Context): Promise<void> {
 
+        // On vérifie si l'utilisateur est authentifié
+        const idUser: number = Number(ctx.request.body.user_id_user);
+        if (!Auth.isValid(ctx, idUser)) {
+            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+        }
+
         // Récupération du fichier et des couleurs / styles
         const file: UploadedFile = ctx.file;
         const colors: number[] = ctx.request.body.id_color;
@@ -64,22 +67,18 @@ export class GarmentController {
             url_img_garment: `${file.destination}${file.filename}`,
             creation_date_garment: Math.floor(Date.now() / 1000),
             modification_date_garment: null,
-            user_id_user: ctx.request.body.user_id_user,
+            user_id_user: idUser,
             brand_id_brand: ctx.request.body.brand_id_brand,
             season_id_season: ctx.request.body.season_id_season,
             type_id_type: ctx.request.body.type_id_type
         });
 
         // On lance l'ajout, si ça marche on renvoit l'objet du garment en question, sinon on throw une erreur HTTP
-        try {
-            const result: GarmentColorStyleWrapperInterface|null = await this._manager.insertGarment(newGarm, colors, styles);
-            if (result === null) {
-                ctx.throw(400, "Problème lors de la création de votre vêtement");
-            } else {
-                ctx.body = new Body(200, '', result);
-            }
-        } catch (e) {
-            throw e;
+        const result: (GarmentColorStyleWrapperInterface|null) = await this._manager.insertGarment(newGarm, colors, styles);
+        if (result === null) {
+            ctx.throw(400, "Problème lors de la création de votre vêtement");
+        } else {
+            ctx.body = new Body(200, '', result);
         }
     }
 
@@ -91,11 +90,7 @@ export class GarmentController {
 
         // Vérification de l'auth de l'user
         const idUser: number = Number(ctx.params.idUser);
-        if (ctx.session.auth) {
-            if (ctx.session.auth.id_user !== idUser) {
-                return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
-            }
-        } else {
+        if (!Auth.isValid(ctx, idUser)) {
             return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
         }
 
@@ -116,11 +111,8 @@ export class GarmentController {
         const idGarment: number = Number(requestBody.id_garment);
         const idUser: number = Number(requestBody.user_id_user);
 
-        if (ctx.session.auth) {
-            if (ctx.session.auth.id_user !== idUser) {
-                return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
-            }
-        } else {
+        // Vérification de l'authentification
+        if (!Auth.isValid(ctx, idUser)) {
             return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
         }
 
