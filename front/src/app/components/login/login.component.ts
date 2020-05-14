@@ -61,7 +61,8 @@ export class LoginComponent implements OnInit { // contient les var du component
 							// On redirige, on préremplie le champ mail et on affiche un message de succès
 							this.route.navigate(['./auth']);
 							this.formConnect.get('email').setValue(res.data.email);
-							this.stateService.openSnackBar("Votre compte a bien été activé, vous pouvez maintenant vous connecter", null);
+                            this.stateService.openSnackBar("Votre compte a bien été activé, vous pouvez maintenant vous connecter", null);
+                            this.effectBtn('connexion');
 						} else {
 							const err: ErrorInterface = { 
 								code: res.status, 
