@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
 import {  UserInterface, GarmentInterface, SeasonInterface, TypeInterface,
-          GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface } from '@osmo6/models';
+          GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface, ErrorInterface } from '@osmo6/models';
 
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
@@ -11,6 +11,7 @@ import { BridgeService } from 'src/app/services/bridge.service';
 
 // Liste des modals
 import { ModalAddGarmentComponent } from './modal-add-garment/modal-add-garment.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-garment',
@@ -299,16 +300,48 @@ export class GarmentComponent implements OnInit {
     }
   }
 
+  removeGarment(garment: GarmentColorStyleWrapperInterface) {
+    console.log('remove');
+    this.bridgeService.deleteGarmentReq(garment).subscribe(res => {
+      if (this.stateService.checkStatus(res.status)) {
+          this.stateService.openSnackBar('Suppession du vêtements réussit', null);
+      } else {
+          const err: ErrorInterface = {
+            code: res.status,
+            message: res.message,
+            route: environment.apiUrl + '/api/user/' + garment.garment.user_id_user + '/garment/delete/' + garment.garment.id_garment};
+          this.stateService.errors = err;
+          this.stateService.openSnackBar('Une erreur c\'est produite lors de la suppréssion du vêtement', null);
+      }
+    });
+  }
+
+  getImgSeason(n: number) {
+    switch (n) {
+      case 1:
+        // hiver
+        return '<i class="fas fa-snowflake"></i>';
+      case 2:
+        // Printemps
+        return '<i class="fas fa-cloud-sun"></i>';
+      case 3:
+        // Ete
+        return '<i class="fas fa-sun"></i>';
+      case 4:
+        // Automne autumn
+        return '<i class="fas fa-mountain"></i>';
+    }
+  }
+
   /**
    * Action au hover d'une image
    * @param num: number (0->supprimer, 1->modifier)
    * @param garment: GarmentInterface
    */
-  actToGarment(num: number, garment: GarmentInterface) {
+  actToGarment(num: number, garment: GarmentColorStyleWrapperInterface) {
     if (num === 0) {
       // supprimer
-      console.log('supprimer');
-      console.log(garment);
+      this.removeGarment(garment);
     } else {
       // modifier
       console.log('modifier');

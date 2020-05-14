@@ -125,7 +125,12 @@
           <i *ngFor="let c of g.colors" [style.color]="c.hex_color" class="fas fa-circle"></i>
         </div>
         <div>
-          <label *ngFor="let s of g.style"> {{s.label}} </label>
+          <label *ngFor="let s of g.styles"> {{s.label_style}} </label>
+        </div>
+        <div>
+          <label [innerHTML]="getImgSeason(g.garment.season_id_season)"></label>
+          <label> {{g.garment.type_id_type}} </label>
+          <label> {{g.garment.brand_id_brand}} </label>
         </div>
       </div>
     </div>

@@ -36,14 +36,6 @@ export class BridgeService {
     public snackBar = null;
     public checkTkn = 'user/verify-auth';
 
-
-    /**
-     * Setup du header
-     */
-    getHeader() {
-        // Faut config le header
-    }
-
 /*
  ******************************* function d'auth *******************************
  */
@@ -270,7 +262,13 @@ export class BridgeService {
     getGarmentUserReq(userId: number) {
         return this.http.get<GlobalReturnInterface>(
             environment.apiUrl + 'user/' + userId + this.userGarment,
-            { withCredentials: true }
+            {
+                headers: new HttpHeaders({
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Content-type': 'multipart/form-data',
+                }),
+                withCredentials: true
+            }
         );
     }
 
@@ -283,9 +281,23 @@ export class BridgeService {
             param
         };
 
-        console.log('url === ' + environment.apiUrl + this.userGarmentAdd);
+        return this.http.post(environment.apiUrl + this.userGarmentAdd, body,
+            { withCredentials: true }
+        );
+    }
 
-        return this.http.post(environment.apiUrl + this.userGarmentAdd, body);
+    /**
+     * Créer un observable pour supprimer un vêtement
+     */
+    deleteGarmentReq(data: GarmentColorStyleWrapperInterface) {
+        return this.http.delete<GlobalReturnInterface>(
+            environment.apiUrl + 'user/' + data.garment.user_id_user + '/garment/delete/' + data.garment.id_garment,
+            {
+                headers: new HttpHeaders({
+                    'Access-Control-Allow-Origin': '*'
+                }),
+                withCredentials: true
+            });
     }
 
     /**
