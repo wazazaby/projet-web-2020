@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GarmentInterface, SeasonInterface, TypeInterface, StyleInterface, BrandInterface, ColorInterface } from '@osmo6/models';
 import { StatesService } from 'src/app/services/states.service';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { BridgeService } from 'src/app/services/bridge.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -21,6 +22,7 @@ export class ModalAddGarmentComponent implements OnInit {
 
   constructor(private formBuild: FormBuilder,
               private stateService: StatesService,
+              private bridgeService: BridgeService,
               @Inject(MAT_DIALOG_DATA) public data: {userId: number}) { }
 
   // image
@@ -104,6 +106,12 @@ export class ModalAddGarmentComponent implements OnInit {
         color: colors,
         style: this.formGarment.value.style,
       };
+
+      this.bridgeService.addGarment(formData, body).subscribe(
+        (res) => {
+          console.log('*', res);
+        }
+      );
 
       console.log(body);
 

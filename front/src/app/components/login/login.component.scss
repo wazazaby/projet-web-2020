@@ -4,21 +4,22 @@ h1{
   font-style: italic;
 }
 
-.subContainer{
-  text-align: center;
-  width: 18em;
-  border: 0.1em solid $bg-sidebar;
-  border-radius: 0.2em;
-  padding: 0.5em;
-  margin: 1.5em;
+.logo{
+  max-width: 10em;
 }
 
-span{
-  color: $invalid;
+.imageFemme{
+  border: 1px solid transparent;
+  border-radius: 2em 0 0 2em;
 }
 
-input{
-  &:focus{
-    border-color: $invalid;
-  }
+.btnPassword{
+  background: transparent;
+  border: none;
+}
+
+.section{
+  display: flex;
+  max-height: 60vh;
+  min-height: 50vh;
 }

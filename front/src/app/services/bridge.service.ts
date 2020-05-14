@@ -29,9 +29,20 @@ export class BridgeService {
     public colorAll = 'color/all';
     public styleAll = 'style/all';
     public userGarment = '/garment/all';
+    public userGarmentAdd = 'garment/add';
+    public userGarmentSet = 'garment/update';
+    public userGarmentRm = '/garment/delete/';
     public logout = 'user/logout';
     public snackBar = null;
     public checkTkn = 'user/verify-auth';
+
+
+    /**
+     * Setup du header
+     */
+    getHeader() {
+        // Faut config le header
+    }
 
 /*
  ******************************* function d'auth *******************************
@@ -244,9 +255,23 @@ export class BridgeService {
      */
     getGarmentUserReq(userId: number) {
         return this.http.get<GlobalReturnInterface>(
-            environment.apiUrl + 'user/' + userId + this.userGarment, 
+            environment.apiUrl + 'user/' + userId + this.userGarment,
             { withCredentials: true }
         );
+    }
+
+    /**
+     * Permet d'ajouter un vêtement
+     */
+    addGarment(file, param) {
+        const body = {
+            file,
+            param
+        };
+
+        console.log('url === ' + environment.apiUrl + this.userGarmentAdd);
+
+        return this.http.post(environment.apiUrl + this.userGarmentAdd, body);
     }
 
     /**

@@ -21,6 +21,7 @@ import { ModalProfilComponent } from './components/modal-profil/modal-profil.com
 import {MatInputModule} from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {MatSelectModule} from '@angular/material/select';
     ReactiveFormsModule,
     MatInputModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   entryComponents: [
     ModalAddGarmentComponent,

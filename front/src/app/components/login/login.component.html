@@ -1,58 +1,94 @@
-<label style="color: rebeccapurple;">{{token}}</label>
-
-<div class="mainContainer justify-content-around" *ngIf="isLogin">
-    <div class="row">
-        <div class="col-2">
+<div *ngIf="!token; else tokenredirect" class="container">
+    <div class="col-12 d-flex justify-content-between">
+        <div class="col-2 text-center">
+            <img src="assets/logo.png" class="img-fluid logo" alt="logo_turnstyle">
         </div>
-        <div class="img col-4">
-            <img src="../../../assets/monitor_montage-sm.png">
+        <div class="col-10 text-right m-auto">
+            <h1>Turnstyle</h1>
+            <p class="font-italic">La mode accéssible pour tous</p>
         </div>
 
-        <div class="col-4">
+        <pre style="color: purple;">
+            {{ isLogin }}
+            {{ isRegistered }}
+            {{ isHome }}
+        </pre>
+    </div>
 
-            <!-- colonne de droite -->
-                <div class="subContainer">
-                <h1>TurnStyle</h1>
-<!-- <button (click)="onClickMe()">Click me!</button> -->
-                    <!-- login form -->
-                    <form [formGroup]="formSubmit">
-                        <input placeholder="Votre email" formControlName="email" class="form-control" id="emailForm" type="email">
-                        <div *ngIf="formSubmit.controls.email.errors">
-                            <span *ngIf="formSubmit.controls.email.errors.required">Veuillez renseigner votre email</span>
-                            <span *ngIf="formSubmit.controls.email.errors.pattern">L'email doit respecter la forme habituelle des emails</span>
-                        </div>
-                        <input placeholder="Votre mot de passe" formControlName="password" class="form-control" id="passwordForm" type="password">
-                        <div *ngIf="formSubmit.controls.password.errors">
-                            <span *ngIf="formSubmit.controls.password.errors.required">Veuillez renseigner votre mot de passe</span>
-                            <span *ngIf="formSubmit.controls.password.errors.minlength">Le mot de passe doit faire 8 caractères minimum</span>
-                        </div>
-                        <!-- <button [disabled]="formSubmit.controls.email.invalid || formSubmit.controls.password.invalid" class="btn btn-success" type="submit" (click)="onLogin()">Login</button> -->
-                        <button class="btn btn-info" type="submit" (click)="login()">Login</button>
-                    </form>
-                </div>
+    <div class="col-12 d-flex row m-auto">
+        <div class="col-6 d-flex row">
+            <div class="col-12 m-auto">
+                <p class="text-justify">La mode (ou les modes), et plus précisément la mode vestimentaire, désigne la manière de se vêtir, conformément au goût d'une époque dans une région donnée. C'est un phénomène impliquant le collectif via la société, le regard qu'elle renvoie, les codes qu'elle impose et le goût individuel.</p>
+            </div>
 
-            <div class="subContainer">
-                <div >Pas encore de compte ?
-                </div>
-                <div>
-                    <a [routerLink]="['/auth', { outlets: {'main':['inscription'] }, skipLocationChange: true }]">Inscrivez-vous !</a>
+            <div class="col-12 m-auto">
+                <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores nihil ad sunt blanditiis dolor soluta corrupti, nemo optio explicabo nostrum nobis commodi, fugit harum error. </p>
+            </div>
+
+            <div class="col-12 d-flex justify-content-around mt-4 mb-4">
+                <button type="button" (click)="effectBtn('inscription')" class="btn btn-primary col-4">Inscription</button>
+                <button type="button" (click)="effectBtn('connexion')" class="btn btn-primary col-4" *ngIf="!isLogin; else isReturn">connexion</button>
+                <ng-template #isReturn>
+                    <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
+                </ng-template>
+            </div>
+
+            <div class="col-12 m-auto">
+                <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores nihil ad sunt blanditiis dolor soluta corrupti, nemo optio explicabo nostrum nobis commodi, fugit harum error. </p>
+            </div>
+
+        </div>
+
+        <div class="col-6">
+            <div class="section" *ngIf="isHome">
+                <img src="assets/femme.jpg" class="img-fluid imageFemme" alt="turnstyle">
+            </div>
+
+            <div class="section d-flex row m-auto justify-content-center" *ngIf="isLogin">
+                <div class="col-8 m-auto">
+                    <div class="d-flex row flex-column">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Adresse mail</mat-label>
+                            <input matInput [formControl]="formConnect.controls.email" placeholder="Adresse email" required>
+                            <mat-error *ngIf="formConnect.controls.email.hasError('required')">
+                                Email <strong>obligatoire</strong>
+                            </mat-error>
+                            <mat-error *ngIf="formConnect.controls.email.hasError('pattern')">
+                                Merci de renseigner un email valide
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Mot de passe</mat-label>
+                            <input matInput [formControl]="formConnect.controls.pass" [type]="hide ? 'password' : 'text'" required>
+                            <button mat-icon-button class="btnPassword" matSuffix (click)="hide = !hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="formConnect.controls.pass.hasError('required')">
+                                Mot de passe obligatoir <strong>obligatoire</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="button" (click)="login()" class="btn btn-success">Se connecter</button>
+                    </div>
                 </div>
             </div>
+
+            <div class="section" *ngIf="isRegistered">
+                form register
+            </div>
+
         </div>
-
     </div>
+
+    <footer class="col-12 text-center">
+        <a>Mention Légal</a>
+    </footer>
 </div>
 
-<div *ngIf="isRegistered">
-    register
-</div>
-
-<div *ngIf="isConnected">
-    is connected
-</div>
-
-
-    <!-- <pre style="color:orangered;font-size: 16px;"> -->
-    <!-- {{ formSubmit.controls.email.errors | json }} -->
-    <!-- {{ formSubmit.controls.password.errors.minLength }} -->
-    <!-- </pre> -->
+<ng-template #tokenredirect>
+    token ici
+</ng-template>
