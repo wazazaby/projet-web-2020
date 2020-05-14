@@ -85,7 +85,7 @@ export class UserController {
                     <div>
                         <h2>Bienvenue sur Turnstyle!</h2>
                         <p>
-                            <a href="http://localhost:3000/api/user/activate/${newUser.getToken()}">Merci de cliquer sur ce lien pour activer votre compte !</a>
+                            <a href="http://localhost:4200/auth?t=${newUser.getToken()}">Merci de cliquer sur ce lien pour activer votre compte !</a>
                         </p>
                     </div>
                     `
