@@ -64,11 +64,25 @@ export class BridgeService {
     /**
      * Inscription
      */
-    register() {
-        console.log('register');
+    register (infos: { name: string, mail: string, pass: string }) {
+        const body = {
+            name: infos.name,
+            email: infos.mail,
+            pass: infos.pass
+        };
+
+        return this.http.post<GlobalReturnInterface>(`${environment.apiUrl}user/add`, body);
     }
 
-    disconnect() {
+    /**
+     * Active un user en fonction de son token
+     * @param {string} token 
+     */
+    activateUser (token: string) {
+        return this.http.get<GlobalReturnInterface>(`${environment.apiUrl}user/activate/${token}`);
+    }
+
+    disconnect () {
         this.disconnectReq().subscribe(res => {
             if (this.stateService.checkStatus(res.status)) {
                 localStorage.clear();
