@@ -7,28 +7,22 @@
             <h1>Turnstyle</h1>
             <p class="font-italic">La mode accéssible pour tous</p>
         </div>
-
-        <pre style="color: purple;">
-            {{ isLogin }}
-            {{ isRegistered }}
-            {{ isHome }}
-        </pre>
     </div>
 
-    <div class="col-12 d-flex row m-auto">
+    <div class="col-12 d-flex row m-auto justify-content-around">
         <div class="col-6 d-flex row">
             <div class="col-12 m-auto">
                 <p class="text-justify">La mode (ou les modes), et plus précisément la mode vestimentaire, désigne la manière de se vêtir, conformément au goût d'une époque dans une région donnée. C'est un phénomène impliquant le collectif via la société, le regard qu'elle renvoie, les codes qu'elle impose et le goût individuel.</p>
             </div>
 
-            <div class="col-12 m-auto">
-                <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores nihil ad sunt blanditiis dolor soluta corrupti, nemo optio explicabo nostrum nobis commodi, fugit harum error. </p>
-            </div>
+            <div class="col-12 d-flex justify-content-around mt-4 mb-4 sectionButton">
+                <button type="button" (click)="effectBtn('inscription')" class="btn btn-primary col-4" *ngIf="!isRegistered; else isReturnRegistered">Inscription</button>
+                <ng-template #isReturnRegistered>
+                    <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
+                </ng-template>
 
-            <div class="col-12 d-flex justify-content-around mt-4 mb-4">
-                <button type="button" (click)="effectBtn('inscription')" class="btn btn-primary col-4">Inscription</button>
-                <button type="button" (click)="effectBtn('connexion')" class="btn btn-primary col-4" *ngIf="!isLogin; else isReturn">connexion</button>
-                <ng-template #isReturn>
+                <button type="button" (click)="effectBtn('connexion')" class="btn btn-primary col-4" *ngIf="!isLogin; else isReturnLogin">connexion</button>
+                <ng-template #isReturnLogin>
                     <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
                 </ng-template>
             </div>
@@ -66,7 +60,7 @@
                                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                             </button>
                             <mat-error *ngIf="formConnect.controls.pass.hasError('required')">
-                                Mot de passe obligatoir <strong>obligatoire</strong>
+                                Mot de passe obligatoire <strong>obligatoire</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -78,14 +72,66 @@
             </div>
 
             <div class="section" *ngIf="isRegistered">
-                form register
+                <div class="col-8 m-auto">
+                    <div class="d-flex row flex-column">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Pseudo</mat-label>
+                            <input matInput [formControl]="formResistered.controls.name" placeholder="Adresse email" required>
+                            <mat-error *ngIf="formResistered.controls.name.hasError('required')">
+                                Pseudo <strong>obligatoire</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Adresse mail</mat-label>
+                            <input matInput [formControl]="formResistered.controls.email" placeholder="Adresse email" required>
+                            <mat-error *ngIf="formResistered.controls.email.hasError('required')">
+                                Email <strong>obligatoire</strong>
+                            </mat-error>
+                            <mat-error *ngIf="formResistered.controls.email.hasError('pattern')">
+                                Merci de renseigner un email valide
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Mot de passe</mat-label>
+                            <input matInput [formControl]="formResistered.controls.pass" [type]="hide ? 'password' : 'text'" required>
+                            <button mat-icon-button class="btnPassword" matSuffix (click)="hide = !hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="formResistered.controls.pass.hasError('required')">
+                                Mot de passe obligatoire <strong>obligatoire</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Confirmation mot de passe</mat-label>
+                            <input matInput [formControl]="formResistered.controls.passConfirm" [type]="hide ? 'password' : 'text'" required>
+                            <button mat-icon-button class="btnPassword" matSuffix (click)="hide = !hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="formResistered.controls.passConfirm.hasError('required')">
+                                Mot de passe obligatoire <strong>obligatoire</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="button" (click)="register()" class="btn btn-success">S'inscrire</button>
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
 
-    <footer class="col-12 text-center">
-        <a>Mention Légal</a>
+    <footer class="col-12 text-center mt-4">
+        <p>
+            <a>Mention Légal</a>
+            <br>
+            <span class="littleLabel">Copyright © Kevin Landry / Teddy Sommavilla.</span>
+        </p>
     </footer>
 </div>
 

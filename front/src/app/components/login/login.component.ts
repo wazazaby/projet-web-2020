@@ -33,13 +33,19 @@ export class LoginComponent implements OnInit { // contient les var du component
     pass: new FormControl('', [Validators.required]),
   });
 
+  /** Formulaire d'inscription */
+  formResistered: FormGroup = this.formBuild.group({
+    email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
+    name: new FormControl('', [Validators.required]),
+    pass: new FormControl('', [Validators.required]),
+    passConfirm: new FormControl('', [Validators.required]),
+  });
+
   constructor(private formBuild: FormBuilder,
               private stateService: StatesService,
               private bridgeService: BridgeService,
               private route: Router,
-              private activeRoute: ActivatedRoute) { // contient services et imports
-
-  }
+              private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
     // test d'url
@@ -57,19 +63,23 @@ export class LoginComponent implements OnInit { // contient les var du component
   effectBtn(value: string) {
     switch (value) {
       case 'inscription':
-        this.isRegistered = true;
-        this.isLogin = false;
         this.isHome = false;
+        this.isLogin = false;
+        this.isRegistered = true;
         break;
       case 'connexion':
+        this.isHome = false;
         this.isLogin = true;
         this.isRegistered = false;
-        this.isHome = false;
+        break;
+      case 'retour':
+        this.isHome = true;
+        this.isLogin = false;
+        this.isRegistered = false;
         break;
       default:
         break;
     }
-    console.log(value);
   }
 
   /**
@@ -96,19 +106,14 @@ export class LoginComponent implements OnInit { // contient les var du component
     } else {
       this.formConnect.markAllAsTouched();
     }
+  }
 
-    // this.bridgeService.login('mail@mail.com', 'motdepasse').subscribe(res => {
-    //   if (this.stateService.checkStatus(res.status)) {
-    //     const data: UserInterface = res.data;
-    //     this.stateService.userProfil = data;
-    //     console.log('Login OK', true, data.url_img_user);
-    //     this.stateService.login();
-    //   } else {
-    //     const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'user/login'};
-    //     this.stateService.errors = err;
-    //     console.log('Login Error', false);
-    //   }
-    // });
+  register() {
+    if (this.formResistered.valid) {
+      console.log(this.formResistered.value);
+    } else {
+      this.formResistered.markAllAsTouched();
+    }
   }
 
 }

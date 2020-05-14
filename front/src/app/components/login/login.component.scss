@@ -21,5 +21,16 @@ h1{
 .section{
   display: flex;
   max-height: 60vh;
-  min-height: 50vh;
+  min-height: 55vh;
+}
+
+.sectionButton{
+  button{
+    max-height: 4em;
+  }
+}
+
+.littleLabel{
+  font-size: 12px;
+  font-style: italic;
 }
