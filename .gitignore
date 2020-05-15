@@ -2,8 +2,9 @@
 node_modules/
 api/node_modules/
 api/.env
-api/dist
+api/dist/
 api/package-lock.json
+api/uploads/
 
 # Gitignore LIB
 lib-turnStyle/package-lock.json
