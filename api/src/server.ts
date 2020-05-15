@@ -27,7 +27,7 @@ DotEnv.config();
 app.keys = [process.env.SECRET1, process.env.SECRET2, process.env.SECRET3];
 
 // Gestion des CORS de l'app
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ credentials: true }));
 
 // Utilisation du logger de Koa (pour voir les status des appels à l'API)
 app.use(logger());
