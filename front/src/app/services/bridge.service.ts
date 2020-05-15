@@ -94,11 +94,13 @@ export class BridgeService {
         if (token) {
             this.checkTokenReq(token).subscribe(res => {
                 if (this.stateService.checkStatus(res.status)) {
-                    console.log('r', res);
+                    this.stateService.userProfil = res.data;
+                    this.stateService.login();
                 } else {
                     const err: ErrorInterface = {
                         code: res.status, message: res.message, route: environment.apiUrl + this.checkTkn};
                     this.stateService.errors = err;
+                    this.router.navigate(['/auth']);
                     console.log(err);
                 }
             });
@@ -293,9 +295,6 @@ export class BridgeService {
         return this.http.delete<GlobalReturnInterface>(
             environment.apiUrl + 'user/' + data.garment.user_id_user + '/garment/delete/' + data.garment.id_garment,
             {
-                headers: new HttpHeaders({
-                    'Access-Control-Allow-Origin': '*'
-                }),
                 withCredentials: true
             });
     }
@@ -336,7 +335,7 @@ export class BridgeService {
         const body = {
             token
         };
-        return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.checkTkn, body);
+        return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.checkTkn, body, {withCredentials: true});
     }
 
 // ****************************************************************************************

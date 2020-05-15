@@ -24,7 +24,7 @@ export class Auth {
     public static byToken (ctx: Context, token: string): boolean {
         if (ctx.session.isNew === true) {
             return false;
-        } else if (ctx.session.token_user !== token) {
+        } else if (ctx.session.auth.token_user !== token) {
             return false;
         }
 
