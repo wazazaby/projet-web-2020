@@ -264,7 +264,7 @@ export class GarmentManager {
             try {
 
                 // On verifie si l'image existe
-                const imageExists: boolean = await fs.stat(`../front/src${garmObj.getUrlImage()}`)
+                const imageExists: boolean = await fs.stat(`.${garmObj.getUrlImage()}`)
                     .then(res => res.isFile())
                     .catch(e => {
                         if (e.code === 'ENOENT') {
@@ -278,7 +278,7 @@ export class GarmentManager {
                 
                 // Si elle existe, on la supprime
                 if (imageExists) {
-                    await fs.unlink(`../front/src${garmObj.getUrlImage()}`);
+                    await fs.unlink(`.${garmObj.getUrlImage()}`);
                 }
 
                 if (await this.deleteGarmentLinksByIdGarment(idGarment)) {

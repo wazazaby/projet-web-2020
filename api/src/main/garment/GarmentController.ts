@@ -133,7 +133,7 @@ export class GarmentController {
             try {
                 
                 // On vérifie si l'image existe et si c'est bien un fichier valide
-                const imageExists: boolean = await fs.stat(`../front/src${garmObj.getUrlImage()}`)
+                const imageExists: boolean = await fs.stat(`.${garmObj.getUrlImage()}`)
                     .then(res => res.isFile())
                     .catch(e => {
                         if (e.code === 'ENOENT') {
@@ -145,7 +145,7 @@ export class GarmentController {
 
                 // Si c'est le cas, on la supprime
                 if (imageExists) {
-                    await fs.unlink(`../front/src${garmObj.getUrlImage()}`);
+                    await fs.unlink(`.${garmObj.getUrlImage()}`);
                 }
 
                 // On met à jour l'objet du garment en question avec les nouvelles données

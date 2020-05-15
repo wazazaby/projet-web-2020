@@ -4,6 +4,8 @@ import * as logger from 'koa-logger';
 import * as bodyParser from 'koa-bodyparser';
 import * as DotEnv from 'dotenv';
 import * as session from 'koa-session';
+import * as serve from 'koa-send';
+import * as Router from 'koa-router';
 
 // L'instance de la connexion à la DB
 import { Db } from './libs/Db';
@@ -19,6 +21,8 @@ import brandRooter from './main/brand/BrandRoute';
 // --------------- IMPORT ROUTES ---------------
 
 const app: Koa = new Koa();
+const router: Router<Koa.DefaultState, Koa.Context> = new Router<Koa.DefaultState, Koa.Context>();
+router.get('/uploads/(.*)', async (ctx: Koa.Context): Promise<string> => serve(ctx, ctx.path, { maxAge: 31536000000 }));
 
 // Setup des variables d'environnement
 DotEnv.config();
@@ -43,6 +47,10 @@ app.use(bodyParser());
 app.use(session({ maxAge: 86400000 }, app));
 
 // ---------- ROUTES ----------
+// Serv static files
+app.use(router.routes());
+app.use(router.allowedMethods());
+
 // User
 app.use(userRooter.routes());
 app.use(userRooter.allowedMethods());
