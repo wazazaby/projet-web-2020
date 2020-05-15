@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StatesService } from 'src/app/services/states.service';
+import { BridgeService } from 'src/app/services/bridge.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,8 @@ import { Component, OnInit } from '@angular/core';
 
 export class HomeComponent implements OnInit {
 
-  constructor() {}
+  constructor(stateService: StatesService,
+              bridgeService: BridgeService) {}
 
   ngOnInit() {
   }
