@@ -27,6 +27,10 @@ export class StatesService {
   private _type: BehaviorSubject<TypeInterface[]> = new BehaviorSubject<TypeInterface[]>([]); // tslint:disable-line
   private _user: BehaviorSubject<UserInterface> = new BehaviorSubject<UserInterface>(null); // tslint:disable-line
   private _garment: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
+  private _garmentTop: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
+  private _garmentMid: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
+  private _garmentBot: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
+
   private _errors: BehaviorSubject<ErrorInterface> = new BehaviorSubject<ErrorInterface>(null); // tslint:disable-line
 
   private _loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // tslint:disable-line
@@ -100,6 +104,41 @@ export class StatesService {
       if (a[where][key] > b[where][key]) { return y; }
       return 0;
     });
+  }
+
+  /**
+   * Trie les vêtements en fonction de leurs types
+   * @param g garment
+   */
+  classGarment(g: GarmentColorStyleWrapperInterface[]) {
+    const top = [];
+    const mid = [];
+    const bot = [];
+
+    this.garmentTop = [];
+    this.garmentMid = [];
+    this.garmentBot = [];
+
+    g.forEach(v => {
+      switch (v.garment.type_id_type) {
+        case 7 || 8 || 9 || 10 || 11 || 12 || 13 || 14:
+          // top
+          top.push(v);
+          break;
+        case 1 || 2 || 3 || 4 || 5 || 6:
+          // mid
+          mid.push(v);
+          break;
+        default:
+          // bot
+          bot.push(v);
+          break;
+      }
+    });
+
+    this.garmentTop = top;
+    this.garmentMid = mid;
+    this.garmentBot = bot;
   }
 
   // =============================GETTER/SETTER=============================
@@ -208,6 +247,7 @@ export class StatesService {
   }
 
   public set garment(u: GarmentColorStyleWrapperInterface[]) {
+    this.classGarment(u);
     this._garment.next(u);
   }
 
@@ -215,5 +255,50 @@ export class StatesService {
     return this._garment.asObservable();
   }
   // ============================= Fin Garment =============================
+
+  // ***********************************************************************
+  // ========================== Début Garment Top ==========================
+  public get garmentTop(): GarmentColorStyleWrapperInterface[] {
+    return this._garmentTop.getValue();
+  }
+
+  public set garmentTop(u: GarmentColorStyleWrapperInterface[]) {
+    this._garmentTop.next(u);
+  }
+
+  public garmentTopAsObservable(): Observable<GarmentColorStyleWrapperInterface[]> {
+    return this._garmentTop.asObservable();
+  }
+  // ========================== Début Garment Top ==========================
+
+    // ***********************************************************************
+  // ========================== Début Garment Mid ==========================
+  public get garmentMid(): GarmentColorStyleWrapperInterface[] {
+    return this._garmentMid.getValue();
+  }
+
+  public set garmentMid(u: GarmentColorStyleWrapperInterface[]) {
+    this._garmentMid.next(u);
+  }
+
+  public garmentMidAsObservable(): Observable<GarmentColorStyleWrapperInterface[]> {
+    return this._garmentMid.asObservable();
+  }
+  // ========================== Début Garment Mid ==========================
+
+    // ***********************************************************************
+  // ========================== Début Garment Bot ==========================
+  public get garmentBot(): GarmentColorStyleWrapperInterface[] {
+    return this._garmentBot.getValue();
+  }
+
+  public set garmentBot(u: GarmentColorStyleWrapperInterface[]) {
+    this._garmentBot.next(u);
+  }
+
+  public garmentBotAsObservable(): Observable<GarmentColorStyleWrapperInterface[]> {
+    return this._garmentBot.asObservable();
+  }
+  // ========================== Début Garment Bot ==========================
   // =============================GETTER/SETTER=============================
 }

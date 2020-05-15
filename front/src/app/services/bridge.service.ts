@@ -277,8 +277,8 @@ export class BridgeService {
     /**
      * Permet d'ajouter un vêtement
      */
-    addGarment (formData: FormData) {
-        return this.http.post(`${environment.apiUrl}${this.userGarmentAdd}`, formData, { withCredentials: true });
+    addGarment(formData: FormData) {
+        return this.http.post<GlobalReturnInterface>(`${environment.apiUrl}${this.userGarmentAdd}`, formData, { withCredentials: true });
     }
 
     /**

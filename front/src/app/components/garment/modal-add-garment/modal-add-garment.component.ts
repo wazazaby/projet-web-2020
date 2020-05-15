@@ -1,10 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GarmentInterface, SeasonInterface, TypeInterface, StyleInterface, BrandInterface, ColorInterface } from '@osmo6/models';
+import {
+    SeasonInterface, TypeInterface, StyleInterface, BrandInterface, ColorInterface, GarmentColorStyleWrapperInterface, ErrorInterface
+} from '@osmo6/models';
 import { StatesService } from 'src/app/services/states.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { BridgeService } from 'src/app/services/bridge.service';
+import { environment } from 'src/environments/environment';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -19,17 +22,17 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./modal-add-garment.component.scss']
 })
 export class ModalAddGarmentComponent implements OnInit {
-    
+
     constructor(private formBuild: FormBuilder,
-        private stateService: StatesService,
-        private bridgeService: BridgeService,
-        @Inject(MAT_DIALOG_DATA) public data: {userId: number}) { }
-        
+                private stateService: StatesService,
+                private bridgeService: BridgeService,
+                @Inject(MAT_DIALOG_DATA) public data: {userId: number}) { }
+
     // image
     file: File;
     // url temporaire pour la preview
     url: any;
-    
+
     // Champs obligatoire pour la création d'un vêtement
     formGarment: FormGroup = this.formBuild.group({
         label_garment: new FormControl('', [Validators.required]),
@@ -41,25 +44,24 @@ export class ModalAddGarmentComponent implements OnInit {
         colorPrim: new FormControl('', [Validators.required]),
         colorSecond: ['', []],
     });
-    
+
     // matcher d'erreur input
     matcher = new MyErrorStateMatcher();
-    
+
     // Etape de création d'un vêtement
     stepOne: boolean;
-    
+
     // Saison
     season: SeasonInterface[] = this.stateService.season;
     type: TypeInterface[] = this.stateService.type;
     style: StyleInterface[] = this.stateService.style;
     brand: BrandInterface[] = this.stateService.brand;
     color: ColorInterface[] = this.stateService.color;
-    
-    
+
     ngOnInit() {
         this.stepOne = true;
     }
-    
+
     uploadFile(event) {
         this.url = null;
         this.file = event[0];
@@ -71,21 +73,21 @@ export class ModalAddGarmentComponent implements OnInit {
             if (evt.target && evt.target.result) {
                 this.url = evt.target.result;
             }
-            
+
             if (this.url && this.file) {
                 this.stepOne = false;
             }
         };
     }
-    
+
     removeFile() {
         this.file = null;
         this.url = null;
         this.stepOne = true;
     }
-    
+
     sendFile() {
-        if (this.formGarment.valid) {         
+        if (this.formGarment.valid) {
             const colors = [this.formGarment.value.colorPrim];
             if (this.formGarment.value.colorSecond) {
                 colors.push(this.formGarment.value.colorSecond);
@@ -100,12 +102,28 @@ export class ModalAddGarmentComponent implements OnInit {
             formData.append('brand_id_brand', this.formGarment.value.brand_id_brand);
             formData.append('season_id_season', this.formGarment.value.season_id_season);
             formData.append('type_id_type', this.formGarment.value.type_id_type);
-            
+
             this.bridgeService.addGarment(formData).subscribe(res => {
+                if (this.stateService.checkStatus(res.status)) {
+
+                    const data: GarmentColorStyleWrapperInterface = res.data;
+                    const garment: GarmentColorStyleWrapperInterface[] = this.stateService.garment;
+                    garment.push(data);
+                    this.stateService.garment = garment;
+                    this.file = null;
+                    this.formGarment.reset();
+                } else {
+                    const err: ErrorInterface = {
+                        code: res.status,
+                        message: res.message,
+                        route: environment.apiUrl + this.bridgeService.userGarmentAdd
+                    };
+                    this.stateService.errors = err;
+                }
                 console.log(res);
-            });           
+            });
         } else {
             this.formGarment.markAllAsTouched();
         }
-    }   
+    }
 }

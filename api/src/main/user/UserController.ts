@@ -47,7 +47,7 @@ export class UserController {
 
     /**
      * Permet de créer un utilisateur, et d'envoyer le mail d'activation
-     * @param {Context} ctx 
+     * @param {Context} ctx
      */
     public async createUser (ctx: Context): Promise<void> {
 
