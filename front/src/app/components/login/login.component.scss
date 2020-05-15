@@ -22,6 +22,12 @@ h1{
   display: flex;
   max-height: 60vh;
   min-height: 55vh;
+
+  .section-img{
+    padding: 1em;
+    border: 1px solid transparent;
+    border-radius: 2em 0 0 2em;
+  }
 }
 
 .sectionButton{

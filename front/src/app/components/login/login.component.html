@@ -10,7 +10,7 @@
     </div>
 
     <div class="col-12 d-flex row m-auto justify-content-around">
-        <div class="col-6 d-flex row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 d-flex row">
             <div class="col-12 m-auto">
                 <p class="text-justify">La mode (ou les modes), et plus précisément la mode vestimentaire, désigne la manière de se vêtir, conformément au goût d'une époque dans une région donnée. C'est un phénomène impliquant le collectif via la société, le regard qu'elle renvoie, les codes qu'elle impose et le goût individuel.</p>
             </div>
@@ -33,9 +33,11 @@
 
         </div>
 
-        <div class="col-6">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="section" *ngIf="isHome">
-                <img src="assets/femme.jpg" class="img-fluid imageFemme" alt="turnstyle">
+                <div class="section-img">
+                    <img src="assets/femme.jpg" class="img-fluid imageFemme" alt="turnstyle">
+                </div>
             </div>
 
             <div class="section d-flex row m-auto justify-content-center" *ngIf="isLogin">
