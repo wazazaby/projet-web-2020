@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ModalAddGarmentComponent', () => {
   let component: ModalAddGarmentComponent;
@@ -29,7 +30,8 @@ describe('ModalAddGarmentComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatOptionModule,
-        MatSelectModule
+        MatSelectModule,
+        HttpClientModule
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },

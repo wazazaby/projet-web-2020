@@ -1,6 +1,6 @@
 <div class="wrapper" [ngClass]="{'collapseCustom': !isCollapse}" *ngIf="isLoggedIn$">
     <nav class="top_navbar">
-      <div class="hamburger" (click)="collapse()">
+      <div class="hamburger" (click)="collapse($event)">
         <i class="fas fa-bars m-auto"></i>
       </div>
 

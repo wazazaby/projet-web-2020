@@ -4,13 +4,15 @@ import { BridgeService } from './bridge.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 describe('BridgeService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
       HttpClientModule,
       RouterTestingModule,
-      MatSnackBarModule
+      MatSnackBarModule,
+      RouterModule
     ]
   }));
 

@@ -7,15 +7,15 @@
 
     <div class="filter row col-10">
       <!-- Filtre -->
-      <div *ngFor="let f of filterName" class="col-2">
+      <div *ngFor="let f of filterName" class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
         <!-- Filter name -->
         <div class="d-flex row justify-content-around" (click)="openFilter(f.id, f.active)">
-          <span [ngClass]="{activeChevron: f.active}" class="title">{{f.title}}</span>
-          <span *ngIf="f.active; else noActive">
+          <span [ngClass]="{activeChevron: f.active}" class="title col-9">{{f.title}}</span>
+          <span *ngIf="f.active; else noActive" class="col-3">
             <i [ngClass]="{activeChevron: f.active}" class="fas fa-chevron-up"></i>
           </span>
           <ng-template #noActive>
-            <span>
+            <span class="col-3">
               <i class="fas fa-chevron-down"></i>
             </span>
           </ng-template>
@@ -55,7 +55,7 @@
       </div>
 
       <!-- Taille de la liste des vêtements user -->
-      <p *ngIf="garment">
+      <p class="col-12 text-right mt-2" *ngIf="garment">
         {{ garment.length }} <span *ngIf="garment.length === 0 || garment.length === 1; else moreGarment">Vêtement</span>
         <ng-template #moreGarment>
           Vêtements
@@ -97,7 +97,7 @@
 
   <!-- Partie card garment -->
   <div (click)="resetFilter()" class="col-12 justify-content-center row mx-auto" *ngIf="garment.length != 0; else noGarment">
-    <div *ngFor="let g of garment" class="col-xl-2 col-md-4 col-sm-6 col-12 sect-img">
+    <div *ngFor="let g of garment" class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 sect-img">
       <p [innerText]="g.garment.label_garment"></p>
       <div class="sect-hover">
         <img class="img-fluid" [src]="g.garment.url_img_garment" [alt]="g.garment.label_garment">
