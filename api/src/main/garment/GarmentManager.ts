@@ -1,7 +1,7 @@
 import { Db } from '../../libs/Db';
 import { Garment } from './GarmentEntity';
 import { ColorInterface, GarmentColorStyleWrapperInterface, StyleInterface, InsertReturnInterface } from '@osmo6/models';
-import {promises as fs} from 'fs';
+import { promises as fs, Stats } from 'fs';
 
 /**
  * Manager Garment
@@ -258,10 +258,16 @@ export class GarmentManager {
         // On récupère l'objet du garment
         const garm: (GarmentColorStyleWrapperInterface|null) = await this.getGarmentById(idGarment);
         if (garm !== null) {
+
+            const garmObj: Garment = new Garment(garm.garment);
             try {
 
-                // On supprime l'image
-                await fs.unlink(garm.garment.url_img_garment);
+                // Si le fichier existe bien, on le supprime
+                const blob: Stats = await fs.lstat(garmObj.getUrlImage());
+                if (blob.isFile()) {
+                    await fs.unlink(garmObj.getUrlImage());
+                }
+
                 if (await this.deleteGarmentLinksByIdGarment(idGarment)) {
                     try {
         

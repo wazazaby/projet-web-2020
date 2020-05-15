@@ -3,7 +3,7 @@ import { Context } from 'koa';
 import { Garment } from './GarmentEntity';
 import { Body } from '../../libs/Body';
 import { GarmentColorStyleWrapperInterface, InsertReturnInterface } from '@osmo6/models';
-import { promises as fs } from 'fs';
+import { promises as fs, Stats } from 'fs';
 import { Auth } from '../../libs/Auth'; 
 
 type UploadedFile = {
@@ -132,8 +132,11 @@ export class GarmentController {
 
             try {
 
-                // On supprime l'image actuelle du garment
-                await fs.unlink(garmObj.getUrlImage());
+                // Si l'image existe bien, on la supprime
+                const blob: Stats = await fs.lstat(garmObj.getUrlImage());
+                if (blob.isFile()) {
+                    await fs.unlink(garmObj.getUrlImage());
+                }
 
                 // On met à jour l'objet du garment en question avec les nouvelles données
                 garmObj
