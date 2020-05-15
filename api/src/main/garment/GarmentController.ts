@@ -64,7 +64,7 @@ export class GarmentController {
         const newGarm: Garment = new Garment({
             id_garment: null,
             label_garment: ctx.request.body.label_garment,
-            url_img_garment: `/assets/uploads/${file.filename}`,
+            url_img_garment: `/uploads/${file.filename}`,
             creation_date_garment: Math.floor(Date.now() / 1000),
             modification_date_garment: null,
             user_id_user: idUser,

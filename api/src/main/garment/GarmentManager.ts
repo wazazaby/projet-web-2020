@@ -273,6 +273,8 @@ export class GarmentManager {
 
                         throw e;
                     });
+
+                console.log(imageExists);
                 
                 // Si elle existe, on la supprime
                 if (imageExists) {
