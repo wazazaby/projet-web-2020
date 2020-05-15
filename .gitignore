@@ -1,10 +1,13 @@
+# Gitignore API
 node_modules/
-front/node_modules/
 api/node_modules/
 api/.env
-api/uploads
 api/dist
-
-front/package-lock.json
-lib-turnStyle/package-lock.json
 api/package-lock.json
+
+# Gitignore LIB
+lib-turnStyle/package-lock.json
+
+# Gitignore FRONT
+front/package-lock.json
+front/node_modules/
