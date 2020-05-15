@@ -85,6 +85,8 @@ export class NavbarComponent implements OnInit {
     if (e && !bool) {
       if (e.type === 'mouseover') {
         bool = true;
+      } else if (e.type === 'click') {
+        bool = !this.isCollapse;
       } else  {
         bool = false;
       }
