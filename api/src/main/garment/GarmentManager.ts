@@ -181,9 +181,10 @@ export class GarmentManager {
                         return null;
                     }
                 }
-
+                
+                // Pareil que pour les couleurs
                 if (styles !== null && styles.length > 0) {
-                    if (await this.generateGarmentStyleLinks(idLastInsertedGarment, styles) !== colors.length) {
+                    if (await this.generateGarmentStyleLinks(idLastInsertedGarment, styles) !== styles.length) {
                         return null;
                     }
                 }

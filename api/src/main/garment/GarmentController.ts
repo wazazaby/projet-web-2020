@@ -57,8 +57,8 @@ export class GarmentController {
 
         // Récupération du fichier et des couleurs / styles
         const file: UploadedFile = ctx.file;
-        const colors: number[] = ctx.request.body.id_color;
-        const styles: number[] = ctx.request.body.id_style;
+        const colors: number[] = JSON.parse(ctx.request.body.color);
+        const styles: number[] = JSON.parse(ctx.request.body.style);
 
         // Création du garment
         const newGarm: Garment = new Garment({
