@@ -264,9 +264,9 @@ export class GarmentManager {
             try {
 
                 // Si le fichier existe bien, on le supprime
-                const blob: Stats = await fs.lstat(garmObj.getUrlImage());
+                const blob: Stats = await fs.lstat(`../front/src${garmObj.getUrlImage()}`);
                 if (blob.isFile()) {
-                    await fs.unlink(garmObj.getUrlImage());
+                    await fs.unlink(`../front/src${garmObj.getUrlImage()}`);
                 }
 
                 if (await this.deleteGarmentLinksByIdGarment(idGarment)) {

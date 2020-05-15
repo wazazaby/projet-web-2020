@@ -64,7 +64,7 @@ export class GarmentController {
         const newGarm: Garment = new Garment({
             id_garment: null,
             label_garment: ctx.request.body.label_garment,
-            url_img_garment: `${file.destination}${file.filename}`,
+            url_img_garment: `/assets/uploads/${file.filename}`,
             creation_date_garment: Math.floor(Date.now() / 1000),
             modification_date_garment: null,
             user_id_user: idUser,
@@ -133,9 +133,9 @@ export class GarmentController {
             try {
 
                 // Si l'image existe bien, on la supprime
-                const blob: Stats = await fs.lstat(garmObj.getUrlImage());
+                const blob: Stats = await fs.lstat(`../front/src${garmObj.getUrlImage()}`);
                 if (blob.isFile()) {
-                    await fs.unlink(garmObj.getUrlImage());
+                    await fs.unlink(`../front/src${garmObj.getUrlImage()}`);
                 }
 
                 // On met à jour l'objet du garment en question avec les nouvelles données

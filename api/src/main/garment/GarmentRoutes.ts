@@ -20,7 +20,7 @@ const upload: any = multer({
     storage: multer.diskStorage({
 
         // Le dossier de déstination
-        destination: 'uploads/',
+        destination: '../front/src/assets/uploads',
     
         // Le nom du fichier => timestamp + nom-du-fichier (whitespace remplacés par '-', lowercase)
         filename: (request: IncomingMessage, file: File, callback: Function) => callback(null, `${Date.now()}-${file.originalname.replace(/\s/g, '-').toLowerCase()}`)
