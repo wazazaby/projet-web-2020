@@ -285,11 +285,10 @@ export class BridgeService {
      * Créer un observable pour supprimer un vêtement
      */
     deleteGarmentReq(data: GarmentColorStyleWrapperInterface) {
-        return this.http.delete<GlobalReturnInterface>(
-            environment.apiUrl + 'user/' + data.garment.user_id_user + '/garment/delete/' + data.garment.id_garment,
-            {
-                withCredentials: true
-            });
+        const idUser: number = data.garment.user_id_user;
+        const idGarment: number = data.garment.id_garment;
+        const url: string = `${environment.apiUrl}user/${idUser}/garment/delete/${idGarment}`;
+        return this.http.delete<GlobalReturnInterface>(url, { withCredentials: true });
     }
 
     /**

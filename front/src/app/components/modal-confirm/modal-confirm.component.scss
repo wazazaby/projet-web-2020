@@ -1,0 +1,10 @@
+.modal-confirm {
+    .flex-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    button.cancel {
+        margin-right: 20px;
+    }
+}
