@@ -131,17 +131,27 @@ export class GarmentController {
             const file: UploadedFile = ctx.file;
 
             try {
+                
+                // On vérifie si l'image existe et si c'est bien un fichier valide
+                const imageExists: boolean = await fs.stat(`../front/src${garmObj.getUrlImage()}`)
+                    .then(res => res.isFile())
+                    .catch(e => {
+                        if (e.code === 'ENOENT') {
+                            return false;
+                        }
 
-                // Si l'image existe bien, on la supprime
-                const blob: Stats = await fs.lstat(`../front/src${garmObj.getUrlImage()}`);
-                if (blob.isFile()) {
+                        throw e;
+                    });
+
+                // Si c'est le cas, on la supprime
+                if (imageExists) {
                     await fs.unlink(`../front/src${garmObj.getUrlImage()}`);
                 }
 
                 // On met à jour l'objet du garment en question avec les nouvelles données
                 garmObj
                     .setLabel(requestBody.label_garment)
-                    .setUrlImage(`${file.destination}${file.filename}`)
+                    .setUrlImage(`../front/src${file.filename}`)
                     .setModificationDate(Math.floor(Date.now() / 1000))
                     .setIdBrand(requestBody.brand_id_brand)
                     .setIdSeason(requestBody.season_id_season)

@@ -263,9 +263,19 @@ export class GarmentManager {
             const garmObj: Garment = new Garment(garm.garment);
             try {
 
-                // Si le fichier existe bien, on le supprime
-                const blob: Stats = await fs.lstat(`../front/src${garmObj.getUrlImage()}`);
-                if (blob.isFile()) {
+                // On verifie si l'image existe
+                const imageExists: boolean = await fs.stat(`../front/src${garmObj.getUrlImage()}`)
+                    .then(res => res.isFile())
+                    .catch(e => {
+                        if (e.code === 'ENOENT') {
+                            return false;
+                        }
+
+                        throw e;
+                    });
+                
+                // Si elle existe, on la supprime
+                if (imageExists) {
                     await fs.unlink(`../front/src${garmObj.getUrlImage()}`);
                 }
 
