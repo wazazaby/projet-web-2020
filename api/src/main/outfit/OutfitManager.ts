@@ -1,11 +1,16 @@
 import { Db } from '../../libs/Db';
 import { Outfit } from './OutfitEntity';
-import { GarmentColorStyleWrapperInterface } from '@osmo6/models';
+import { GarmentColorStyleWrapperInterface, OutfitGarmentWrapperInterface } from '@osmo6/models';
 import { GarmentManager } from '../garment/GarmentManager';
 
 export class OutfitManager {
 
-    public async getOutfitById (id: number): Promise<any> {
+    /**
+     * Permet de récupérer un outfit ainsi que les garments qui lui sont associés par rapport à son id
+     * @param id l'id de l'outfit que l'on souhaite récupérer
+     * @returns {Promise<(OutfitGarmentWrapperInterface|null)>} l'outfit si trouvé, null dans le cas contraire
+     */
+    public async getOutfitById (id: number): Promise<(OutfitGarmentWrapperInterface|null)> {
         const sql: string = 'SELECT * FROM outfit WHERE id_outfit = ?';
         try {
             const res: any = await Db.pool.execute(sql, [id]);
@@ -20,17 +25,24 @@ export class OutfitManager {
 
                 const idGarms: any = await Db.pool.execute(sqLinks, [fit.getId()]);
 
+                // On instancie le tableau qui recevra les garments de l'outfit
                 let allGarms: GarmentColorStyleWrapperInterface[] = [];
+
+                // Si il y a bien quelque chose, on peuple le tableau
                 if (idGarms[0].length > 0) {
+
+                    // On fait appel au GarmentManager pour récupérer les garments par leur id
                     const gManager: GarmentManager = new GarmentManager();
                     const tabPromise: Promise<GarmentColorStyleWrapperInterface>[] = [];
                     for (const garm of idGarms[0]) {
                         tabPromise.push(gManager.getGarmentById(garm.garment_id_garment));
                     }
 
+                    // On résout le tout est on y passe au tableau précedemment instancié
                     allGarms = await Promise.all(tabPromise);
                 }
-
+                
+                // On retourne l'outfit avec ses garments (peuvent être vides)
                 return {
                     outfit: fit,
                     garments: allGarms
@@ -47,11 +59,14 @@ export class OutfitManager {
     /**
      * Permet de créer une tenu et faire les liaisons avec les vêtements qui appartiennent à cette tenu
      * @param {Outfit} outfit 
-     * @param garments 
+     * @param {number[]} garments la liste des garments à ajoutés à la tenue
+     * @returns {Promise<(OutfitGarmentWrapperInterface|null)>}
      */
-    public async insertOutfit (outfit: Outfit, garments: number[]): Promise<any> {
+    public async insertOutfit (outfit: Outfit, garments: number[]): Promise<(OutfitGarmentWrapperInterface|null)> {
         const sql: string = `INSERT INTO outfit VALUES (?, ?, ?, ?, ?)`;
         try {
+
+            // Création de l'outfit lui même
             const insert: any = await Db.pool.execute(sql, [
                 outfit.getId(),
                 outfit.getLabel(),
@@ -60,11 +75,15 @@ export class OutfitManager {
                 outfit.getIdUser()
             ]);
 
+            // Si autre chose qu'une seule ligne a été créée, on renvoit null
             if (insert[0].affectedRows === 1) {
                 const idNewFit: number = insert[0].insertId;
+
+                // On génère les associations en fonction du nouveau outfit inséré
                 if (await this.generateOutfitLinks(idNewFit, garments)) {
-                    const test: any = await this.getOutfitById(idNewFit);
-                    return test;
+
+                    // On retourne le nouvel outfit complet avec ses garments
+                    return await this.getOutfitById(idNewFit);
                 } else {
                     return null;
                 }
@@ -76,6 +95,12 @@ export class OutfitManager {
         }
     }
 
+    /**
+     * Créer la liaison entre l'outfit et le garment dans outfit_has_garment
+     * @param {number} idFit 
+     * @param {number} idGarm
+     * @returns {Promise<boolean>} true si la liaison a été faite, false dans le cas contraire
+     */
     private async insertOutfitGarm (idFit: number, idGarm: number): Promise<boolean> {
         const sql: string = `INSERT INTO outfit_has_garment VALUES (?, ?, ?)`;
         try {
@@ -90,14 +115,27 @@ export class OutfitManager {
         }
     }
 
+    /**
+     * Main de la création des associations
+     * @param {number} idFit 
+     * @param {number[]} garments 
+     * @returns {Promise<boolean>} true si tout les éléments ont été crées, false si un seul élément n'as pas été crée
+     */
     private async generateOutfitLinks (idFit: number, garments: number[]): Promise<boolean> {
-        const isTrue = (value: boolean): boolean => value;
+
+        // Le tableau qui contiendra toutes (3) promesses à résoudre
         const result: Promise<boolean>[] = [];
+
+        // Pour chaque id, on l'insert et on pousse sa promesse dans le tableau
         for (const idGarm of garments) {
             result.push(this.insertOutfitGarm(idFit, idGarm));
         }
 
+        // On résout toutes les promesses d'un coup
         const resolved: boolean[] = await Promise.all(result);
-        return resolved.every(isTrue);
+
+        // Si toutes les valeurs du tableau sont à true, on renvoit true
+        // Si une seule valeur est à false, on renvoit false
+        return resolved.every((val: boolean): boolean => val);
     }
 }
