@@ -1,8 +1,29 @@
-<div class="container">
-    <div>
-        section déroulante
-    </div>
-    <div>
-        section assemblage
-    </div>
+
+
+<div class="col-12 d-flex row justify-content-around">
+    <button (click)="moveLeft()" class="col-1"><i class="fas fa-chevron-left"></i></button>
+    <drag-scroll class="col-6" #nav (indexChanged)="index($event)">
+        <img class="col-4" drag-scroll-item />
+        <img (click)="moveItem(i, g)" class="col-4" *ngFor="let g of topGarment; index as i" drag-scroll-item [src]="urlUpload + g.garment.url_img_garment" />
+        <img class="col-4" drag-scroll-item />
+    </drag-scroll>
+    <button (click)="moveRight()" class="col-1"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<div class="col-12 d-flex row justify-content-around">
+    <button (click)="moveLeft()" class="col-1"><i class="fas fa-chevron-left"></i></button>
+    <drag-scroll class="col-6" #nav (indexChanged)="index($event)">
+        <img class="col-4" drag-scroll-item />
+        <img (click)="moveItem(i, g)" class="col-4" *ngFor="let g of midGarment; index as i" drag-scroll-item [src]="urlUpload + g.garment.url_img_garment" />
+    </drag-scroll>
+    <button (click)="moveRight()" class="col-1"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<div class="col-12 d-flex row justify-content-around">
+    <button (click)="moveLeft()" class="col-1"><i class="fas fa-chevron-left"></i></button>
+    <drag-scroll class="col-6" #nav (indexChanged)="index($event)">
+        <img class="col-4" drag-scroll-item />
+        <img (click)="moveItem(i, g)" class="col-4" *ngFor="let g of botGarment; index as i" drag-scroll-item [src]="urlUpload + g.garment.url_img_garment" />
+    </drag-scroll>
+    <button (click)="moveRight()" class="col-1"><i class="fas fa-chevron-right"></i></button>
 </div>

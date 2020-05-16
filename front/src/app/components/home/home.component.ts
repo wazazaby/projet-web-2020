@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GarmentColorStyleWrapperInterface, UserInterface, TypeInterface } from '@osmo6/models';
 
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
+import { environment } from 'src/environments/environment';
+import { DragScrollComponent } from 'ngx-drag-scroll';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +30,15 @@ export class HomeComponent implements OnInit {
   /** Liste des types de vêtement */
   type: TypeInterface[] = this.stateService.type;
 
+  /** base url upload image */
+  urlUpload = environment.apiUpload;
+
+  @ViewChild('nav', {
+    static: true,
+    read: DragScrollComponent
+  }) ds: DragScrollComponent;
+
+
   ngOnInit() {
     /** Si aucun vêtement */
     if (this.garment.length === 0) {
@@ -39,5 +50,32 @@ export class HomeComponent implements OnInit {
       this.garment = res;
       console.log(this.topGarment);
     });
+    this.moveTo(0);
+  }
+
+  moveItem(i: number, garment: GarmentColorStyleWrapperInterface) {
+    console.log(i, garment);
+    this.moveTo(i);
+  }
+
+  /**
+   * Permet de définir le numero de l'index
+   * @param {number}
+   */
+  index(e) {
+    console.log(e);
+    console.log(this.garment[e].garment);
+  }
+
+  moveLeft() {
+    this.ds.moveLeft();
+  }
+
+  moveRight() {
+    this.ds.moveRight();
+  }
+
+  moveTo(index) {
+    this.ds.moveTo(index);
   }
 }

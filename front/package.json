@@ -26,6 +26,7 @@
     "@osmo6/models": "file:../lib-turnstyle/dist/osmo6/models/osmo6-models-0.0.1.tgz",
     "bootstrap-css-only": "^4.4.1",
     "hammerjs": "^2.0.8",
+    "ngx-drag-scroll": "^8.0.0-beta.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
