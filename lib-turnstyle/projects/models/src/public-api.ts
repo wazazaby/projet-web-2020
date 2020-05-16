@@ -11,3 +11,4 @@ export * from './lib/TypeInterface';
 export * from './lib/UserInterface';
 export * from './lib/ErrorInterface';
 export * from './lib/GarmentColorStyleWrapperInterface';
+export * from './lib/OutfitGarmentWrapperInterface';
