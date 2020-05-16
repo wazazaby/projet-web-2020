@@ -15,7 +15,7 @@ export class TypeController {
         if (result) {
             ctx.body = new Body(200, 'Ok', result);
         } else {
-            ctx.throw(403, "Aucun type de vêtement n'a été trouver");
+            ctx.body = new Body(403, "Aucun type de vêtement n'a été trouver");
         }
     }
 

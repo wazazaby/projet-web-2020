@@ -15,7 +15,7 @@ export class BrandController {
         if (result) {
             ctx.body = new Body(200, 'Ok', result);
         } else {
-            ctx.throw(403, "Aucune marque de vêtement n'a été trouver");
+            ctx.body = new Body(403, "Aucune marque de vêtement n'a été trouver");
         }
     }
 

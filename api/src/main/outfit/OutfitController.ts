@@ -14,7 +14,8 @@ export class OutfitController {
     public async createOutfit (ctx: Context): Promise<void> {
         const idUser: number = Number(ctx.request.body.user_id_user);
         if (!Auth.isValid(ctx, idUser)) {
-            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+            ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+            return;
         }
 
         const fit: Outfit = new Outfit({
