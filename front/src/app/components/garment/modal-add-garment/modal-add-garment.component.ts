@@ -125,13 +125,8 @@ export class ModalAddGarmentComponent implements OnInit {
             formData.append('season_id_season', this.formGarment.value.season_id_season);
             formData.append('type_id_type', this.formGarment.value.type_id_type);
 
-
-            console.log(this.formGarment);
-            console.log(this.file);
-            console.log(this.url);
-
             if (!this.data.garment) {
-                // création
+
                 this.bridgeService.addGarment(formData).subscribe(res => {
                     if (this.stateService.checkStatus(res.status)) {
 
@@ -159,7 +154,9 @@ export class ModalAddGarmentComponent implements OnInit {
                     console.log(res);
                 });
             } else {
-                // modification
+                formData.append('id_garment', JSON.stringify(this.data.garment.garment.id_garment));
+
+
                 this.bridgeService.upadateGarment(formData).subscribe(res => {
                     if (this.stateService.checkStatus(res.status)) {
                         console.log(res);
@@ -169,6 +166,7 @@ export class ModalAddGarmentComponent implements OnInit {
                             message: res.message,
                             route: environment.apiUrl + this.bridgeService.userGarmentSet
                         };
+
                         this.stateService.errors = err;
                         console.log(res);
                     }
