@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { GarmentColorStyleWrapperInterface } from '@osmo6/models';
 
 @Component({
     selector: 'app-modal-confirm',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./modal-confirm.component.scss']
 })
 export class ModalConfirmComponent implements OnInit {
-    
-    constructor() { }
-    
+
+    constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+
+    route: string = this.data.route;
+    garment: GarmentColorStyleWrapperInterface = this.data.garment ? this.data.garment : null;
+
     ngOnInit() {
-        
+    }
+
+    convertDate(d: number) {
+        return new Date(d * 1000);
     }
 }

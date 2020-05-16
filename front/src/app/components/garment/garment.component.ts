@@ -303,7 +303,8 @@ export class GarmentComponent implements OnInit {
 
     removeGarment(garment: GarmentColorStyleWrapperInterface) {
         const dialogRef = this.dialog.open(ModalConfirmComponent, {
-            width: '60%'
+            width: '60%',
+            data: {garment, route: 'garment'}
         });
 
         dialogRef.afterClosed().subscribe(res => {
