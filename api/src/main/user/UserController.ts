@@ -94,13 +94,13 @@ export class UserController {
                 if (await mailer.sendMail()) {
                     ctx.body = new Body(204, "Un mail d'activation vous a été envoyé");
                 } else {
-                    ctx.throw(400, "Problème lors de l'envoie du mail d'activation");
+                    ctx.body = new Body(403, "Problème lors de l'envoie du mail d'activation")
                 }
             } else {
-                ctx.throw(400, 'Problème lors de la création de votre compte, merci de réessayer');
+                ctx.body = new Body(403, 'Problème lors de la création de votre compte, merci de réessayer')
             }
         } else {
-            ctx.throw(400, 'Vous avez déjà un compte sur notre plateforme');
+            ctx.body = new Body(403, 'Vous avez déjà un compte sur notre plateforme')
         }
     }
 

@@ -1,5 +1,5 @@
 export interface GlobalReturnInterface {
     status: number;
-    message: string | string[];
+    message: string;
     data?: any;
 }

@@ -1,5 +1,5 @@
 export interface ErrorInterface {
   code: number;
-  message: string | string[];
+  message: string;
   route: string;
 }
