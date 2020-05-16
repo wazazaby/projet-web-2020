@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StatesService } from 'src/app/services/states.service';
+import { environment } from 'src/environments/environment';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-profil',
@@ -12,10 +13,21 @@ export class ModalProfilComponent implements OnInit {
   isDisabled = true;
   isDelete = false;
 
+  /** base url upload image */
+  urlUpload = environment.apiUpload;
+
+  formUser: FormGroup = this.formBuild.group({
+    name: new FormControl(this.data.user.name_user, [ Validators.required]),
+    email: new FormControl(this.data.user.email_user,
+      [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
+});
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-              private stateService: StatesService) { }
+              private formBuild: FormBuilder) { }
 
   ngOnInit() {
+    this.formUser.get('name').disable();
+    this.formUser.get('email').disable();
   }
 
   /**

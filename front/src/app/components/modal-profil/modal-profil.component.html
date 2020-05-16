@@ -1,43 +1,40 @@
 <div class="container" *ngIf="!isDelete; else delete">
     <div *ngIf="data.user" class="col-12 d-flex justify-content-center mb-4">
         <div *ngIf="data.user.url_img_user">
-            <img class="img-fluid rounded" [src]="data.user.url_img_user" alt="profil">
+            <img class="avatar img-fluid rounded" [src]="urlUpload + data.user.url_img_user" alt="profil">
         </div>
     </div>
 
     <div class="col-12 d-flex justify-content-start row" *ngIf="data.user">
-        <div class="input-group mb-3 col-12 col-md-6 ml-auto mr-auto">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-            </div>
-            <input id="username" type="text" [value]="data.user.name_user" class="form-control" placeholder="Pseudo" [disabled]="isDisabled">
-        </div>
+        <!-- nom utilisateur -->
+        <mat-form-field class="col-12 " appearance="outline">
+            <mat-label>Nom utilisateur</mat-label>
+            <input matInput [formControl]="formUser.controls.name" placeholder="Ex. John Snow" required>
+            <mat-error *ngIf="formUser.controls.name.hasError('required')">
+                Nom utilisateur <strong>obligatoire</strong>
+            </mat-error>
+        </mat-form-field>
 
-        <div class="input-group mb-3 col-12 col-md-6 ml-auto mr-auto">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-            </div>
-            <input type="email" [value]="data.user.email_user" class="form-control" placeholder="Email" disabled>
-        </div>
-
-        <div class="input-group mb-3 col-12 col-md-6 ml-auto mr-auto">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-            </div>
-            <input type="text" [value]="date(data.user.creation_date_user) | date: 'dd/MM/yyyy'" class="form-control" placeholder="Date de création" disabled>
-        </div>
+        <!-- email utilisateur -->
+        <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput [formControl]="formUser.controls.email" placeholder="Ex. johnsnow@winter.wf" required>
+            <mat-error *ngIf="formUser.controls.email.hasError('required')">
+                Adresse email <strong>obligatoire</strong>
+            </mat-error>
+        </mat-form-field>
 
     </div>
 
     <div class="col-12 d-flex row justify-content-center">
-        <div class="col-12 col-md-6 d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center" *ngIf="false">
             <button [ngClass]="{'btn-primary': isDisabled, 'btn-success': !isDisabled}" class="btn" (click)="setProfil(data.user.id_user, isDisabled)">
                 <span *ngIf="isDisabled">Modifier  les informations</span>
                 <span *ngIf="!isDisabled">Enregistrer  les informations</span>
             </button>
         </div>
-        <div class="col-12 col-md-6 d-flex justify-content-center">
-            <button class="btn btn-danger col-8 col-md-6" (click)="deleteProfil(data.user.id_user, 0)">Supprimer mon compte</button>
+        <div class="col-12 d-flex justify-content-center">
+            <button class="btn btn-outline-danger col-8 col-md-6" (click)="deleteProfil(data.user.id_user, 0)">Supprimer mon compte</button>
         </div>
     </div>
 </div>
