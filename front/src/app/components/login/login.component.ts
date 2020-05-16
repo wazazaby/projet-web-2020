@@ -120,6 +120,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                 if (this.stateService.checkStatus(res.status)) {
                     const data: UserInterface = res.data;
                     this.stateService.userProfil = data;
+                    this.bridgeService.getGarmentUser(data.id_user);
                     this.stateService.login();
                     localStorage.clear();
                 } else {

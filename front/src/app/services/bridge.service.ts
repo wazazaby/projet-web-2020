@@ -45,11 +45,7 @@ export class BridgeService {
      * @return GlobalReturnInterface
      */
     login(email: string, pass: string) {
-        const body = {
-            email,
-            pass
-        };
-
+        const body = { email, pass };
         return this.http.post<GlobalReturnInterface>(environment.apiUrl + 'user/login', body, { withCredentials: true });
     }
 
