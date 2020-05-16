@@ -41,7 +41,7 @@ export class UserController {
         if (Auth.byToken(ctx, token)) {
             ctx.body = new Body(200, '', ctx.session.auth);
         } else {
-            ctx.body = new Body(403);
+            ctx.body = new Body(403, '');
         }
     }
 
