@@ -6,6 +6,7 @@ import { BridgeService } from 'src/app/services/bridge.service';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalProfilComponent } from '../modal-profil/modal-profil.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,9 @@ import { ModalProfilComponent } from '../modal-profil/modal-profil.component';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
+  /** base url upload image */
+  urlUpload = environment.apiUpload;
 
   /**
    * Valeur du hamburger (barre de navigation "responsive")
