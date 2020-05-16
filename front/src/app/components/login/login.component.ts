@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                             message: response.message,
                             route: `${environment.apiUrl}user/activate/${this.token}`
                         };
-
+                        this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
                     }
                 });
@@ -126,6 +126,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                 } else {
                     const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'user/login'};
                     this.stateService.errors = err;
+                    this.stateService.openSnackBar(err.message, null, 'err');
                     console.log('Login Error', false);
                 }
             });
@@ -149,7 +150,6 @@ export class LoginComponent implements OnInit { // contient les var du component
                         message: res.message,
                         route: `${environment.apiUrl}user/add`
                     };
-
                     this.stateService.errors = err;
                     this.stateService.openSnackBar(err.message, null, 'err');
                 }

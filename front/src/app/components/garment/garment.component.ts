@@ -327,7 +327,7 @@ export class GarmentComponent implements OnInit {
                             route: environment.apiUrl + '/api/user/' +
                                 garment.garment.user_id_user + '/garment/delete/' + garment.garment.id_garment
                         };
-
+                        this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
                         this.stateService.openSnackBar(
                             'Une erreur s\'est produit, votre vêtement n\'a pas pu être supprimé',

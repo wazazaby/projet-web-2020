@@ -80,6 +80,7 @@ export class BridgeService {
                 this.stateService.openSnackBar(res.message.toString(), null);
             } else {
                 const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.logout};
+                this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
         });
@@ -96,6 +97,7 @@ export class BridgeService {
                     const err: ErrorInterface = {
                         code: res.status, message: res.message, route: environment.apiUrl + this.checkTkn};
                     this.stateService.errors = err;
+                    this.stateService.openSnackBar(err.message, null, 'err');
                     this.router.navigate(['/auth']);
                     console.log(err);
                 }
