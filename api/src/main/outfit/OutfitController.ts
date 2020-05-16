@@ -25,6 +25,9 @@ export class OutfitController {
             user_id_user: idUser
         });
 
-        const test = await this._manager.insertOutfit(fit, { top: 96, mid: 89, bot: 95 });
+        const res: any = await this._manager.insertOutfit(fit, [96, 89, 95]);
+
+        ctx.body = new Body(200, '', res);
+        return;
     }
 }
