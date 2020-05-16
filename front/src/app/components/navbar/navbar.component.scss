@@ -58,7 +58,7 @@ $width-side: 4em;
             display: block;
             margin: 0 10px;
             width: 35px;
-            height: 35px;
+            max-height: 35px;
             line-height: 35px;
             text-align: center;
             border: 1px solid $bg-sidebar;

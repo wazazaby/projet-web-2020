@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
 import { GarmentColorStyleWrapperInterface, UserInterface, TypeInterface } from '@osmo6/models';
 
 import { StatesService } from 'src/app/services/states.service';
@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./home.component.scss']
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private stateService: StatesService,
               private bridgeService: BridgeService,
@@ -58,19 +58,21 @@ export class HomeComponent implements OnInit {
     idGarmentBot: new FormControl('', [Validators.required])
   });
 
+  userHasGarment = true;
+
   @ViewChild('top', {
-    static: true,
+    static: false,
     read: DragScrollComponent
   }) dsTop: DragScrollComponent;
 
   @ViewChild('mid', {
-    static: true,
+    static: false,
     read: DragScrollComponent
   }) dsMid: DragScrollComponent;
 
 
   @ViewChild('bot', {
-    static: true,
+    static: false,
     read: DragScrollComponent
   }) dsBot: DragScrollComponent;
 
@@ -78,18 +80,35 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     /** Si aucun vêtement */
     if (this.garment.length === 0) {
+      this.userHasGarment = false;
       this.bridgeService.getGarmentUser(this.user.id_user);
     }
 
     /** Observable sur les vêtements */
     this.stateService.garmentAsObservable().subscribe(res => {
       this.garment = res;
+      if (this.garment.length !== 0) {
+        if (this.topGarment.length !== 0 && this.midGarment.length !== 0 && this.botGarment.length !== 0) {
+          this.userHasGarment = true;
+        }
+      }
     });
+  }
 
-    this.moveTo(0, 'top');
-    this.moveTo(0, 'mid');
-    this.moveTo(0, 'bot');
-
+  ngAfterViewInit() {
+    if (this.garment.length === 0) {
+      this.userHasGarment = false;
+      this.bridgeService.getGarmentUser(this.user.id_user);
+    } else {
+      if (this.topGarment.length !== 0) {
+        this.userHasGarment = true;
+        this.moveTo(0, 'top');
+      } else if (this.midGarment.length !== 0) {
+        this.moveTo(0, 'mid');
+      } else if (this.botGarment.length !== 0) {
+        this.moveTo(0, 'bot');
+      }
+    }
   }
 
   /**
