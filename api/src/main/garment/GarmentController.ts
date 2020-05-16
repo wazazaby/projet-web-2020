@@ -118,54 +118,60 @@ export class GarmentController {
 
         // On récupère le garment entier 
         const currentGarment: (GarmentColorStyleWrapperInterface|null) = await this._manager.getGarmentById(idGarment);
+
         if (currentGarment !== null) {
 
             // On instancie un objet garment qui sera modifié plus bas
             const garmObj: Garment = new Garment(currentGarment.garment);
 
             // Récupération des nouvelles couleurs et styles dans la requette
-            const newColors: number[] = requestBody.id_color;
-            const newStyles: number[] = requestBody.id_style;
+            const newColors: number[] = JSON.parse(requestBody.color);
+            const newStyles: number[] = JSON.parse(requestBody.style);
 
             // Récupération de la nouvelle image
             const file: UploadedFile = ctx.file;
 
-            try {
-                
-                // On vérifie si l'image existe et si c'est bien un fichier valide
-                const imageExists: boolean = await fs.stat(`.${garmObj.getUrlImage()}`)
-                    .then(res => res.isFile())
-                    .catch(e => {
-                        if (e.code === 'ENOENT') {
-                            return false;
-                        }
+            // On vérifie si l'user envoit une nouvelle image
+            if (file !== undefined) {
+                try {
 
-                        throw e;
-                    });
+                    // On vérifie si l'image actuelle existe et si c'est bien un fichier valide
+                    const imageExists: boolean = await fs.stat(`.${garmObj.getUrlImage()}`)
+                        .then(res => res.isFile())
+                        .catch(e => {
+                            if (e.code === 'ENOENT') {
+                                return false;
+                            }
 
-                // Si c'est le cas, on la supprime
-                if (imageExists) {
-                    await fs.unlink(`.${garmObj.getUrlImage()}`);
+                            throw e;
+                        });
+
+                    // Si c'est le cas, on la supprime
+                    if (imageExists) {
+                        await fs.unlink(`.${garmObj.getUrlImage()}`);
+                    }
+
+                    // On passe la nouvelle image à l'objet
+                    garmObj.setUrlImage(`/uploads/${file.filename}`)
+                } catch (e) {
+                    return ctx.throw(400, e);
                 }
+            }
 
-                // On met à jour l'objet du garment en question avec les nouvelles données
-                garmObj
-                    .setLabel(requestBody.label_garment)
-                    .setUrlImage(`.${file.filename}`)
-                    .setModificationDate(Math.floor(Date.now() / 1000))
-                    .setIdBrand(requestBody.brand_id_brand)
-                    .setIdSeason(requestBody.season_id_season)
-                    .setIdType(requestBody.type_id_type);
+            // On met à jour l'objet du garment en question avec les nouvelles données
+            garmObj
+                .setLabel(requestBody.label_garment)
+                .setModificationDate(Math.floor(Date.now() / 1000))
+                .setIdBrand(requestBody.brand_id_brand)
+                .setIdSeason(requestBody.season_id_season)
+                .setIdType(requestBody.type_id_type);
 
-                // On renvoie l'objet au manager pour la mise à jour, retourne un objet garment complet si tout s'est bien passé ou null si erreur
-                const newObj: (GarmentColorStyleWrapperInterface|null) = await this._manager.updateGarment(garmObj, newStyles, newColors);
-                if (newObj === null) {
-                    return ctx.throw(400, "Une erreur est parvenue lors de la mise à jour de votre vêtement");
-                } else {
-                    ctx.body = new Body(200, '', newObj);
-                }
-            } catch (e) {
-                return ctx.throw(400, e);
+            // On renvoie l'objet au manager pour la mise à jour, retourne un objet garment complet si tout s'est bien passé ou null si erreur
+            const newObj: (GarmentColorStyleWrapperInterface|null) = await this._manager.updateGarment(garmObj, newStyles, newColors);
+            if (newObj === null) {
+                return ctx.throw(400, "Une erreur est parvenue lors de la mise à jour de votre vêtement");
+            } else {
+                ctx.body = new Body(200, '', newObj);
             }
         } else {
             return ctx.throw(403);
