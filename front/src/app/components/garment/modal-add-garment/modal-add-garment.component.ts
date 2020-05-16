@@ -157,10 +157,9 @@ export class ModalAddGarmentComponent implements OnInit {
             } else {
                 formData.append('id_garment', JSON.stringify(this.data.garment.garment.id_garment));
 
-
                 this.bridgeService.upadateGarment(formData).subscribe(res => {
                     if (this.stateService.checkStatus(res.status)) {
-                        console.log(res);
+                        this.bridgeService.getGarmentUser(this.data.userId);
                     } else {
                         const err: ErrorInterface = {
                             code: res.status,
@@ -169,7 +168,6 @@ export class ModalAddGarmentComponent implements OnInit {
                         };
                         this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
-                        console.log(res);
                     }
                 });
             }
