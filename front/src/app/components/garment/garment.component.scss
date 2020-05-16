@@ -85,18 +85,15 @@
   .sect-img{
     margin-bottom: 2em;
 
-    p, img{
-      margin-bottom: .5em;
-    }
-
     img{
-      border-radius: $radius-x8;
+      border-radius: $radius-x4;
     }
 
     .sect-hover{
       position: relative;
       display: block;
       box-sizing: content-box;
+      margin-bottom: .5em;
     }
 
     .desc{
