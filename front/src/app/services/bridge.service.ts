@@ -86,11 +86,11 @@ export class BridgeService {
     }
 
     checkToken(token) {
-        console.log('checktoken', token);
         if (token) {
             this.checkTokenReq(token).subscribe(res => {
                 if (this.stateService.checkStatus(res.status)) {
                     this.stateService.userProfil = res.data;
+                    this.getGarmentUser(res.data.id_user);
                     this.stateService.login();
                 } else {
                     const err: ErrorInterface = {
