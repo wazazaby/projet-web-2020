@@ -26,7 +26,7 @@ export class ModalAddGarmentComponent implements OnInit {
     constructor(private formBuild: FormBuilder,
                 private stateService: StatesService,
                 private bridgeService: BridgeService,
-                @Inject(MAT_DIALOG_DATA) public data: {userId: number}) { }
+                @Inject(MAT_DIALOG_DATA) public data: {userId: number, garment: GarmentColorStyleWrapperInterface}) { }
 
     // image
     file: File;
@@ -58,8 +58,30 @@ export class ModalAddGarmentComponent implements OnInit {
     brand: BrandInterface[] = this.stateService.brand;
     color: ColorInterface[] = this.stateService.color;
 
+    // Vérifie si l'on peut fermer le modal
+    isOk = false;
+
     ngOnInit() {
-        this.stepOne = true;
+        if (this.data.garment !== undefined) {
+            this.stepOne = false;
+            this.url = environment.apiUpload + this.data.garment.garment.url_img_garment;
+            const styles = [];
+            this.data.garment.styles.forEach(s => {
+                styles.push(s.id_style);
+            });
+            const colorSec = this.data.garment.colors[1] !== undefined ? this.data.garment.colors[1].id_color : '';
+
+            this.formGarment.get('label_garment').setValue(this.data.garment.garment.label_garment);
+            this.formGarment.get('user_id_user').setValue(this.data.garment.garment.user_id_user);
+            this.formGarment.get('brand_id_brand').setValue(this.data.garment.garment.brand_id_brand);
+            this.formGarment.get('season_id_season').setValue(this.data.garment.garment.season_id_season);
+            this.formGarment.get('type_id_type').setValue(this.data.garment.garment.type_id_type);
+            this.formGarment.get('style').setValue(styles);
+            this.formGarment.get('colorPrim').setValue(this.data.garment.colors[0].id_color);
+            this.formGarment.get('colorSecond').setValue(colorSec);
+        } else {
+            this.stepOne = true;
+        }
     }
 
     uploadFile(event) {
@@ -103,31 +125,56 @@ export class ModalAddGarmentComponent implements OnInit {
             formData.append('season_id_season', this.formGarment.value.season_id_season);
             formData.append('type_id_type', this.formGarment.value.type_id_type);
 
-            this.bridgeService.addGarment(formData).subscribe(res => {
-                if (this.stateService.checkStatus(res.status)) {
 
-                    // Nouveau garment
-                    const data: GarmentColorStyleWrapperInterface = res.data;
-                    // Liste des garment
-                    const garment: GarmentColorStyleWrapperInterface[] = this.stateService.garment;
-                    // Ajoute le garment à la liste
-                    garment.push(data);
-                    // refresh la liste des garment
-                    this.stateService.garment = garment;
-                    // Reset le formulaire & l'image
-                    this.file = null;
-                    this.url = '';
-                    this.formGarment.reset();
-                } else {
-                    const err: ErrorInterface = {
-                        code: res.status,
-                        message: res.message,
-                        route: environment.apiUrl + this.bridgeService.userGarmentAdd
-                    };
-                    this.stateService.errors = err;
-                }
-                console.log(res);
-            });
+            console.log(this.formGarment);
+            console.log(this.file);
+            console.log(this.url);
+
+            if (!this.data.garment) {
+                // création
+                this.bridgeService.addGarment(formData).subscribe(res => {
+                    if (this.stateService.checkStatus(res.status)) {
+
+                        // Nouveau garment
+                        const data: GarmentColorStyleWrapperInterface = res.data;
+                        // Liste des garment
+                        const garment: GarmentColorStyleWrapperInterface[] = this.stateService.garment;
+                        // Ajoute le garment à la liste
+                        garment.push(data);
+                        // refresh la liste des garment
+                        this.stateService.garment = garment;
+                        // Reset le formulaire & l'image
+                        this.file = null;
+                        this.url = '';
+                        this.isOk = true;
+                        this.formGarment.reset();
+                    } else {
+                        const err: ErrorInterface = {
+                            code: res.status,
+                            message: res.message,
+                            route: environment.apiUrl + this.bridgeService.userGarmentAdd
+                        };
+                        this.stateService.errors = err;
+                    }
+                    console.log(res);
+                });
+            } else {
+                // modification
+                this.bridgeService.upadateGarment(formData).subscribe(res => {
+                    if (this.stateService.checkStatus(res.status)) {
+                        console.log(res);
+                    } else {
+                        const err: ErrorInterface = {
+                            code: res.status,
+                            message: res.message,
+                            route: environment.apiUrl + this.bridgeService.userGarmentSet
+                        };
+                        this.stateService.errors = err;
+                        console.log(res);
+                    }
+                });
+            }
+
         } else {
             this.formGarment.markAllAsTouched();
         }

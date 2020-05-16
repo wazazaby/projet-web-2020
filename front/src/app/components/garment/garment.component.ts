@@ -38,6 +38,8 @@ export class GarmentComponent implements OnInit {
     allFilter = [];
     filterSelect = [];
 
+    urlApiUpload = environment.apiUpload;
+
     constructor(private stateService: StatesService,
                 private bridgeService: BridgeService,
                 public dialog: MatDialog) { }
@@ -296,11 +298,16 @@ export class GarmentComponent implements OnInit {
             });
 
             dialogRef.afterClosed().subscribe(result => {
+                console.log(result);
                 dialogRef.close();
             });
         }
     }
 
+    /**
+     * Permet de supprimer un vêtement de la liste (suppression total si pas de tenue ave ce vêtement)
+     * @param {garment} garment
+     */
     removeGarment(garment: GarmentColorStyleWrapperInterface) {
         const dialogRef = this.dialog.open(ModalConfirmComponent, {
             width: '60%',
@@ -331,6 +338,30 @@ export class GarmentComponent implements OnInit {
         });
     }
 
+    /**
+     * Permet de modifier le vêtement
+     * @param {garment} garment
+     */
+    updateGarment(garment: GarmentColorStyleWrapperInterface) {
+        if (garment && this.user) {
+            const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
+                width: '60%',
+                data: {garment, userId: this.user.id_user}
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+                console.log('t', result);
+                if (result === true) {
+                    // dialogRef.close();
+                }
+            });
+        }
+    }
+
+    /**
+     * Attribut un style font awesome au id de saison
+     * @param n id de la saison
+     */
     getImgSeason(n: number) {
         switch (n) {
             case 1:
@@ -359,6 +390,7 @@ export class GarmentComponent implements OnInit {
             this.removeGarment(garment);
         } else {
             // modifier
+            this.updateGarment(garment);
             console.log('modifier');
             console.log(garment);
         }

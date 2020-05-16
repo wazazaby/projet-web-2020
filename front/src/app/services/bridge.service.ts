@@ -282,12 +282,19 @@ export class BridgeService {
     }
 
     /**
+     * Permet de modifier un vêtement
+     */
+    upadateGarment(formData: FormData) {
+        return this.http.patch<GlobalReturnInterface>(`${environment.apiUrl}${this.userGarmentSet}`, formData, { withCredentials: true });
+    }
+
+    /**
      * Créer un observable pour supprimer un vêtement
      */
     deleteGarmentReq(data: GarmentColorStyleWrapperInterface) {
         const idUser: number = data.garment.user_id_user;
         const idGarment: number = data.garment.id_garment;
-        const url: string = `${environment.apiUrl}user/${idUser}/garment/delete/${idGarment}`;
+        const url = `${environment.apiUrl}user/${idUser}/garment/delete/${idGarment}`;
         return this.http.delete<GlobalReturnInterface>(url, { withCredentials: true });
     }
 

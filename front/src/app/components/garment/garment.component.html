@@ -100,7 +100,7 @@
     <div *ngFor="let g of garment" class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 sect-img">
       <p [innerText]="g.garment.label_garment"></p>
       <div class="sect-hover">
-        <img class="img-fluid" [src]="'http://localhost:3000' + g.garment.url_img_garment" [alt]="g.garment.label_garment">
+        <img class="img-fluid" [src]="urlApiUpload + g.garment.url_img_garment" [alt]="g.garment.label_garment">
         <div class="sect-hide d-flex">
           <div class="col-6 d-flex update" (click)="actToGarment(1, g)">
             <div class="icon row">

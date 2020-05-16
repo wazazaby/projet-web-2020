@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   // url de l'API node
   apiUrl: 'http://localhost:3000/api/',
+  // url de l'api pour l'upload
+  apiUpload: 'http://localhost:3000',
   // token d'identification pour l'API
   tokenApi: 'token',
   // url de base de l'application
