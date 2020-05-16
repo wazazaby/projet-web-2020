@@ -5,7 +5,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {  UserInterface, BrandInterface, ColorInterface, SeasonInterface,
-          StyleInterface, TypeInterface, ErrorInterface, GarmentColorStyleWrapperInterface, OutfitGarmentWrapperInterface } from '@osmo6/models';
+          StyleInterface, TypeInterface, ErrorInterface, GarmentColorStyleWrapperInterface,
+          OutfitGarmentWrapperInterface } from '@osmo6/models';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
