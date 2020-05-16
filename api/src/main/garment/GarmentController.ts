@@ -151,7 +151,7 @@ export class GarmentController {
                 // On met à jour l'objet du garment en question avec les nouvelles données
                 garmObj
                     .setLabel(requestBody.label_garment)
-                    .setUrlImage(`../front/src${file.filename}`)
+                    .setUrlImage(`.${file.filename}`)
                     .setModificationDate(Math.floor(Date.now() / 1000))
                     .setIdBrand(requestBody.brand_id_brand)
                     .setIdSeason(requestBody.season_id_season)

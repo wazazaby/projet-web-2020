@@ -15,10 +15,10 @@ import staticServe from './libs/StaticServe';
 import userRooter from './main/user/UserRoutes';
 import colorRooter from './main/color/ColorRoutes';
 import garmentRooter from './main/garment/GarmentRoutes';
-import seasonRooter from './main/season/SeasonRoute';
-import typeRooter from './main/type/TypeRoute';
-import styleRooter from './main/style/StyleRoute';
-import brandRooter from './main/brand/BrandRoute';
+import seasonRooter from './main/season/SeasonRoutes';
+import typeRooter from './main/type/TypeRoutes';
+import styleRooter from './main/style/StyleRoutes';
+import brandRooter from './main/brand/BrandRoutes';
 // --------------- IMPORT ROUTES ---------------
 
 

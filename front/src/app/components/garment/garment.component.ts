@@ -311,7 +311,7 @@ export class GarmentComponent implements OnInit {
     removeGarment(garment: GarmentColorStyleWrapperInterface) {
         const dialogRef = this.dialog.open(ModalConfirmComponent, {
             width: '60%',
-            data: {garment, route: 'garment'}
+            data: { garment, route: 'garment' }
         });
 
         dialogRef.afterClosed().subscribe(res => {
@@ -346,7 +346,7 @@ export class GarmentComponent implements OnInit {
         if (garment && this.user) {
             const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
                 width: '60%',
-                data: {garment, userId: this.user.id_user}
+                data: { garment, userId: this.user.id_user }
             });
 
             dialogRef.afterClosed().subscribe(result => {
@@ -362,7 +362,7 @@ export class GarmentComponent implements OnInit {
      * Attribut un style font awesome au id de saison
      * @param n id de la saison
      */
-    getImgSeason(n: number) {
+    getImgSeason(n: number): string {
         switch (n) {
             case 1:
             // hiver
@@ -384,7 +384,7 @@ export class GarmentComponent implements OnInit {
     * @param num: number (0->supprimer, 1->modifier)
     * @param garment: GarmentInterface
     */
-    actToGarment(num: number, garment: GarmentColorStyleWrapperInterface) {
+    actToGarment(num: number, garment: GarmentColorStyleWrapperInterface): void {
         if (num === 0) {
             // supprimer
             this.removeGarment(garment);

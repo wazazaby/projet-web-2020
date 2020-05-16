@@ -7,7 +7,7 @@ const controller: UserController = new UserController();
 
 // Route de landing pour l'API, ne sert à rien
 router.get('/api', async (ctx: Context): Promise<void> => {
-    ctx.body = {msg: ['Hello, World!', "You've successfully connected to the TurnStyle API"]};
+    ctx.body = { msg: ['Hello, World!', "You've successfully connected to the TurnStyle API"] };
 });
 
 // Ajout d'un utilisateur
