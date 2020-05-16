@@ -15,7 +15,9 @@ export class AppComponent {
 
     // Load toute les data dont l'app à besoin
     this.bridgeService.initData(true);
-    this.bridgeService.checkToken(localStorage.getItem('tkn'));
+    if (localStorage.getItem('tkn')) {
+      this.bridgeService.checkToken(localStorage.getItem('tkn'));
+    }
   }
 
   /**

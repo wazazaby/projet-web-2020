@@ -79,7 +79,7 @@
 
                         <mat-form-field appearance="outline">
                             <mat-label>Pseudo</mat-label>
-                            <input matInput [formControl]="formResistered.controls.name" placeholder="Adresse email" required>
+                            <input matInput [formControl]="formResistered.controls.name" placeholder="Pseudo" required>
                             <mat-error *ngIf="formResistered.controls.name.hasError('required')">
                                 Pseudo <strong>obligatoire</strong>
                             </mat-error>

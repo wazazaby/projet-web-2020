@@ -52,28 +52,31 @@ export class LoginComponent implements OnInit { // contient les var du component
     ngOnInit() {
         this.activeRoute.queryParams.subscribe(res => {
             this.token = res.t;
-
-            // Si on est sur la route d'auth et qu'on a un token en paramètre, on lance l'activation du compte
-            if (Object.keys(res).length > 0 && res.t !== undefined) {
-                this.bridgeService.activateUser(res.t).subscribe(response => {
-                    if (this.stateService.checkStatus(response.status)) {
-
-                        // On redirige, on préremplie le champ mail et on affiche un message de succès
-                        this.route.navigate(['./auth']);
-                        this.formConnect.get('email').setValue(response.data.email);
-                        this.stateService.openSnackBar('Votre compte a bien été activé, vous pouvez maintenant vous connecter', null);
-                        this.effectBtn('connexion');
-                    } else {
-                        const err: ErrorInterface = {
-                            code: response.status,
-                            message: response.message,
-                            route: `${environment.apiUrl}user/activate/${this.token}`
-                        };
-                        this.stateService.openSnackBar(err.message, null, 'err');
-                        this.stateService.errors = err;
-                    }
-                });
+            if (this.token) {
+                localStorage.clear();
+                // Si on est sur la route d'auth et qu'on a un token en paramètre, on lance l'activation du compte
+                if (Object.keys(res).length > 0 && res.t !== undefined) {
+                    this.bridgeService.activateUser(this.token).subscribe(response => {
+                        if (this.stateService.checkStatus(response.status)) {
+                            this.route.navigate(['/auth']);
+                            this.effectBtn('connexion');
+                            // On redirige, on préremplie le champ mail et on affiche un message de succès
+                            this.formConnect.get('email').setValue(response.data.email);
+                            this.stateService.openSnackBar(response.message, null);
+                        } else {
+                            const err: ErrorInterface = {
+                                code: response.status,
+                                message: response.message,
+                                route: `${environment.apiUrl}user/activate/${this.token}`
+                            };
+                            this.stateService.openSnackBar(err.message, null, 'err');
+                            this.stateService.errors = err;
+                            localStorage.clear();
+                        }
+                    });
+                }
             }
+
         });
     }
 
@@ -137,6 +140,7 @@ export class LoginComponent implements OnInit { // contient les var du component
 
     register() {
         if (this.formResistered.valid) {
+            localStorage.clear();
             this.bridgeService.register({
                 name: this.formResistered.value.name,
                 mail: this.formResistered.value.email,

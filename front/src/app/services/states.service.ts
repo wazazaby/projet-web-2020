@@ -77,7 +77,7 @@ export class StatesService {
     * @param clas: string
     */
   openSnackBar( message: string, action: string, clas?: string) {
-    const c = clas === 'err' ? 'snackErr' : '';
+    const c = clas === 'err' ? 'snackErr' : 'ok';
     this.snackBar.open(message, action, {
       duration: 2000,
       verticalPosition: 'top',
