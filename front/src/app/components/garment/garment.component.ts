@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 // liste des interfaces
 import {  UserInterface, GarmentInterface, SeasonInterface, TypeInterface,
     GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface, ErrorInterface } from '@osmo6/models';
-    
+
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
@@ -20,7 +20,7 @@ import { environment } from 'src/environments/environment';
     styleUrls: ['./garment.component.scss']
 })
 export class GarmentComponent implements OnInit {
-        
+
     // User
     user: UserInterface = this.stateService.userProfil;
 
@@ -39,9 +39,9 @@ export class GarmentComponent implements OnInit {
     filterSelect = [];
 
     constructor(private stateService: StatesService,
-        private bridgeService: BridgeService,
-        public dialog: MatDialog) { }
-    
+                private bridgeService: BridgeService,
+                public dialog: MatDialog) { }
+
     ngOnInit() {
         const seasonToString = [];
         const typeToString = [];
@@ -51,24 +51,24 @@ export class GarmentComponent implements OnInit {
             { label: 'Plus recent', active: false, type: 'ASC' },
             { label: 'Plus ancien', active: false, type: 'DESC' },
         ];
-        
+
         this.season.forEach(s => {
             seasonToString.push({label: s.label_season, active: false, id: s.id_season, type: 'season'});
         });
-        
+
         this.type.forEach(t => {
             typeToString.push({label: t.label_type, active: false, id: t.id_type, type: 'type'});
         });
-        
+
         this.color.forEach(c => {
             colorToString.push({label: c.label_color, hex: c.hex_color, active: false , id: c.id_color, type: 'color'});
         });
-        
+
         this.style.forEach(s => {
             styleToString.push({label: s.label_style, active: false, id: s.id_style, type: 'style'});
         });
-        
-        /**
+
+       /**
         * Liste des filtres
         */
         this.filterName = [
@@ -78,18 +78,18 @@ export class GarmentComponent implements OnInit {
             {id: 4, title: 'Saisons', value: seasonToString, active: false},
             {id: 5, title: 'Couleur', value: colorToString, active: false},
         ];
-        
+
         // Fusionne tout les filtres ensemble
         this.allFilter = [].concat(valueToStyle, typeToString, styleToString, seasonToString, colorToString);
-        
+
         // On charge tout les vêtements utilisateur à l'init
         if (this.user) {
             // Envoie une requete pour recup les garments du user
-            
+
             if (this.garment.length === 0) {
                 this.bridgeService.getGarmentUser(this.user.id_user);
             }
-            /**
+           /**
             * Permet de récuperé les Garments stocker dans l'application
             * (écoute l'observable {garmentAsObservable()} et permet de rafraichir les data si un nouvelle item est ajouter)
             */
@@ -99,7 +99,7 @@ export class GarmentComponent implements OnInit {
             });
         }
     }
-    
+
     // ------------------ Filtre ------------------
     // Permet d'activer le filtre selectionner
     openFilter(id: number, bool: boolean) {
@@ -111,7 +111,7 @@ export class GarmentComponent implements OnInit {
             }
         });
     }
-    
+
     // Permet de refresh les vêtemens en fonction du filtre choisi
     filter(val: {label: string, hex?: string, active: boolean}) {
         this.allFilter.forEach(f => {
@@ -126,23 +126,23 @@ export class GarmentComponent implements OnInit {
                     this.removeItem(f);
                 }
             }
-            
+
             if (val.label === f.label) {
                 f.active = !f.active;
             }
         });
-        
+
         const isExit = this.filterSelect.find(fi =>  val.label === fi.label);
         if (!isExit) {
             this.filterSelect.push(val);
         } else {
             this.removeItem(val);
         }
-        
+
         this.activeFilter(this.filterSelect);
     }
-    
-    /**
+
+   /**
     * Permet de supprimer un item du tableau des filtres
     * @param val: object
     */
@@ -155,15 +155,15 @@ export class GarmentComponent implements OnInit {
             x++;
         });
     }
-    
+
     // Ferme tout les filtres
     resetFilter() {
         this.filterName.forEach(f => {
             f.active = false;
         });
     }
-    
-    /**
+
+   /**
     * Permet de filtrer le tableau des vêtements
     * @param arr: []
     */
@@ -177,10 +177,10 @@ export class GarmentComponent implements OnInit {
             let saveGarment: GarmentColorStyleWrapperInterface[] = [];
             // Liste des filtres utiliser
             const filterUse = {season: false, type: false, style: false, color: false};
-            
+
             // Ordre du filtre
             let ascFilter: string = 'ASC'; // tslint:disable-line
-            
+
             if (filter.length !== 0) {
                 saveGarment = [];
                 filter.forEach(f => {
@@ -232,7 +232,7 @@ export class GarmentComponent implements OnInit {
                         }
                     });
                 });
-                
+
                 // Pour chaque vêtements on croise les filtres
                 tmpGarment.forEach(g => {
                     // On attribut les filtres utiliser
@@ -240,20 +240,20 @@ export class GarmentComponent implements OnInit {
                     let typeFound = !filterUse.type;
                     let styleFound = !filterUse.style;
                     let colorFound = !filterUse.color;
-                    
+
                     filter.forEach(f => {
                         if (filterUse.season) {
                             if (f.type === 'season' && g.garment.season_id_season === f.id) {
                                 seasonFound = true;
                             }
                         }
-                        
+
                         if (filterUse.type) {
                             if (f.type === 'type' && g.garment.type_id_type === f.id) {
                                 typeFound = true;
                             }
                         }
-                        
+
                         if (filterUse.style) {
                             g.styles.forEach(s => {
                                 if (f.type === 'style' && s.id_style === f.id) {
@@ -261,7 +261,7 @@ export class GarmentComponent implements OnInit {
                                 }
                             });
                         }
-                        
+
                         if (filterUse.color) {
                             g.colors.forEach(c => {
                                 if (f.type === 'color' && c.id_color === f.id) {
@@ -270,7 +270,7 @@ export class GarmentComponent implements OnInit {
                             });
                         }
                     });
-                    
+
                     if (seasonFound && typeFound && styleFound && colorFound) {
                         saveGarment.push(g);
                     }
@@ -278,14 +278,14 @@ export class GarmentComponent implements OnInit {
             } else {
                 saveGarment = garmentRes;
             }
-            
+
             this.stateService.orderArray(saveGarment, 'garment', 'creation_date_garment', ascFilter);
             this.garment = saveGarment;
         });
     }
-    
+
     // ------------------ Filtre ------------------
-    
+
     // Ouvre un modal pour ajouter un vêtement
     addGarment(): void {
         console.log('Ajouter vêtement');
@@ -294,13 +294,13 @@ export class GarmentComponent implements OnInit {
                 width: '60%',
                 data: {userId: this.user.id_user}
             });
-            
+
             dialogRef.afterClosed().subscribe(result => {
                 console.log('The dialog was closed', result);
             });
         }
     }
-    
+
     removeGarment(garment: GarmentColorStyleWrapperInterface) {
         const dialogRef = this.dialog.open(ModalConfirmComponent, {
             width: '60%'
@@ -308,27 +308,28 @@ export class GarmentComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(res => {
             if (res) {
-                this.bridgeService.deleteGarmentReq(garment).subscribe(res => {
-                    if (this.stateService.checkStatus(res.status)) {
-                        this.stateService.openSnackBar("Votre vêtement a bien été supprimé", null);
+                this.bridgeService.deleteGarmentReq(garment).subscribe(response => {
+                    if (this.stateService.checkStatus(response.status)) {
+                        this.stateService.openSnackBar('Votre vêtement a bien été supprimé', null);
                     } else {
                         const err: ErrorInterface = {
-                            code: res.status,
-                            message: res.message,
-                            route: environment.apiUrl + '/api/user/' + garment.garment.user_id_user + '/garment/delete/' + garment.garment.id_garment
+                            code: response.status,
+                            message: response.message,
+                            route: environment.apiUrl + '/api/user/' +
+                                garment.garment.user_id_user + '/garment/delete/' + garment.garment.id_garment
                         };
-        
+
                         this.stateService.errors = err;
                         this.stateService.openSnackBar(
-                            "Une erreur s'est produit, votre vêtement n'a pas pu être supprimé", 
+                            'Une erreur s\'est produit, votre vêtement n\'a pas pu être supprimé',
                             null
                         );
-                    } 
+                    }
                 });
             }
         });
     }
-        
+
     getImgSeason(n: number) {
         switch (n) {
             case 1:
@@ -345,8 +346,8 @@ export class GarmentComponent implements OnInit {
             return '<i class="fas fa-mountain"></i>';
         }
     }
-        
-    /**
+
+   /**
     * Action au hover d'une image
     * @param num: number (0->supprimer, 1->modifier)
     * @param garment: GarmentInterface
