@@ -151,7 +151,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                     };
 
                     this.stateService.errors = err;
-                    this.stateService.openSnackBar(err.message, null);
+                    this.stateService.openSnackBar(err.message, null, 'err');
                 }
             });
         } else {

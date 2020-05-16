@@ -10,6 +10,10 @@ html, body {
     background-color: $bg-sidebar;
     color: $white;
 
+    &.snackErr{
+        background-color: $invalid;
+    }
+
     button{
         color: $white;
     }
