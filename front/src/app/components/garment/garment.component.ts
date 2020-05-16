@@ -296,7 +296,7 @@ export class GarmentComponent implements OnInit {
             });
 
             dialogRef.afterClosed().subscribe(result => {
-                console.log('The dialog was closed', result);
+                dialogRef.close();
             });
         }
     }

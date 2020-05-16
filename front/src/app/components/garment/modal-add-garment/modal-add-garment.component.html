@@ -82,7 +82,7 @@
         <!-- type  -->
         <mat-form-field class="col-12 col-md-4" appearance="outline">
           <mat-label>Type de vêtements</mat-label>
-          <mat-select [formControl]="formGarment.controls.type_id_type" required [errorStateMatcher]="matcher" multiple>
+          <mat-select [formControl]="formGarment.controls.type_id_type" required [errorStateMatcher]="matcher">
             <mat-option>--</mat-option>
             <mat-option *ngFor="let s of type" [value]="s.id_type">
               {{s.label_type}}
@@ -125,7 +125,7 @@
       <p class="labelExpl col-12 text-right">Merci de renseigner tout les champs obligatoire *</p>
 
       <div class="col-12 d-flex justify-content-end">
-        <button (click)="sendFile()" type="submit" class="btn btn-success">Send</button>
+        <button (click)="sendFile()" [mat-dialog-close]="true" type="submit" class="btn btn-success">Send</button>
       </div>
 
     </div>

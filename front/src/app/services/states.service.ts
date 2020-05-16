@@ -91,7 +91,7 @@ export class StatesService {
     let x = 0;
     let y = 0;
 
-    if (order === 'DESC') {
+    if (order === 'ASC') {
       x = 1;
       y = -1;
     } else {

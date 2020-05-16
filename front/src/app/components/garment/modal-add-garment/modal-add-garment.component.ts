@@ -106,11 +106,17 @@ export class ModalAddGarmentComponent implements OnInit {
             this.bridgeService.addGarment(formData).subscribe(res => {
                 if (this.stateService.checkStatus(res.status)) {
 
+                    // Nouveau garment
                     const data: GarmentColorStyleWrapperInterface = res.data;
+                    // Liste des garment
                     const garment: GarmentColorStyleWrapperInterface[] = this.stateService.garment;
+                    // Ajoute le garment à la liste
                     garment.push(data);
+                    // refresh la liste des garment
                     this.stateService.garment = garment;
+                    // Reset le formulaire & l'image
                     this.file = null;
+                    this.url = '';
                     this.formGarment.reset();
                 } else {
                     const err: ErrorInterface = {
