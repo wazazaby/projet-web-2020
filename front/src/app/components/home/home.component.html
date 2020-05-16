@@ -1,29 +1,91 @@
+<div class="d-flex row justify-content-center">
+    <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12  sectionGarment">
+        <div class="d-flex row mb-1">
+            <div class="col-7 d-flex row justify-content-around">
+                <drag-scroll class="col-11" #top (indexChanged)="index($event, 'top')">
+                    <div class="col-4 itemEmpty" drag-scroll-item ></div>
+                    <img    [ngClass]="{'activeImg': select.garmentTop && select.garmentTop.garment.id_garment === g.garment.id_garment}"
+                            (click)="selectItem(i, g, 'top')"
+                            class="col-4 p-1"
+                            *ngFor="let g of topGarment; index as i"
+                            drag-scroll-item
+                            [src]="urlUpload + g.garment.url_img_garment"
+                    />
+                    <div class="col-4 itemEmpty" drag-scroll-item ></div>
+                </drag-scroll>
+            </div>
+            <div class="col-3 d-flex flex-column m-auto">
+                Vêtement Haut
+                <mat-form-field appearance="outline" class="outfit">
+                    <input matInput [formControl]="formOutfit.controls.idGarmentTop" placeholder="test" [hidden]='true' required>
+                    <mat-error *ngIf="formOutfit.controls.idGarmentTop.hasError('required')">
+                      Merci de séléctionner un vêtement
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
 
+        <div class="d-flex row mb-1">
+            <div class="col-7 d-flex row justify-content-around">
+                <drag-scroll class="col-11" #mid (indexChanged)="index($event, 'mid')">
+                    <div class="col-4 itemEmpty" drag-scroll-item ></div>
+                    <img    [ngClass]="{'activeImg': select.garmentMid && select.garmentMid.garment.id_garment === g.garment.id_garment}"
+                            (click)="selectItem(i, g, 'mid')"
+                            class="col-4 p-1"
+                            *ngFor="let g of midGarment; index as i"
+                            drag-scroll-item
+                            [src]="urlUpload + g.garment.url_img_garment"
+                    />
+                    <div class="col-4 itemEmpty" drag-scroll-item ></div>
+                </drag-scroll>
+            </div>
+            <div class="col-3 d-flex flex-column m-auto">
+                Vêtement Mid
+                <mat-form-field appearance="outline" class="outfit">
+                    <input matInput [formControl]="formOutfit.controls.idGarmentMid" placeholder="test" [hidden]='true' required>
+                    <mat-error *ngIf="formOutfit.controls.idGarmentMid.hasError('required')">
+                      Merci de séléctionner un vêtement
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
 
-<div class="col-12 d-flex row justify-content-around">
-    <button (click)="moveLeft()" class="col-1"><i class="fas fa-chevron-left"></i></button>
-    <drag-scroll class="col-6" #nav (indexChanged)="index($event)">
-        <img class="col-4" drag-scroll-item />
-        <img (click)="moveItem(i, g)" class="col-4" *ngFor="let g of topGarment; index as i" drag-scroll-item [src]="urlUpload + g.garment.url_img_garment" />
-        <img class="col-4" drag-scroll-item />
-    </drag-scroll>
-    <button (click)="moveRight()" class="col-1"><i class="fas fa-chevron-right"></i></button>
-</div>
+        <div class="d-flex row mb-1">
+            <div class="col-7 d-flex row justify-content-around">
+                <drag-scroll class="col-11" #bot (indexChanged)="index($event, 'bot')">
+                    <div class="col-4 itemEmpty" drag-scroll-item ></div>
+                    <img    [ngClass]="{'activeImg': select.garmentBot && select.garmentBot.garment.id_garment === g.garment.id_garment}"
+                            (click)="selectItem(i, g, 'bot')"
+                            class="col-4 p-1"
+                            *ngFor="let g of botGarment; index as i"
+                            drag-scroll-item
+                            [src]="urlUpload + g.garment.url_img_garment"
+                    />
+                    <div class="col-4 itemEmpty" drag-scroll-item ></div>
+                </drag-scroll>
+            </div>
+            <div class="col-3 d-flex flex-column m-auto">
+                Vêtement bas
+                <mat-form-field appearance="outline" class="outfit">
+                    <input matInput [formControl]="formOutfit.controls.idGarmentBot" placeholder="test" [hidden]='true' required>
+                    <mat-error *ngIf="formOutfit.controls.idGarmentBot.hasError('required')">
+                      Merci de séléctionner un vêtement
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
 
-<div class="col-12 d-flex row justify-content-around">
-    <button (click)="moveLeft()" class="col-1"><i class="fas fa-chevron-left"></i></button>
-    <drag-scroll class="col-6" #nav (indexChanged)="index($event)">
-        <img class="col-4" drag-scroll-item />
-        <img (click)="moveItem(i, g)" class="col-4" *ngFor="let g of midGarment; index as i" drag-scroll-item [src]="urlUpload + g.garment.url_img_garment" />
-    </drag-scroll>
-    <button (click)="moveRight()" class="col-1"><i class="fas fa-chevron-right"></i></button>
-</div>
-
-<div class="col-12 d-flex row justify-content-around">
-    <button (click)="moveLeft()" class="col-1"><i class="fas fa-chevron-left"></i></button>
-    <drag-scroll class="col-6" #nav (indexChanged)="index($event)">
-        <img class="col-4" drag-scroll-item />
-        <img (click)="moveItem(i, g)" class="col-4" *ngFor="let g of botGarment; index as i" drag-scroll-item [src]="urlUpload + g.garment.url_img_garment" />
-    </drag-scroll>
-    <button (click)="moveRight()" class="col-1"><i class="fas fa-chevron-right"></i></button>
+    <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 m-auto">
+        <div class="d-flex flex-column justify-content-center">
+            <mat-form-field class="col-12 m-auto" appearance="outline">
+                <mat-label>Titre de la tenue</mat-label>
+                <input matInput [formControl]="formOutfit.controls.label_garment" placeholder="Ex. Tenue d'hiver" required>
+                <mat-error *ngIf="formOutfit.controls.label_garment.hasError('required')">
+                  Titre de la tenue <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+            <button class="btn btn-outline-success col-4 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
+        </div>
+    </div>
 </div>

@@ -149,6 +149,7 @@ export class ModalAddGarmentComponent implements OnInit {
                             message: res.message,
                             route: environment.apiUrl + this.bridgeService.userGarmentAdd
                         };
+                        this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
                     }
                     console.log(res);
@@ -166,7 +167,7 @@ export class ModalAddGarmentComponent implements OnInit {
                             message: res.message,
                             route: environment.apiUrl + this.bridgeService.userGarmentSet
                         };
-
+                        this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
                         console.log(res);
                     }

@@ -30,10 +30,10 @@ export class ColorController {
                 ctx.body = newColor;
             } else {
                 // Echec insert
-                ctx.throw(400, "Une erreur s'est produite", {result: result});
+                ctx.body = new Body(400, "Une erreur s'est produite", {result: result});
             }
         } else {
-            ctx.throw(401, 'La couleur éxiste déjà', {color: newColor});
+            ctx.body = new Body(401, 'La couleur éxiste déjà', {color: newColor});
         }
     }
 
@@ -42,7 +42,7 @@ export class ColorController {
         if (result) {
             ctx.body = new Body(200, 'Ok', result);
         } else {
-            ctx.throw(403, "Aucune couleurs n'a été trouver");
+            ctx.body = new Body(403, "Aucune couleurs n'a été trouver");
         }
     }
 

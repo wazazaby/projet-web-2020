@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StatesService } from './services/states.service';
 import { BridgeService } from './services/bridge.service';
-import { ErrorInterface } from '@osmo6/models';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',

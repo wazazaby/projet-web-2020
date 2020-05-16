@@ -74,11 +74,14 @@ export class StatesService {
     * Permet d'afficher une barre d'information du le site
     * @param message: string
     * @param action: string
+    * @param clas: string
     */
-  openSnackBar( message: string, action: string) {
+  openSnackBar( message: string, action: string, clas?: string) {
+    const c = clas === 'err' ? 'snackErr' : '';
     this.snackBar.open(message, action, {
       duration: 2000,
-      verticalPosition: 'top'
+      verticalPosition: 'top',
+      panelClass: [c]
     });
   }
 

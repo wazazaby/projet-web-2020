@@ -41,7 +41,7 @@ export class UserController {
         if (Auth.byToken(ctx, token)) {
             ctx.body = new Body(200, '', ctx.session.auth);
         } else {
-            ctx.throw(403);
+            ctx.body = new Body(403, '');
         }
     }
 
@@ -94,13 +94,13 @@ export class UserController {
                 if (await mailer.sendMail()) {
                     ctx.body = new Body(204, "Un mail d'activation vous a été envoyé");
                 } else {
-                    ctx.throw(400, "Problème lors de l'envoie du mail d'activation");
+                    ctx.body = new Body(403, "Problème lors de l'envoie du mail d'activation")
                 }
             } else {
-                ctx.throw(400, 'Problème lors de la création de votre compte, merci de réessayer');
+                ctx.body = new Body(403, 'Problème lors de la création de votre compte, merci de réessayer')
             }
         } else {
-            ctx.throw(400, 'Vous avez déjà un compte sur notre plateforme');
+            ctx.body = new Body(403, 'Vous avez déjà un compte sur notre plateforme')
         }
     }
 
@@ -126,15 +126,15 @@ export class UserController {
                 if (result.affectedRows === 1) {
                     ctx.body = new Body(200, 'Votre compte a bien été activé', { email: user.getEmail() });
                 } else {
-                    ctx.throw(400, "Problème lors de l'activation de votre compte, merci de rééssayer");
+                    ctx.body = new Body(400, "Problème lors de l'activation de votre compte, merci de rééssayer");
                 }
 
                 // Si son compte est déjà activé, on le redirigera vers la page de login
             } else if (user.getActif() === 1) {
-                ctx.throw(300, 'Votre compte à déjà été activé, vous pouvez vous connecter', { email: user.getEmail() });
+                ctx.body = new Body(300, 'Votre compte à déjà été activé, vous pouvez vous connecter', { email: user.getEmail() });
             }
         } else {
-            ctx.throw(400, "Votre lien d'activation n'est pas valide");
+            ctx.body = new Body(400, "Votre lien d'activation n'est pas valide");
         }
     }
 
@@ -151,12 +151,12 @@ export class UserController {
         const user: User|null = await this._manager.getUserByMailAndPass(mail, pass);
 
         if (user === null) {
-            ctx.throw(400, 'Impossible de se connecter avec ces identifiants');
+            ctx.body = new Body(400, 'Impossible de se connecter avec ces identifiants');
         } else {
 
             // S'il essaye de se connecter mais qu'il n'a pas activer son compte
             if (user.getActif() === 0) {
-                ctx.throw(400, "Merci d'activer votre compte pour pouvoir vous connecter");
+                ctx.body = new Body(400, "Merci d'activer votre compte pour pouvoir vous connecter");
             } else {
 
                 // Si tout est bon, on renvoit son id, name et email au front et on les passe en variable de session
@@ -213,13 +213,13 @@ export class UserController {
                 if (await mailer.sendMail()) {
                     ctx.body = new Body(204, "Un mail de réinitialisation vous a été envoyé");
                 } else {
-                    ctx.throw(400, "Problème lors de l'envoie du mail de réinitialisation");
+                    ctx.body = new Body(400, "Problème lors de l'envoie du mail de réinitialisation");
                 }
             } else {
-                ctx.throw(400, "Vous ne pouvez pas réinitialiser votre mot de passe car vous n'avez pas de compte actif sur notre plateforme")
+                ctx.body = new Body(400, "Vous ne pouvez pas réinitialiser votre mot de passe car vous n'avez pas de compte actif sur notre plateforme")
             }
         } else {
-           ctx.throw(400, "Si cet email existe sur notre plateforme, vous recevrez un mail de réinitialisatoin");
+           ctx.body = new Body(400, "Si cet email existe sur notre plateforme, vous recevrez un mail de réinitialisatoin");
         }
     }
 }

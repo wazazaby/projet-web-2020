@@ -36,7 +36,8 @@ export class GarmentController {
 
         // Vérification de l'auth de l'user
         if (!Auth.isValid(ctx, idUser)) {
-            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+            ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+            return;
         }
 
         const garms: GarmentColorStyleWrapperInterface[] = await this._manager.getGarmentsByIdUser(idUser);
@@ -52,7 +53,8 @@ export class GarmentController {
         // On vérifie si l'utilisateur est authentifié
         const idUser: number = Number(ctx.request.body.user_id_user);
         if (!Auth.isValid(ctx, idUser)) {
-            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+            ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+            return;
         }
 
         // Récupération du fichier et des couleurs / styles
@@ -76,7 +78,7 @@ export class GarmentController {
         // On lance l'ajout, si ça marche on renvoit l'objet du garment en question, sinon on throw une erreur HTTP
         const result: (GarmentColorStyleWrapperInterface|null) = await this._manager.insertGarment(newGarm, colors, styles);
         if (result === null) {
-            ctx.throw(400, "Problème lors de la création de votre vêtement");
+            ctx.body = new Body(400, "Problème lors de la création de votre vêtement");
         } else {
             ctx.body = new Body(200, '', result);
         }
@@ -91,20 +93,21 @@ export class GarmentController {
         // Vérification de l'auth de l'user
         const idUser: number = Number(ctx.params.idUser);
         if (!Auth.isValid(ctx, idUser)) {
-            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+            ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+            return;
         }
 
         const idGarment: number = Number(ctx.params.idGarment);
         if (await this._manager.deleteGarmentById(idGarment)) {
             ctx.body = new Body(200, "Vêtement supprimé avec succes");
         } else {
-            ctx.throw(400, "Problème lors de la suppression de votre vêtement");
+            ctx.body = new Body(400, "Problème lors de la suppression de votre vêtement");
         }
     }
 
     /**
      * Permet de modifier / mettre à jour un garment, HTTP 200 si OK, 400+ si erreur
-     * @param {Context} ctx 
+     * @param {Context} ctx
      */
     public async updateGarment (ctx: Context): Promise<void> {
         const requestBody: any = ctx.request.body;
@@ -113,10 +116,11 @@ export class GarmentController {
 
         // Vérification de l'authentification
         if (!Auth.isValid(ctx, idUser)) {
-            return ctx.throw(403, "Vous n'avez pas accès à ce contenu");
+            ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+            return;
         }
 
-        // On récupère le garment entier 
+        // On récupère le garment entier
         const currentGarment: (GarmentColorStyleWrapperInterface|null) = await this._manager.getGarmentById(idGarment);
 
         if (currentGarment !== null) {
@@ -154,7 +158,8 @@ export class GarmentController {
                     // On passe la nouvelle image à l'objet
                     garmObj.setUrlImage(`/uploads/${file.filename}`)
                 } catch (e) {
-                    return ctx.throw(400, e);
+                    ctx.body = new Body(400, e);
+                    return;
                 }
             }
 
@@ -169,12 +174,14 @@ export class GarmentController {
             // On renvoie l'objet au manager pour la mise à jour, retourne un objet garment complet si tout s'est bien passé ou null si erreur
             const newObj: (GarmentColorStyleWrapperInterface|null) = await this._manager.updateGarment(garmObj, newStyles, newColors);
             if (newObj === null) {
-                return ctx.throw(400, "Une erreur est parvenue lors de la mise à jour de votre vêtement");
+                ctx.body = new Body(400, "Une erreur est parvenue lors de la mise à jour de votre vêtement");
+                return;
             } else {
                 ctx.body = new Body(200, '', newObj);
             }
         } else {
-            return ctx.throw(403);
+            ctx.body = new Body(403, 'Le vêtement n\'existe pas');
+            return;
         }
     }
 }

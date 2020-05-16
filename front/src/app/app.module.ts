@@ -56,7 +56,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
   entryComponents: [
     ModalAddGarmentComponent,
     ModalProfilComponent,
-    ModalConfirmComponent
+    ModalConfirmComponent,
+    HomeComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
