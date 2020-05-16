@@ -53,12 +53,14 @@ export class UserController {
 
         // En fonction des paramètres passés dans le body de la request, on crée un objet user
         const userPass = await bcrypt.hash(ctx.request.body.pass, this._hash);
+        const pathAvatar = ['avatar0.png', 'avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png', 'avatar5.png'];
+
         const newUser: User = new User({
             id_user: null,
             name_user: ctx.request.body.name,
             email_user: ctx.request.body.email,
             pass_user: userPass,
-            url_img_user: null,
+            url_img_user: '/uploads/' + pathAvatar[Math.floor(Math.random() * 5) + 0],
             actif_user: 0,
             rgpd_user: 1,
             token_user: RandomString.generate(),
