@@ -14,3 +14,16 @@ html, body {
         color: $white;
     }
 }
+
+// Surcharge Angular Material btn homeComponent
+.outfit{
+    .mat-form-field-wrapper{
+        .mat-form-field-flex{
+            display: none!important;
+        }
+    }
+}
+
+.drag-scroll-content{
+    display: flex!important;
+}

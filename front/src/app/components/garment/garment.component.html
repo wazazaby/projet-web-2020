@@ -97,8 +97,13 @@
 
   <!-- Partie card garment -->
   <div (click)="resetFilter()" class="col-12 justify-content-center row mx-auto" *ngIf="garment.length != 0; else noGarment">
-    <div *ngFor="let g of garment" class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 sect-img">
-      <p [innerText]="g.garment.label_garment"></p>
+    <div *ngFor="let g of garment" class="col-xl-3 col-md-4 col-sm-6 col-12 sect-img">
+      <div class="col-12 d-flex row justify-content-between">
+        <p [innerText]="g.garment.label_garment"></p>
+        <div>
+          <i *ngFor="let c of g.colors" [style.color]="c.hex_color" class="fas fa-circle"></i>
+        </div>
+      </div>
       <div class="sect-hover">
         <img class="img-fluid" [src]="urlApiUpload + g.garment.url_img_garment" [alt]="g.garment.label_garment">
         <div class="sect-hide d-flex">
@@ -120,17 +125,23 @@
           </div>
         </div>
       </div>
-      <div class="desc">
-        <div>
-          <i *ngFor="let c of g.colors" [style.color]="c.hex_color" class="fas fa-circle"></i>
+      <div class="desc d-flex row justify-content-between col-12 m-auto">
+        <div class="col-6 d-flex row">
+          <label class="mr-2">Saison :</label>
+          <label class="season_{{g.garment.season_id_season}}" [innerHTML]="getImgSeason(g.garment.season_id_season)"></label>
+        </div>
+        <div class="col-6 text-right">
+          <label class="mr-2">Type :</label>
+          <label>{{getType(g.garment.type_id_type)}} </label>
         </div>
         <div>
-          <label *ngFor="let s of g.styles"> {{s.label_style}} </label>
+          <label class="mr-2">Marque :</label>
+          <label> {{getBrand(g.garment.brand_id_brand)}} </label>
         </div>
         <div>
-          <label [innerHTML]="getImgSeason(g.garment.season_id_season)"></label>
-          <label> {{g.garment.type_id_type}} </label>
-          <label> {{g.garment.brand_id_brand}} </label>
+          <div class="d-flex row">
+            <label class="style m-1" *ngFor="let s of g.styles"> {{s.label_style}} </label>
+          </div>
         </div>
       </div>
     </div>

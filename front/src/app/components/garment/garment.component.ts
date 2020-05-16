@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 // liste des interfaces
 import {  UserInterface, GarmentInterface, SeasonInterface, TypeInterface,
-    GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface, ErrorInterface } from '@osmo6/models';
+    GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface, ErrorInterface, BrandInterface } from '@osmo6/models';
 
 // Liste des services
 import { StatesService } from 'src/app/services/states.service';
@@ -31,6 +31,7 @@ export class GarmentComponent implements OnInit {
     type: TypeInterface[] = this.stateService.type;
     color: ColorInterface[] = this.stateService.color;
     style: StyleInterface[] = this.stateService.style;
+    brand: BrandInterface[] = this.stateService.brand;
 
     // Liste des filtres
     filterName = [];
@@ -375,8 +376,34 @@ export class GarmentComponent implements OnInit {
             return '<i class="fas fa-sun"></i>';
             case 4:
             // Automne autumn
-            return '<i class="fas fa-mountain"></i>';
+            return '<i class="fab fa-canadian-maple-leaf"></i>';
         }
+    }
+
+    /**
+     * Retourn la valeur du type de vêtement
+     * @param n id type garment
+     */
+    getType(n: number): string {
+        let result = '';
+        const find = this.type.find(t => t.id_type === n);
+        if (find) {
+            result = find.label_type;
+        }
+        return result;
+    }
+
+    /**
+     * Retourn la valeur de la marque de vêtement
+     * @param n id marque garment
+     */
+    getBrand(n: number): string {
+        let result = '';
+        const find = this.brand.find(t => t.id_brand === n);
+        if (find) {
+            result = find.label_brand;
+        }
+        return result;
     }
 
    /**

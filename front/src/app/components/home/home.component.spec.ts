@@ -6,6 +6,7 @@ import { BridgeService } from 'src/app/services/bridge.service';
 import { StatesService } from 'src/app/services/states.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -16,10 +17,12 @@ describe('HomeComponent', () => {
       imports: [
         MatSnackBarModule,
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        MatDialogModule
       ],
       declarations: [ HomeComponent ],
       providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
         BridgeService,
         StatesService
       ]

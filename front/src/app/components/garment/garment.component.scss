@@ -99,6 +99,27 @@
       box-sizing: content-box;
     }
 
+    .desc{
+      .season_1{
+        color: $saison1;
+      }
+      .season_2{
+        color: $saison2;
+      }
+      .season_3{
+        color: $saison3;
+      }
+      .season_4{
+        color: $saison4;
+      }
+
+      .style{
+        background-color: $badge;
+        border-radius: 1em;
+        padding: .5em;
+      }
+    }
+
     .sect-hide{
       position: absolute;
       opacity: 0;
@@ -131,7 +152,6 @@
         background-color: $delete;
         opacity: .2;
         border-radius: 0 $radius-x4 $radius-x4 0;
-
 
         &:hover{
           opacity: .6;
