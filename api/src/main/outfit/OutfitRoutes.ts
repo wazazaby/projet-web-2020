@@ -5,4 +5,7 @@ import { OutfitController } from './OutfitController';
 const router: Router<DefaultState, Context> = new Router<DefaultState, Context>();
 const controller: OutfitController = new OutfitController();
 
+// Ajouter une tenue
 router.post('/api/outfit/add', async (ctx: Context): Promise<void> => controller.createOutfit(ctx));
+
+export default router;

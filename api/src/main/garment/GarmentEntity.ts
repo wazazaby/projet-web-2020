@@ -1,4 +1,4 @@
-import { GarmentInterface, ColorInterface, StyleInterface, TypeInterface } from '@osmo6/models';
+import { GarmentInterface } from '@osmo6/models';
 
 export class Garment implements GarmentInterface {
     public id_garment?: number;

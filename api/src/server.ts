@@ -19,6 +19,7 @@ import seasonRooter from './main/season/SeasonRoutes';
 import typeRooter from './main/type/TypeRoutes';
 import styleRooter from './main/style/StyleRoutes';
 import brandRooter from './main/brand/BrandRoutes';
+import outfitRouter from './main/outfit/OutfitRoutes';
 // --------------- IMPORT ROUTES ---------------
 
 
@@ -79,6 +80,10 @@ app.use(styleRooter.allowedMethods());
 // Brand
 app.use(brandRooter.routes());
 app.use(brandRooter.allowedMethods());
+
+// Outfit
+app.use(outfitRouter.routes());
+app.use(outfitRouter.allowedMethods());
 // -------------- ROUTES --------------
 
 // Lancement du serveur et initialisation de la BDD
