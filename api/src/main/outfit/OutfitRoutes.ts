@@ -6,6 +6,9 @@ const router: Router<DefaultState, Context> = new Router<DefaultState, Context>(
 const controller: OutfitController = new OutfitController();
 
 // Ajouter une tenue
-router.post('/api/outfit/add', async (ctx: Context): Promise<void> => controller.createOutfit(ctx));
+router.post('/api/outfit/add', async (ctx: Context): Promise<void> => await controller.createOutfit(ctx));
+
+// Récupération de tout les outfit d'un user
+router.get('/api/user/:idUser/outfit/all', async (ctx: Context): Promise<void> => await controller.getAllOutfitByUser(ctx));
 
 export default router;

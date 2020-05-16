@@ -54,4 +54,30 @@ export class OutfitController {
         ctx.body = new Body(status, message, res);
         return;
     }
+
+    public async getAllOutfitByUser (ctx: Context): Promise<void> {
+
+        // Vérification de l'authentification de la requette
+        const idUser: number = Number(ctx.params.idUser);
+        if (!Auth.isValid(ctx, idUser)) {
+            ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+            return;
+        }
+
+        const fits: (OutfitGarmentWrapperInterface[]|null) = await this._manager.getOutfitsByIdUser(idUser);
+
+        // Gestion des retours
+        let status: number;
+        let message: string;
+        if (fits === null) {
+            status = 400;
+            message = "Vous n'avez pas encore de tenues";
+        } else {
+            status = 200;
+            message = "OK";
+        }
+
+        ctx.body = new Body(status, message, fits);
+        return;
+    }
 }
