@@ -80,8 +80,8 @@
         <div class="d-flex flex-column justify-content-center">
             <mat-form-field class="col-12 m-auto" appearance="outline">
                 <mat-label>Titre de la tenue</mat-label>
-                <input matInput [formControl]="formOutfit.controls.label_garment" placeholder="Ex. Tenue d'hiver" required>
-                <mat-error *ngIf="formOutfit.controls.label_garment.hasError('required')">
+                <input matInput [formControl]="formOutfit.controls.label_outfit" placeholder="Ex. Tenue d'hiver" required>
+                <mat-error *ngIf="formOutfit.controls.label_outfit.hasError('required')">
                   Titre de la tenue <strong>obligatoire</strong>
                 </mat-error>
             </mat-form-field>

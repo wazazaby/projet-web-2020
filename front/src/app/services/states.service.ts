@@ -5,7 +5,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {  UserInterface, BrandInterface, ColorInterface, SeasonInterface,
-          StyleInterface, TypeInterface, ErrorInterface, GarmentColorStyleWrapperInterface } from '@osmo6/models';
+          StyleInterface, TypeInterface, ErrorInterface, GarmentColorStyleWrapperInterface, OutfitGarmentWrapperInterface } from '@osmo6/models';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -30,6 +30,7 @@ export class StatesService {
   private _garmentTop: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
   private _garmentMid: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
   private _garmentBot: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
+  private _outfit: BehaviorSubject<OutfitGarmentWrapperInterface[]> = new BehaviorSubject<OutfitGarmentWrapperInterface[]>([]); // tslint:disable-line
 
   private _errors: BehaviorSubject<ErrorInterface> = new BehaviorSubject<ErrorInterface>(null); // tslint:disable-line
 
@@ -304,7 +305,7 @@ export class StatesService {
   }
   // ========================== Début Garment Mid ==========================
 
-    // ***********************************************************************
+  // ***********************************************************************
   // ========================== Début Garment Bot ==========================
   public get garmentBot(): GarmentColorStyleWrapperInterface[] {
     return this._garmentBot.getValue();
@@ -316,6 +317,21 @@ export class StatesService {
 
   public garmentBotAsObservable(): Observable<GarmentColorStyleWrapperInterface[]> {
     return this._garmentBot.asObservable();
+  }
+  // ========================== Début Garment Bot ==========================
+
+  // ***********************************************************************
+  // ========================== Début Garment Bot ==========================
+  public get outfit(): OutfitGarmentWrapperInterface[] {
+    return this._outfit.getValue();
+  }
+
+  public set outfit(u: OutfitGarmentWrapperInterface[]) {
+    this._outfit.next(u);
+  }
+
+  public outfitAsObservable(): Observable<OutfitGarmentWrapperInterface[]> {
+    return this._outfit.asObservable();
   }
   // ========================== Début Garment Bot ==========================
   // =============================GETTER/SETTER=============================

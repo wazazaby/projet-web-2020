@@ -152,7 +152,6 @@ export class ModalAddGarmentComponent implements OnInit {
                         this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
                     }
-                    console.log(res);
                 });
             } else {
                 formData.append('id_garment', JSON.stringify(this.data.garment.garment.id_garment));

@@ -32,6 +32,7 @@ export class BridgeService {
     public userGarmentAdd = 'garment/add';
     public userGarmentSet = 'garment/update';
     public userGarmentRm = '/garment/delete/';
+    public userOutfitAdd = 'outfit/add';
     public logout = 'user/logout';
     public snackBar = null;
     public checkTkn = 'user/verify-auth';
@@ -294,6 +295,10 @@ export class BridgeService {
         const idGarment: number = data.garment.id_garment;
         const url = `${environment.apiUrl}user/${idUser}/garment/delete/${idGarment}`;
         return this.http.delete<GlobalReturnInterface>(url, { withCredentials: true });
+    }
+
+    addOutfit(body: {label_outfit: string, user_id_user: number, id_garments: number[]}) {
+        return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.userOutfitAdd, body, { withCredentials: true });
     }
 
     /**

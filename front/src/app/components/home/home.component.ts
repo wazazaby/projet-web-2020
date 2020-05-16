@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
-import { GarmentColorStyleWrapperInterface, UserInterface, TypeInterface } from '@osmo6/models';
+import { GarmentColorStyleWrapperInterface, UserInterface, TypeInterface, ErrorInterface } from '@osmo6/models';
 
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
@@ -51,8 +51,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   };
 
   formOutfit: FormGroup = this.formBuild.group({
-    label_garment: new FormControl('', [Validators.required]),
-    user_id_user: [this.user.id_user, Validators.required],
+    label_outfit: new FormControl('', [Validators.required]),
     idGarmentTop: new FormControl('', [Validators.required]),
     idGarmentMid: new FormControl('', [Validators.required]),
     idGarmentBot: new FormControl('', [Validators.required])
@@ -166,7 +165,35 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   sendOutfit() {
     if (this.formOutfit.valid) {
-      console.log(this.select);
+      const body = {
+        user_id_user: this.user.id_user,
+        label_outfit: this.formOutfit.value.label_outfit,
+        id_garments: [
+          this.formOutfit.value.idGarmentTop,
+          this.formOutfit.value.idGarmentMid,
+          this.formOutfit.value.idGarmentBot
+        ]
+      };
+
+      this.bridgeService.addOutfit(body).subscribe(res => {
+        if (this.stateService.checkStatus(res.status)) {
+          this.moveTo(0, 'top');
+          this.moveTo(0, 'mid');
+          this.moveTo(0, 'bot');
+          this.select.garmentTop = null;
+          this.select.garmentMid = null;
+          this.select.garmentBot = null;
+          this.formOutfit.reset();
+        } else {
+          const err: ErrorInterface = {
+            code: res.status,
+            message: res.message,
+            route: environment.apiUrl + this.bridgeService.userGarmentAdd
+          };
+          this.stateService.openSnackBar(err.message, null, 'err');
+          this.stateService.errors = err;
+        }
+      });
 
     } else {
       this.formOutfit.markAllAsTouched();
