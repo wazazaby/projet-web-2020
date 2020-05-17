@@ -185,6 +185,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.select.garmentTop = null;
           this.select.garmentMid = null;
           this.select.garmentBot = null;
+          this.bridgeService.getAllOutfit(this.user.id_user);
           this.formOutfit.reset();
         } else {
           const err: ErrorInterface = {
