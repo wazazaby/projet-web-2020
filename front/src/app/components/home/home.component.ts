@@ -77,10 +77,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    /** Si aucun vêtement */
-    if (this.garment.length === 0) {
-      this.userHasGarment = false;
-      this.bridgeService.getGarmentUser(this.user.id_user);
+    if (this.user) {
+      /** Si aucun vêtement */
+      if (this.garment.length === 0) {
+        this.userHasGarment = false;
+        this.bridgeService.getGarmentUser(this.user.id_user);
+      }
     }
 
     /** Observable sur les vêtements */
@@ -95,7 +97,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.garment.length === 0) {
+    if (this.garment.length === 0 && this.user) {
       this.userHasGarment = false;
       this.bridgeService.getGarmentUser(this.user.id_user);
     } else {

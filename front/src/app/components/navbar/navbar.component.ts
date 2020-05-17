@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
    */
   sideBar: RouteInterface[] = [
     {path: 'accueil', isActive: true, title: 'Accueil', icon: '<i class="fas fa-home"></i>'},
-    {path: 'vetements', isActive: false, title: 'Vêtemens', icon: '<i class="fas fa-tshirt"></i>'},
+    {path: 'tenues', isActive: false, title: 'Tenues', icon: '<i class="fas fa-tshirt"></i>'},
     {path: 'garde-robes', isActive: false, title: 'Garde robe', icon: '<i class="fas fa-plus"></i>'}
   ];
 

@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShowOnDirtyErrorStateMatcher, ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -26,7 +27,8 @@ describe('AppComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatOptionModule,
-        MatSelectModule
+        MatSelectModule,
+        MatCardModule
       ],
       declarations: [
         AppComponent,
@@ -42,12 +44,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  // exemple de test unitaire
-  it('should test function test()', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    expect(fixture.componentInstance.test).toBeDefined('test');
   });
 
 });

@@ -7,6 +7,11 @@ import { StatesService } from 'src/app/services/states.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { DragScrollModule } from 'ngx-drag-scroll';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -18,7 +23,14 @@ describe('HomeComponent', () => {
         MatSnackBarModule,
         RouterTestingModule,
         HttpClientModule,
-        MatDialogModule
+        MatDialogModule,
+        DragScrollModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule
       ],
       declarations: [ HomeComponent ],
       providers: [

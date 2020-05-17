@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalAddGarmentComponent } from './modal-add-garment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ShowOnDirtyErrorStateMatcher, ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,14 +24,14 @@ describe('ModalAddGarmentComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         MatSnackBarModule,
-        FormsModule,
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,
         BrowserAnimationsModule,
         MatOptionModule,
         MatSelectModule,
-        HttpClientModule
+        HttpClientModule,
+        MatDialogModule
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },

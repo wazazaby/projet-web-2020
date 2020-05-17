@@ -17,8 +17,8 @@ export class ModalProfilComponent implements OnInit {
   urlUpload = environment.apiUpload;
 
   formUser: FormGroup = this.formBuild.group({
-    name: new FormControl(this.data.user.name_user, [ Validators.required]),
-    email: new FormControl(this.data.user.email_user,
+    name: new FormControl('', [ Validators.required]),
+    email: new FormControl('',
       [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
 });
 
@@ -26,6 +26,10 @@ export class ModalProfilComponent implements OnInit {
               private formBuild: FormBuilder) { }
 
   ngOnInit() {
+    if (this.data && this.data.user) {
+      this.formUser.get('name').setValue(this.data.user.name_user);
+      this.formUser.get('email').setValue(this.data.user.email_user);
+    }
     this.formUser.get('name').disable();
     this.formUser.get('email').disable();
   }

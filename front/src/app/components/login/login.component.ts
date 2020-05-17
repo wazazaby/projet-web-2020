@@ -76,7 +76,6 @@ export class LoginComponent implements OnInit { // contient les var du component
                     });
                 }
             }
-
         });
     }
 
@@ -124,6 +123,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                     const data: UserInterface = res.data;
                     this.stateService.userProfil = data;
                     this.bridgeService.getGarmentUser(data.id_user);
+                    this.bridgeService.getAllOutfit(data.id_user);
                     this.stateService.login();
                     localStorage.clear();
                 } else {

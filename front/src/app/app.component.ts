@@ -30,11 +30,4 @@ export class AppComponent {
       return false;
     }
   }
-
-  /**
-   * Test de fonction pour test unitaire
-   */
-  test() {
-    return 'test';
-  }
 }

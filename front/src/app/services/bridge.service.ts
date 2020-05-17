@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import {  BrandInterface, GlobalReturnInterface,
           ErrorInterface, SeasonInterface, TypeInterface,
-          GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface } from '@osmo6/models';
+          GarmentColorStyleWrapperInterface, ColorInterface, StyleInterface, OutfitGarmentWrapperInterface } from '@osmo6/models';
 import { StatesService } from './states.service';
 import { Router } from '@angular/router';
 
@@ -33,6 +33,7 @@ export class BridgeService {
     public userGarmentSet = 'garment/update';
     public userGarmentRm = '/garment/delete/';
     public userOutfitAdd = 'outfit/add';
+    public userOutfit = '/outfit/all';
     public logout = 'user/logout';
     public snackBar = null;
     public checkTkn = 'user/verify-auth';
@@ -100,7 +101,6 @@ export class BridgeService {
                     this.stateService.errors = err;
                     this.stateService.openSnackBar(err.message, null, 'err');
                     this.router.navigate(['/auth']);
-                    console.log(err);
                 }
             });
         }
@@ -147,6 +147,7 @@ export class BridgeService {
             } else {
                 const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.typeAll};
                 this.stateService.errors = err;
+                this.stateService.openSnackBar(err.message, null, 'err');
             }
         });
     }
@@ -165,6 +166,7 @@ export class BridgeService {
                     message: res.message,
                     route: environment.apiUrl + this.colorAll
                 };
+                this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
         });
@@ -181,10 +183,11 @@ export class BridgeService {
                 this.stateService.garment = data;
             } else {
                 const err: ErrorInterface = {
-                code: res.status,
-                message: res.message,
-                route: environment.apiUrl + 'user/' + userId + this.userGarment
+                    code: res.status,
+                    message: res.message,
+                    route: environment.apiUrl + 'user/' + userId + this.userGarment
                 };
+                this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
         });
@@ -200,6 +203,7 @@ export class BridgeService {
                 this.stateService.season = data;
             } else {
                 const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.seasonAll};
+                this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
         });
@@ -210,11 +214,13 @@ export class BridgeService {
      */
     getBrand() {
         return this.getBrandReq().subscribe(res => {
+            console.log(res);
             if (this.stateService.checkStatus(res.status)) {
                 const data: BrandInterface[] = res.data;
                 this.stateService.brand = data;
             } else {
                 const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.brandAll};
+                this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
         });
@@ -230,11 +236,27 @@ export class BridgeService {
                 this.stateService.style = data;
             } else {
                 const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.styleAll};
+                this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
         });
     }
 
+    /**
+     * Attribue les tenue de vêtement à la variable global {this.stateService.outfit}
+     */
+    getAllOutfit(userId: number) {
+        return this.getAllOutfitReq(userId).subscribe(res => {
+            if (this.stateService.checkStatus(res.status)) {
+                const data: OutfitGarmentWrapperInterface[] = res.data;
+                this.stateService.outfit = data;
+            } else {
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.styleAll};
+                this.stateService.openSnackBar(err.message, null, 'err');
+                this.stateService.errors = err;
+            }
+        });
+    }
 
 // ****************************************************************************************
 
@@ -246,14 +268,14 @@ export class BridgeService {
      * Créer un observable des couleurs de vêtement à la var global
      */
     getColorReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.colorAll);
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.colorAll, { withCredentials: true });
     }
 
     /**
      * Créer un observable des types de vêtement
      */
     getTypeReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.typeAll);
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.typeAll, { withCredentials: true });
     }
 
     /**
@@ -297,36 +319,56 @@ export class BridgeService {
         return this.http.delete<GlobalReturnInterface>(url, { withCredentials: true });
     }
 
+    /**
+     * Permet d'ajouter une tenue
+     */
     addOutfit(body: {label_outfit: string, user_id_user: number, id_garments: number[]}) {
         return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.userOutfitAdd, body, { withCredentials: true });
+    }
+
+    /**
+     * Permet de récupérer toute les tenues d'un utilisateur
+     * @param userId number
+     */
+    getAllOutfitReq(userId: number) {
+        return this.http.get<GlobalReturnInterface>(
+            environment.apiUrl + 'user/' + userId + this.userOutfit,
+            {
+                headers: new HttpHeaders({
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Content-type': 'multipart/form-data',
+                }),
+                withCredentials: true
+            }
+        );
     }
 
     /**
      * Créer un observable des saisons
      */
     getSeasonReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.seasonAll);
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.seasonAll, { withCredentials: true });
     }
 
     /**
      * Créer un observable des marques de vêtement
      */
     getBrandReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.brandAll);
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.brandAll, { withCredentials: true });
     }
 
     /**
      * Créer un observable des styles de vêtement
      */
     getStyleReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.styleAll);
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.styleAll, { withCredentials: true });
     }
 
     /**
      * Permet de clean la session API du user
      */
     disconnectReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.logout);
+        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.logout, { withCredentials: true });
     }
 
     /**

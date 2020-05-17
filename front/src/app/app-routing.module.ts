@@ -14,8 +14,8 @@ const routes: Routes = [
       { path: ':token', component: LoginComponent, outlet: 'main', pathMatch: 'full' },
     ]
   },
-  { path: 'accueil', component: HomeComponent, canActivate: [AuthGuardService] },
-  { path: 'vetements', component: GarmentComponent, canActivate: [AuthGuardService] },
+  { path: 'accueil', component: GarmentComponent, canActivate: [AuthGuardService] },
+  { path: 'tenues', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'garde-robes', component: OutfitComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
 ];

@@ -24,6 +24,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import {MatCardModule} from '@angular/material/card';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
     MatOptionModule,
     MatSelectModule,
     MatIconModule,
-    DragScrollModule
+    DragScrollModule,
+    MatCardModule
   ],
   entryComponents: [
     ModalAddGarmentComponent,

@@ -1,0 +1,62 @@
+@import '../../../assets/color.scss';
+
+.cardOutfit{
+    position: relative;
+    box-sizing: border-box;
+
+    &:hover{
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+        border: 1px solid rgba(0, 0, 0, 0.14);
+
+        .sectionImg{
+            filter: grayscale(0%);
+        }
+    }
+
+    .sectionImg{
+        filter: grayscale(100%);
+    }
+
+    label{
+        font-style: italic;
+        font-weight: 600;
+        position: absolute;
+        z-index: 1;
+        background-color: $bg-sidebar;
+        color: $white;
+        padding: 6px;
+        left: 0;
+
+        &.top{
+            top: .2em;
+        }
+
+        &.bottom{
+            bottom: .2em;
+        }
+
+        &.top-right{
+            cursor: pointer;
+            background-color: transparent;
+            top: .2em;
+            left: 90%;
+            color: $invalid;
+
+            &:hover{
+                color: $delete;
+            }
+        }
+
+        &.bottom-right{
+            cursor: pointer;
+            background-color: transparent;
+            bottom: .2em;
+            left: 90%;
+            color: $update;
+
+            &:hover{
+                color: $updateHover;
+            }
+        }
+    }
+}
