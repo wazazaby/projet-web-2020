@@ -261,7 +261,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
           id_outfit: this.data.outfit.outfit.id_outfit
         };
         this.bridgeService.updateOutfit(resUpdate).subscribe(res => {
-          console.log('homeoutfit')
           this.stateService.closeDialogOutfit = true;
           this.bridgeService.getAllOutfit(resUpdate.user_id_user);
         });

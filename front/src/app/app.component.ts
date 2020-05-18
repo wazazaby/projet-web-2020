@@ -10,7 +10,6 @@ import { BridgeService } from './services/bridge.service';
 })
 export class AppComponent {
   constructor(public route: Router,
-              private stateService: StatesService,
               private bridgeService: BridgeService) {
 
     // Load toute les data dont l'app à besoin

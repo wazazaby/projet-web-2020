@@ -5,6 +5,7 @@ import { GarmentComponent } from './components/garment/garment.component';
 import { OutfitComponent } from './components/outfit/outfit.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { LegalComponent } from './components/legal/legal.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
     children: [
       { path: '', component: LoginComponent, outlet: 'main', pathMatch: 'full' },
       { path: ':token', component: LoginComponent, outlet: 'main', pathMatch: 'full' },
-    ]
+    ],
   },
   { path: 'accueil', component: GarmentComponent, canActivate: [AuthGuardService] },
   { path: 'tenues', component: HomeComponent, canActivate: [AuthGuardService] },

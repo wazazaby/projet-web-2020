@@ -117,7 +117,7 @@ export class BridgeService {
     initData(b: boolean): boolean {
         let isGood = false;
         if (b) {
-            console.log('init les data de l\'application', b);
+            // init les data de l'application'
             this.getBrand();
             this.getSeason();
             this.getType();

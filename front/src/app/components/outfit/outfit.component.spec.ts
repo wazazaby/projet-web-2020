@@ -6,6 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BridgeService } from 'src/app/services/bridge.service';
 import { StatesService } from 'src/app/services/states.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 describe('OutfitComponent', () => {
   let component: OutfitComponent;
@@ -17,9 +18,11 @@ describe('OutfitComponent', () => {
       imports: [
         RouterTestingModule,
         MatSnackBarModule,
-        HttpClientModule
+        HttpClientModule,
+        MatDialogModule
       ],
       providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
         BridgeService,
         StatesService
       ]

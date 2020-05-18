@@ -63,7 +63,6 @@ export class NavbarComponent implements OnInit {
 
   // Ouvre un modal pour afficher le profil utilisateur
   openModal(): void {
-    console.log(this.user);
     if (this.user) {
       const dialogRef = this.dialog.open(ModalProfilComponent, {
         // width: '50%',

@@ -42,7 +42,7 @@ export class StatesService {
   login() {
     // Si l'utilisateur est activer
     if (this.userProfil.actif_user === 1) {
-      // console.log('Auth OK');
+      // Auth OK
       setTimeout(() => {
         this.isLogin = true;
         // stock le token dans le navigateur: localstorage

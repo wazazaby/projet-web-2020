@@ -36,7 +36,6 @@ export class OutfitComponent implements OnInit {
 
       this.stateService.outfitAsObservable().subscribe(res => {
         this.outfit = res;
-        console.log(this.outfit);
       });
     }
 
@@ -48,14 +47,11 @@ export class OutfitComponent implements OnInit {
   }
 
   action(num: number, outfit: OutfitGarmentWrapperInterface): void {
-    console.log('action');
     if (num === 0) {
       // supprimer
-      console.log('del', outfit);
       this.removeOutfit(outfit);
     } else {
       // modifier
-      console.log('up', outfit);
       this.updateOutfit(outfit);
     }
   }
