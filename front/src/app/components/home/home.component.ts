@@ -1,5 +1,11 @@
-import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
-import { GarmentColorStyleWrapperInterface, UserInterface, TypeInterface, ErrorInterface } from '@osmo6/models';
+import { Component, OnInit, ViewChild, Inject, AfterViewInit, Optional, ChangeDetectorRef } from '@angular/core';
+import {
+  GarmentColorStyleWrapperInterface,
+  UserInterface,
+  TypeInterface,
+  ErrorInterface,
+  OutfitGarmentWrapperInterface
+} from '@osmo6/models';
 
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
@@ -26,7 +32,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private stateService: StatesService,
               private bridgeService: BridgeService,
-              private formBuild: FormBuilder) {}
+              private formBuild: FormBuilder,
+              private cdRef: ChangeDetectorRef,
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: {userId: number, outfit: OutfitGarmentWrapperInterface}
+              ) {}
 
   /** User */
   user: UserInterface = this.stateService.userProfil;
@@ -75,6 +84,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     read: DragScrollComponent
   }) dsBot: DragScrollComponent;
 
+  // update
+  indexTop = 0;
+  indexMid = 0;
+  indexBot = 0;
 
   ngOnInit() {
     if (this.user) {
@@ -97,19 +110,40 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.garment.length === 0 && this.user) {
-      this.userHasGarment = false;
-      this.bridgeService.getGarmentUser(this.user.id_user);
+    if (this.data && this.data.userId && this.data.outfit) {
+      this.formOutfit.get('label_outfit').setValue(this.data.outfit.outfit.label_outfit);
+      this.formOutfit.get('idGarmentTop').setValue(this.data.outfit.garments[0].garment.id_garment);
+      this.formOutfit.get('idGarmentMid').setValue(this.data.outfit.garments[1].garment.id_garment);
+      this.formOutfit.get('idGarmentBot').setValue(this.data.outfit.garments[2].garment.id_garment);
+
+      this.indexTop = this.topGarment.findIndex(c => c.garment.id_garment === this.data.outfit.garments[0].garment.id_garment);
+      this.indexMid = this.midGarment.findIndex(c => c.garment.id_garment === this.data.outfit.garments[1].garment.id_garment);
+      this.indexBot = this.botGarment.findIndex(c => c.garment.id_garment === this.data.outfit.garments[2].garment.id_garment);
+
+      this.selectItem(this.indexTop, this.data.outfit.garments[0], 'top');
+      this.selectItem(this.indexMid, this.data.outfit.garments[1], 'mid');
+      this.selectItem(this.indexBot, this.data.outfit.garments[2], 'bot');
+
+      this.cdRef.detectChanges();
+
     } else {
-      if (this.topGarment.length !== 0) {
-        this.userHasGarment = true;
-        this.moveTo(0, 'top');
-      } else if (this.midGarment.length !== 0) {
-        this.moveTo(0, 'mid');
-      } else if (this.botGarment.length !== 0) {
-        this.moveTo(0, 'bot');
+      if (this.garment.length === 0 && this.user) {
+        this.userHasGarment = false;
+        this.bridgeService.getGarmentUser(this.user.id_user);
+      } else {
+
+        if (this.topGarment.length !== 0) {
+          this.userHasGarment = true;
+          this.moveTo(this.indexTop, 'top');
+        } else if (this.midGarment.length !== 0) {
+          this.moveTo(this.indexMid, 'mid');
+        } else if (this.botGarment.length !== 0) {
+          this.moveTo(this.indexBot, 'bot');
+        }
       }
+
     }
+
   }
 
   /**
@@ -166,40 +200,41 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
   sendOutfit() {
-    if (this.formOutfit.valid) {
-      const body = {
-        user_id_user: this.user.id_user,
-        label_outfit: this.formOutfit.value.label_outfit,
-        id_garments: [
-          this.formOutfit.value.idGarmentTop,
-          this.formOutfit.value.idGarmentMid,
-          this.formOutfit.value.idGarmentBot
-        ]
-      };
+    console.log(this.formOutfit);
+    // if (this.formOutfit.valid) {
+    //   const body = {
+    //     user_id_user: this.user.id_user,
+    //     label_outfit: this.formOutfit.value.label_outfit,
+    //     id_garments: [
+    //       this.formOutfit.value.idGarmentTop,
+    //       this.formOutfit.value.idGarmentMid,
+    //       this.formOutfit.value.idGarmentBot
+    //     ]
+    //   };
 
-      this.bridgeService.addOutfit(body).subscribe(res => {
-        if (this.stateService.checkStatus(res.status)) {
-          this.moveTo(0, 'top');
-          this.moveTo(0, 'mid');
-          this.moveTo(0, 'bot');
-          this.select.garmentTop = null;
-          this.select.garmentMid = null;
-          this.select.garmentBot = null;
-          this.bridgeService.getAllOutfit(this.user.id_user);
-          this.formOutfit.reset();
-        } else {
-          const err: ErrorInterface = {
-            code: res.status,
-            message: res.message,
-            route: environment.apiUrl + this.bridgeService.userGarmentAdd
-          };
-          this.stateService.openSnackBar(err.message, null, 'err');
-          this.stateService.errors = err;
-        }
-      });
+    //   this.bridgeService.addOutfit(body).subscribe(res => {
+    //     if (this.stateService.checkStatus(res.status)) {
+    //       this.moveTo(0, 'top');
+    //       this.moveTo(0, 'mid');
+    //       this.moveTo(0, 'bot');
+    //       this.select.garmentTop = null;
+    //       this.select.garmentMid = null;
+    //       this.select.garmentBot = null;
+    //       this.bridgeService.getAllOutfit(this.user.id_user);
+    //       this.formOutfit.reset();
+    //     } else {
+    //       const err: ErrorInterface = {
+    //         code: res.status,
+    //         message: res.message,
+    //         route: environment.apiUrl + this.bridgeService.userGarmentAdd
+    //       };
+    //       this.stateService.openSnackBar(err.message, null, 'err');
+    //       this.stateService.errors = err;
+    //     }
+    //   });
 
-    } else {
-      this.formOutfit.markAllAsTouched();
-    }
+    // } else {
+    //   this.formOutfit.markAllAsTouched();
+    // }
   }
 }

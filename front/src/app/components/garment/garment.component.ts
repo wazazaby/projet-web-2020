@@ -418,8 +418,6 @@ export class GarmentComponent implements OnInit {
         } else {
             // modifier
             this.updateGarment(garment);
-            console.log('modifier');
-            console.log(garment);
         }
     }
 }

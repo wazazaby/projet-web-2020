@@ -2,8 +2,8 @@
     <div *ngFor="let o of outfit" class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 cardOutfit">
         <label class="top">{{ o.outfit.label_outfit }}</label>
         <label class="bottom">{{ date(o.outfit.creation_date_outfit) | date: 'dd/MM/yyyy, à HH:mm:ss'}}</label>
-        <label (click)="action()" class="top-right"><i class="far fa-trash-alt"></i></label>
-        <label (click)="action()" class="bottom-right"><i class="fas fa-pencil-alt"></i></label>
+        <label (click)="action(0, o)" class="top-right"><i class="far fa-trash-alt"></i></label>
+        <label (click)="action(1, o)" class="bottom-right"><i class="fas fa-pencil-alt"></i></label>
 
         <div class="d-flex row sectionImg">
             <div *ngFor="let g of o.garments" class="col-4 p-0 m-0">
