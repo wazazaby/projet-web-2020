@@ -85,7 +85,14 @@
                   Titre de la tenue <strong>obligatoire</strong>
                 </mat-error>
             </mat-form-field>
-            <button class="btn btn-outline-success col-4 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
+            <button *ngIf="!data; else updateOutfit" class="btn btn-outline-success col-4 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
+
+            <ng-template #updateOutfit>
+                <button [mat-dialog-close]="false" class="btn btn-outline-danger col-12 mt-4 ml-auto mr-auto">annuler</button>
+                <button class="btn btn-outline-success col-12 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
+
+            </ng-template>
+
         </div>
     </div>
 </div>
