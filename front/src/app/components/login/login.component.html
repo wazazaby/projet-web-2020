@@ -105,6 +105,9 @@
                             <mat-error *ngIf="formResistered.controls.pass.hasError('required')">
                                 Mot de passe obligatoire <strong>obligatoire</strong>
                             </mat-error>
+                            <mat-error *ngIf="formResistered.controls.pass.hasError('pattern')" class="mb-2">
+                                6 caractères minimum (dont 1 lettre majuscule et 1 chiffre)
+                            </mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline">
@@ -117,9 +120,13 @@
                                 Mot de passe obligatoire <strong>obligatoire</strong>
                             </mat-error>
                         </mat-form-field>
+                        <mat-error class="passwordConfirm" *ngIf="formResistered.errors?.matchPassword">
+                            Les mots de passe ne corresponde pas
+                        </mat-error>
+
                     </div>
 
-                    <div class="text-right">
+                    <div class="text-right mt-2">
                         <button type="button" (click)="register()" class="btn btn-success">S'inscrire</button>
                     </div>
                 </div>

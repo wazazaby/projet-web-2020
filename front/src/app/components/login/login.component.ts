@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { StatesService } from 'src/app/services/states.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BridgeService } from 'src/app/services/bridge.service';
@@ -39,9 +39,12 @@ export class LoginComponent implements OnInit { // contient les var du component
     formResistered: FormGroup = this.formBuild.group({
         email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
         name: new FormControl('', [Validators.required]),
-        pass: new FormControl('', [Validators.required]),
+        pass: new FormControl('', [
+            Validators.required,
+            Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/)
+        ]),
         passConfirm: new FormControl('', [Validators.required]),
-    });
+    }, {validators: this.passwordConfirming});
 
     constructor(private formBuild: FormBuilder,
                 private stateService: StatesService,
@@ -77,6 +80,16 @@ export class LoginComponent implements OnInit { // contient les var du component
                 }
             }
         });
+    }
+
+    /**
+     * Permet de controler les mots de passe
+     * @param c formControl
+     */
+    public passwordConfirming(c: AbstractControl) {
+        if (c.get('pass').value !== c.get('passConfirm').value) {
+            return {matchPassword: true};
+        }
     }
 
    /**
@@ -139,6 +152,7 @@ export class LoginComponent implements OnInit { // contient les var du component
     }
 
     register() {
+        console.log(this.formResistered);
         if (this.formResistered.valid) {
             localStorage.clear();
             this.bridgeService.register({
