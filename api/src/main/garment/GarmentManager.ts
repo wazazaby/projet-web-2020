@@ -9,6 +9,34 @@ import { promises as fs, Stats } from 'fs';
 export class GarmentManager {
 
     /**
+     * Permet de vérifier si un vêtement a été ajouté dans une tenue
+     * Retourne true si c'est le cas, false pour le contraire
+     * @param {number} idGarment
+     * @returns {Promise<boolean>}
+     */
+    public async garmentBelongsToOutfit (idGarment: number): Promise<boolean> {
+        const sql: string = `
+            SELECT id_assoc_outfit_garment 
+            FROM outfit_has_garment
+            WHERE garment_id_garment = ?
+            LIMIT 1
+        `;
+
+        try {
+            const res: any = await Db.pool.execute(sql, [idGarment]);
+
+            // S'il y a plus que 0 résultat, ça veut dire que le vêtement est lié à une tenue
+            if (res[0].length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
      * Permet de récupérer un garment en fonction de son ID
      * Retourne un objet si un garment existe, null si aucun garment avec cet id
      * @param {number} idGarment 
