@@ -215,4 +215,92 @@ export class OutfitManager {
         // Si une seule valeur est à false, on renvoit false
         return resolved.every((val: boolean): boolean => val);
     }
+
+    /**
+     * Permet de supprimer les liens entre l'oufit (id) et ses garments (table outfit_has_garment)
+     * @param {number} idFit l'id de l'outfit
+     * @returns {Promise<boolean>}
+     */
+    private async deleteOufitGarmentLinks (idFit: number): Promise<boolean> {
+        const sql: string = 'DELETE FROM outfit_has_garment WHERE outfit_id_outfit = ?';
+        try {
+            const poped: any = await Db.pool.execute(sql, [idFit]);
+
+            // Comme un outfit est toujours composé de 3 garments, on vérifie si les 3 ont bien été supprimés
+            if (poped[0].affectedRows === 3 && poped[0].serverStatus === 2) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Permet de supprimer un outfit grâce à son id
+     * @param {number} id l'id de l'outfit à supprimer
+     * @returns {Promise<boolean>}
+     */
+    public async deleteOufitById (id: number): Promise<boolean> {
+
+        // On supprime d'abord les liens pour éviter les erreurs de FK
+        if (await this.deleteOufitGarmentLinks(id)) {
+            try {
+                const del: any = await Db.pool.execute('DELETE FROM outfit WHERE id_outfit = ?', [id]);
+                if (del[0].affectedRows === 1 && del[0].serverStatus === 2) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (e) {
+                throw e;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Permet de mettre à jour un outfit et de retourner son nouvel objet
+     * @param {Outfit} out l'objet outfit mis à jour dans le controller
+     * @param {number[]} newGarms les id des nouveaux garments qui seront associés à cet outfit
+     * @returns {Promise<(OutfitGarmentWrapperInterface|null)>}
+     */
+    public async updateOutfit (out: Outfit, newGarms: number[]): Promise<(OutfitGarmentWrapperInterface|null)> {
+
+        // On supprime d'abord ses liens avec les garments pour la FK
+        if (await this.deleteOufitGarmentLinks(out.getId())) {
+            const sql: string = `
+                UPDATE outfit
+                SET
+                    label_outfit = ?,
+                    modification_date_outfit = ?
+                WHERE id_outfit = ?
+            `;
+
+            try {
+
+                // On met à jour l'entité outfit
+                const res: any = await Db.pool.execute(sql, [out.getLabel(), out.getModificationDate(), out.getId()]);
+                if (res[0].affectedRows === 1 && res[0].serverStatus === 2) {
+
+                    // On regénère les liens avec les nouveaux garments
+                    if (await this.generateOutfitLinks(out.getId(), newGarms)) {
+
+                        // Si tout s'est bien passé on renvoit le nouvel outfit
+                        return await this.getOutfitById(out.getId());
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            } catch (e) {
+                throw e;
+            }
+        } else {
+            return null;
+        }
+    }
 }
