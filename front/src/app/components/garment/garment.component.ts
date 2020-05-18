@@ -319,7 +319,7 @@ export class GarmentComponent implements OnInit {
             if (res) {
                 this.bridgeService.deleteGarmentReq(garment).subscribe(response => {
                     if (this.stateService.checkStatus(response.status)) {
-                        this.stateService.openSnackBar('Votre vêtement a bien été supprimé', null);
+                        this.stateService.openSnackBar(response.message, null);
                     } else {
                         const err: ErrorInterface = {
                             code: response.status,
@@ -327,12 +327,9 @@ export class GarmentComponent implements OnInit {
                             route: environment.apiUrl + '/api/user/' +
                                 garment.garment.user_id_user + '/garment/delete/' + garment.garment.id_garment
                         };
+
                         this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
-                        this.stateService.openSnackBar(
-                            'Une erreur s\'est produit, votre vêtement n\'a pas pu être supprimé',
-                            null
-                        );
                     }
                 });
             }
