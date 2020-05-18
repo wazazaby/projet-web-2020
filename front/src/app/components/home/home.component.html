@@ -1,7 +1,7 @@
 <div class="d-flex row justify-content-center" *ngIf="userHasGarment; else noGarment">
     <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12  sectionGarment">
         <div class="d-flex row mb-1">
-            <div class="col-7 d-flex row justify-content-around">
+            <div class="col-9 d-flex row justify-content-around">
                 <drag-scroll class="col-11" #top (indexChanged)="index($event, 'top')">
                     <div class="col-4 itemEmpty" drag-scroll-item ></div>
                     <img    [ngClass]="{'activeImg': select.garmentTop && select.garmentTop.garment.id_garment === g.garment.id_garment}"
@@ -26,7 +26,7 @@
         </div>
 
         <div class="d-flex row mb-1">
-            <div class="col-7 d-flex row justify-content-around">
+            <div class="col-9 d-flex row justify-content-around">
                 <drag-scroll class="col-11" #mid (indexChanged)="index($event, 'mid')">
                     <div class="col-4 itemEmpty" drag-scroll-item ></div>
                     <img    [ngClass]="{'activeImg': select.garmentMid && select.garmentMid.garment.id_garment === g.garment.id_garment}"
@@ -40,7 +40,7 @@
                 </drag-scroll>
             </div>
             <div class="col-3 d-flex flex-column m-auto">
-                Vêtement Mid
+                Vêtement millieu
                 <mat-form-field appearance="outline" class="outfit">
                     <input matInput [formControl]="formOutfit.controls.idGarmentMid" placeholder="test" [hidden]='true' required>
                     <mat-error *ngIf="formOutfit.controls.idGarmentMid.hasError('required')">
@@ -51,7 +51,7 @@
         </div>
 
         <div class="d-flex row mb-1">
-            <div class="col-7 d-flex row justify-content-around">
+            <div class="col-9 d-flex row justify-content-around">
                 <drag-scroll class="col-11" #bot (indexChanged)="index($event, 'bot')">
                     <div class="col-4 itemEmpty" drag-scroll-item ></div>
                     <img    [ngClass]="{'activeImg': select.garmentBot && select.garmentBot.garment.id_garment === g.garment.id_garment}"
