@@ -60,7 +60,7 @@ export class UserController {
             name_user: ctx.request.body.name,
             email_user: ctx.request.body.email,
             pass_user: userPass,
-            url_img_user: '/uploads/' + pathAvatar[Math.floor(Math.random() * 5) + 0],
+            url_img_user: `/uploads/${pathAvatar[Math.floor(Math.random() * 5) + 0]}`,
             actif_user: 0,
             rgpd_user: 1,
             token_user: RandomString.generate(),
@@ -92,17 +92,21 @@ export class UserController {
                     </div>
                     `
                 );
-
-                if (await mailer.sendMail()) {
-                    ctx.body = new Body(204, "Un mail d'activation vous a été envoyé");
-                } else {
-                    ctx.body = new Body(403, "Problème lors de l'envoie du mail d'activation")
-                }
+                
+                const mail: boolean = await mailer.sendMail();
+                const status: number = mail ? 200 : 400;
+                const message: string = mail 
+                    ? "Votre compte a été crée et un mail d'activation vous a été envoyé" 
+                    : "Il y a eu un problème lors de la création de votre compte, merci de réessayer";
+                ctx.body = new Body(status, message);
+                return;
             } else {
-                ctx.body = new Body(403, 'Problème lors de la création de votre compte, merci de réessayer')
+                ctx.body = new Body(403, "Il y a eu un problème lors de la création de votre compte, merci de réessayer");
+                return;
             }
         } else {
-            ctx.body = new Body(403, 'Vous avez déjà un compte sur notre plateforme')
+            ctx.body = new Body(403, "Vous avez déjà un compte sur notre plateforme");
+            return;
         }
     }
 
@@ -125,15 +129,16 @@ export class UserController {
 
                 // On met à jour son status et on renvoi le résultat en fonction du succès ou non
                 const result: InsertReturnInterface = await this._manager.updateUser(user);
-                if (result.affectedRows === 1) {
-                    ctx.body = new Body(200, 'Votre compte a bien été activé', { email: user.getEmail() });
-                } else {
-                    ctx.body = new Body(400, "Problème lors de l'activation de votre compte, merci de rééssayer");
-                }
+                const status: number = result.affectedRows === 1 ? 200 : 400;
+                const message: string = result.affectedRows === 1 
+                    ? "Votre combien à bien été activé, vous pouvez vous connecter" 
+                    : "Il y a eu un problème lors de l'activation de votre compte";
+                ctx.body = new Body(status, message, { email: user.getEmail() });
+                return;
 
                 // Si son compte est déjà activé, on le redirigera vers la page de login
             } else if (user.getActif() === 1) {
-                ctx.body = new Body(300, 'Votre compte à déjà été activé, vous pouvez vous connecter', { email: user.getEmail() });
+                ctx.body = new Body(300, "Votre compte a déjà été activé, vous pouvez vous connecter", { email: user.getEmail() });
             }
         } else {
             ctx.body = new Body(400, "Votre lien d'activation n'est pas valide");
@@ -152,13 +157,12 @@ export class UserController {
         // Si user est null, ça veut dire que les identifiants sont incorrectes ou que l'utilisateur n'existe pas
         const user: User|null = await this._manager.getUserByMailAndPass(mail, pass);
 
-        if (user === null) {
-            ctx.body = new Body(400, 'Impossible de se connecter avec ces identifiants');
-        } else {
+        if (user !== null) {
 
             // S'il essaye de se connecter mais qu'il n'a pas activer son compte
             if (user.getActif() === 0) {
                 ctx.body = new Body(400, "Merci d'activer votre compte pour pouvoir vous connecter");
+                return;
             } else {
 
                 // Si tout est bon, on renvoit son id, name et email au front et on les passe en variable de session
@@ -174,8 +178,12 @@ export class UserController {
                 };
 
                 ctx.session.auth = auth;
-                ctx.body = new Body(200, 'Connexion réussie', auth);
+                ctx.body = new Body(200, "Connexion réussie", auth);
+                return;
             }
+        } else {
+            ctx.body = new Body(400, "Impossible de se connecter avec ces identifiants");
+            return;            
         }
     }
 
@@ -211,17 +219,21 @@ export class UserController {
                     </div>
                     `
                 );
-
-                if (await mailer.sendMail()) {
-                    ctx.body = new Body(204, "Un mail de réinitialisation vous a été envoyé");
-                } else {
-                    ctx.body = new Body(400, "Problème lors de l'envoie du mail de réinitialisation");
-                }
+                
+                const sent: boolean = await mailer.sendMail();
+                const status: number = sent ? 200 : 400;
+                const message: string = sent 
+                    ? "Un mail de réinitialisation vous a été envoyé" 
+                    : "Nous n'avons pas pu vous envoyer un mail de réinitialisation";
+                ctx.body = new Body(status, message);
+                return;
             } else {
-                ctx.body = new Body(400, "Vous ne pouvez pas réinitialiser votre mot de passe car vous n'avez pas de compte actif sur notre plateforme")
+                ctx.body = new Body(400, "Vous ne pouvez pas réinitialiser votre mot de passe car vous n'avez pas de compte actif sur notre plateforme");
+                return;
             }
         } else {
            ctx.body = new Body(400, "Si cet email existe sur notre plateforme, vous recevrez un mail de réinitialisatoin");
+           return;
         }
     }
 }

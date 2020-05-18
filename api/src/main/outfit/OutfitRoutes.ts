@@ -11,4 +11,10 @@ router.post('/api/outfit/add', async (ctx: Context): Promise<void> => await cont
 // Récupération de tout les outfit d'un user
 router.get('/api/user/:idUser/outfit/all', async (ctx: Context): Promise<void> => await controller.getAllOutfitByUser(ctx));
 
+// Suppression d'un outfit
+router.delete('/api/user/:idUser/outfit/delete/:idOutfit', async (ctx: Context): Promise<void> => await controller.deleteOutfit(ctx));
+
+// Mise à jour d'une tenue
+router.patch('/api/outfit/update', async (ctx: Context): Promise<void> => await controller.updateOutfit(ctx));
+
 export default router;

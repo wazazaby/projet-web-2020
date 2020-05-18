@@ -2,8 +2,8 @@ import { GarmentManager } from './GarmentManager';
 import { Context } from 'koa';
 import { Garment } from './GarmentEntity';
 import { Body } from '../../libs/Body';
-import { GarmentColorStyleWrapperInterface, InsertReturnInterface } from '@osmo6/models';
-import { promises as fs, Stats } from 'fs';
+import { GarmentColorStyleWrapperInterface } from '@osmo6/models';
+import { promises as fs } from 'fs';
 import { Auth } from '../../libs/Auth'; 
 
 type UploadedFile = {
@@ -41,7 +41,8 @@ export class GarmentController {
         }
 
         const garms: GarmentColorStyleWrapperInterface[] = await this._manager.getGarmentsByIdUser(idUser);
-        ctx.body = new Body(200, "", garms);
+        ctx.body = new Body(200, "OK", garms);
+        return;
     }
 
     /**
@@ -77,11 +78,13 @@ export class GarmentController {
 
         // On lance l'ajout, si ça marche on renvoit l'objet du garment en question, sinon on throw une erreur HTTP
         const result: (GarmentColorStyleWrapperInterface|null) = await this._manager.insertGarment(newGarm, colors, styles);
-        if (result === null) {
-            ctx.body = new Body(400, "Problème lors de la création de votre vêtement");
-        } else {
-            ctx.body = new Body(200, '', result);
-        }
+
+        const status: number = result === null ? 400 : 200;
+        const message: string = result === null 
+            ? "Il y a eu un problème lors de l'ajout de votre vêtement, merci de réessayer" 
+            : "Votre vêtement a bien été crée";
+        ctx.body = new Body(status, message, result);
+        return;
     }
 
     /**
@@ -98,11 +101,13 @@ export class GarmentController {
         }
 
         const idGarment: number = Number(ctx.params.idGarment);
-        if (await this._manager.deleteGarmentById(idGarment)) {
-            ctx.body = new Body(200, "Vêtement supprimé avec succes");
-        } else {
-            ctx.body = new Body(400, "Problème lors de la suppression de votre vêtement");
-        }
+        const del: boolean = await this._manager.deleteGarmentById(idGarment);
+        const status: number = del ? 200 : 400;
+        const message: string = del 
+            ? "Votre vêtement a bien été supprimé" 
+            : "Il y a eu un problème lors de la suppression de votre vêtement, merci de réessayer";
+        ctx.body = new Body(status, message);
+        return;
     }
 
     /**
@@ -173,14 +178,14 @@ export class GarmentController {
 
             // On renvoie l'objet au manager pour la mise à jour, retourne un objet garment complet si tout s'est bien passé ou null si erreur
             const newObj: (GarmentColorStyleWrapperInterface|null) = await this._manager.updateGarment(garmObj, newStyles, newColors);
-            if (newObj === null) {
-                ctx.body = new Body(400, "Une erreur est parvenue lors de la mise à jour de votre vêtement");
-                return;
-            } else {
-                ctx.body = new Body(200, '', newObj);
-            }
+            const status: number = newObj === null ? 400 : 200;
+            const message: string = newObj === null 
+                ? "Il y a eu un problème lors de la modification de votre vêtement, merci de réessayer"
+                : "Votre vêtement à bien été mis à jour"
+            ctx.body = new Body(status, message, newObj);
+            return;
         } else {
-            ctx.body = new Body(403, 'Le vêtement n\'existe pas');
+            ctx.body = new Body(403, "Ce vêtement n'existe pas");
             return;
         }
     }
