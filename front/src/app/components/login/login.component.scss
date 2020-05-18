@@ -41,8 +41,14 @@ h1{
   font-style: italic;
 }
 
-.passwordConfirm{
-  font-size: 14px;
-  text-align: right;
-  font-weight: 600;
+.errManu{
+  padding: 0 1em;
+  font-size: 75%;
+  margin-top: 0.6666666667em;
+  top: calc(100% - 1.7916666667em);
+}
+
+.legal {
+  color: $bg-sidebar;
+  cursor: pointer;
 }

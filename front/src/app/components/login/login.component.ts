@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit { // contient les var du component
             Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/)
         ]),
         passConfirm: new FormControl('', [Validators.required]),
+        rgpd: new FormControl('', [Validators.required])
     }, {validators: this.passwordConfirming});
 
     constructor(private formBuild: FormBuilder,
@@ -154,6 +155,7 @@ export class LoginComponent implements OnInit { // contient les var du component
     }
 
     register() {
+        console.log(this.formResistered.controls.rgpd);
         if (this.formResistered.valid) {
             localStorage.clear();
             this.bridgeService.register({

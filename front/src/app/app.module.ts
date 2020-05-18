@@ -26,7 +26,7 @@ import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.
 import { DragScrollModule } from 'ngx-drag-scroll';
 import {MatCardModule} from '@angular/material/card';
 import { LegalComponent } from './components/legal/legal.component';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,8 @@ import { LegalComponent } from './components/legal/legal.component';
     MatSelectModule,
     MatIconModule,
     DragScrollModule,
-    MatCardModule
+    MatCardModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     ModalAddGarmentComponent,

@@ -21,7 +21,7 @@
                     <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
                 </ng-template>
 
-                <button type="button" (click)="effectBtn('connexion')" class="btn btn-primary col-4" *ngIf="!isLogin; else isReturnLogin">connexion</button>
+                <button type="button" (click)="effectBtn('connexion')" class="btn btn-primary col-4" *ngIf="!isLogin; else isReturnLogin">Connexion</button>
                 <ng-template #isReturnLogin>
                     <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
                 </ng-template>
@@ -120,8 +120,13 @@
                                 Mot de passe obligatoire <strong>obligatoire</strong>
                             </mat-error>
                         </mat-form-field>
-                        <mat-error class="passwordConfirm" *ngIf="formResistered.errors?.matchPassword">
+                        <mat-error class="errManu" *ngIf="formResistered.errors?.matchPassword">
                             Les mots de passe ne corresponde pas
+                        </mat-error>
+
+                        <mat-checkbox class="ml-auto" value="false" [formControl]="formResistered.controls.rgpd" required>Conditions d'utilisation</mat-checkbox>
+                        <mat-error class="errManu" *ngIf="formResistered.controls.rgpd.touched && formResistered.controls.rgpd.hasError('required')">
+                            Vous n'êtes pas d'accord avec nos conditions d'utilisation ?
                         </mat-error>
 
                     </div>
@@ -137,7 +142,7 @@
 
     <footer class="col-12 text-center mt-4">
         <p>
-            <a (click)="legal()">Mention Légal</a>
+            <a class="legal" (click)="legal()">Mention Légal</a>
             <br>
             <span class="littleLabel">Copyright © Kevin Landry / Teddy Sommavilla.</span>
         </p>

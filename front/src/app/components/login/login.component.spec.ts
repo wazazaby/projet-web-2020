@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -25,7 +26,8 @@ describe('LoginComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        MatDialogModule
+        MatDialogModule,
+        MatCheckboxModule
       ],
       declarations: [ LoginComponent ],
       providers: [

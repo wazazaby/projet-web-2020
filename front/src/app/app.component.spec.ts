@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShowOnDirtyErrorStateMatcher, ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -28,7 +29,8 @@ describe('AppComponent', () => {
         BrowserAnimationsModule,
         MatOptionModule,
         MatSelectModule,
-        MatCardModule
+        MatCardModule,
+        MatCheckboxModule
       ],
       declarations: [
         AppComponent,
