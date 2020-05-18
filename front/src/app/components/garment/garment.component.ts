@@ -344,13 +344,6 @@ export class GarmentComponent implements OnInit {
                 width: '60%',
                 data: { garment, userId: this.user.id_user }
             });
-
-            dialogRef.afterClosed().subscribe(result => {
-                conole.log('t', result);
-                if (result === true) {
-                    // dialogRef.close();
-                }
-            });
         }
     }
 
