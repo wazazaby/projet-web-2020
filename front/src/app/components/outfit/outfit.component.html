@@ -1,13 +1,15 @@
 <div *ngIf="outfit.length !== 0" class="d-flex row col-12 justify-content-start">
-    <div *ngFor="let o of outfit" class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 cardOutfit">
-        <label class="top">{{ o.outfit.label_outfit }}</label>
-        <label class="bottom">{{ date(o.outfit.creation_date_outfit) | date: 'dd/MM/yyyy, à HH:mm:ss'}}</label>
-        <label (click)="action(0, o)" class="top-right"><i class="far fa-trash-alt"></i></label>
-        <label (click)="action(1, o)" class="bottom-right"><i class="fas fa-pencil-alt"></i></label>
+    <div *ngFor="let o of outfit" class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+        <div class="col-12 cardOutfit mt-3 mb-3">
+            <label class="top">{{ o.outfit.label_outfit }}</label>
+            <label class="bottom">{{ date(o.outfit.creation_date_outfit) | date: 'dd/MM/yyyy, à HH:mm:ss'}}</label>
+            <label (click)="action(0, o)" class="top-right"><i class="far fa-trash-alt"></i></label>
+            <label (click)="action(1, o)" class="bottom-right"><i class="fas fa-pencil-alt"></i></label>
 
-        <div class="d-flex row sectionImg">
-            <div *ngFor="let g of o.garments" class="col-4 p-0 m-0">
-                <img class="img-fluid" [src]="urlApiUpload + g.garment.url_img_garment" [alt]="g.garment.label_garment">
+            <div class="d-flex row sectionImg">
+                <div *ngFor="let g of o.garments" class="col-4 p-0 m-0">
+                    <img class="img-fluid" [src]="urlApiUpload + g.garment.url_img_garment" [alt]="g.garment.label_garment">
+                </div>
             </div>
         </div>
     </div>

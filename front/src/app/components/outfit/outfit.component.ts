@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatesService } from 'src/app/services/states.service';
-import { UserInterface, OutfitGarmentWrapperInterface } from '@osmo6/models';
+import { UserInterface, OutfitGarmentWrapperInterface, ErrorInterface } from '@osmo6/models';
 import { BridgeService } from 'src/app/services/bridge.service';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
@@ -73,6 +73,22 @@ export class OutfitComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         // service remove outfit
+        this.bridgeService.deleteOutfit(outfit).subscribe(resOutfit => {
+          if (this.stateService.checkStatus(resOutfit.status)) {
+            this.stateService.openSnackBar(resOutfit.message, null);
+            this.bridgeService.getAllOutfit(outfit.outfit.user_id_user);
+          } else {
+              const err: ErrorInterface = {
+                  code: resOutfit.status,
+                  message: resOutfit.message,
+                  route: environment.apiUrl + '/api/user/' +
+                      outfit.outfit.user_id_user + '/outfit/delete/' + outfit.outfit.id_outfit
+              };
+              this.stateService.openSnackBar(err.message, null, 'err');
+              this.stateService.errors = err;
+              this.stateService.openSnackBar(resOutfit.message, null);
+          }
+        });
       }
     });
   }
@@ -88,11 +104,11 @@ export class OutfitComponent implements OnInit {
               data: { outfit, userId: this.user.id_user }
           });
 
-          dialogRef.afterClosed().subscribe(result => {
-              console.log('t', result);
-              if (result === true) {
-                  // dialogRef.close();
-              }
+          this.stateService.closeDialogOutfitAsObservable().subscribe(close => {
+            if (close) {
+              this.stateService.closeDialogOutfit = false;
+              dialogRef.close();
+            }
           });
       }
   }

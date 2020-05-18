@@ -34,6 +34,7 @@ export class BridgeService {
     public userGarmentRm = '/garment/delete/';
     public userOutfitAdd = 'outfit/add';
     public userOutfit = '/outfit/all';
+    public userOutfitSet = 'outfit/update';
     public logout = 'user/logout';
     public snackBar = null;
     public checkTkn = 'user/verify-auth';
@@ -323,6 +324,23 @@ export class BridgeService {
      */
     addOutfit(body: {label_outfit: string, user_id_user: number, id_garments: number[]}) {
         return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.userOutfitAdd, body, { withCredentials: true });
+    }
+
+    /**
+     * Permet de supprimer une tenue
+     */
+    deleteOutfit(data: OutfitGarmentWrapperInterface) {
+        const idUser: number = data.outfit.user_id_user;
+        const idOutfit: number = data.outfit.id_outfit;
+        const url = `${environment.apiUrl}user/${idUser}/outfit/delete/${idOutfit}`;
+        return this.http.delete<GlobalReturnInterface>(url, { withCredentials: true });
+    }
+
+    /**
+     * Permet de modifier une tenue
+     */
+    updateOutfit(data) {
+        return this.http.patch<GlobalReturnInterface>(`${environment.apiUrl}${this.userOutfitSet}`, data, { withCredentials: true });
     }
 
     /**

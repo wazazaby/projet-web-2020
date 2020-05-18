@@ -32,10 +32,9 @@ export class StatesService {
   private _garmentMid: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
   private _garmentBot: BehaviorSubject<GarmentColorStyleWrapperInterface[]> = new BehaviorSubject<GarmentColorStyleWrapperInterface[]>([]); // tslint:disable-line
   private _outfit: BehaviorSubject<OutfitGarmentWrapperInterface[]> = new BehaviorSubject<OutfitGarmentWrapperInterface[]>([]); // tslint:disable-line
-
   private _errors: BehaviorSubject<ErrorInterface> = new BehaviorSubject<ErrorInterface>(null); // tslint:disable-line
-
   private _loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // tslint:disable-line
+  private _closeDialogOutfit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // tslint:disable-line
 
   /**
    * Permet de rediriger l'utilisateur après que la connexion soit établie
@@ -335,5 +334,20 @@ export class StatesService {
     return this._outfit.asObservable();
   }
   // ========================== Début Garment Bot ==========================
+
+  // ==================== Début close dialog outfit Bot ====================
+  public get closeDialogOutfit(): boolean {
+    return this._closeDialogOutfit.getValue();
+  }
+
+  public set closeDialogOutfit(s: boolean) {
+    this._closeDialogOutfit.next(s);
+  }
+
+  public closeDialogOutfitAsObservable(): Observable<boolean> {
+    return this._closeDialogOutfit.asObservable();
+  }
+  // ===================== fin close dialog outfit Bot =====================
+
   // =============================GETTER/SETTER=============================
 }

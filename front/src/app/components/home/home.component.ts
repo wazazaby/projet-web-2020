@@ -14,6 +14,7 @@ import { DragScrollComponent } from 'ngx-drag-scroll';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               private bridgeService: BridgeService,
               private formBuild: FormBuilder,
               private cdRef: ChangeDetectorRef,
+              private router: Router,
               @Optional() @Inject(MAT_DIALOG_DATA) public data: {userId: number, outfit: OutfitGarmentWrapperInterface}
               ) {}
 
@@ -53,12 +55,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
   /** base url upload image */
   urlUpload = environment.apiUpload;
 
+  /**
+   * Positionnement des vêtements
+   */
   select = {
     garmentTop: null,
     garmentMid: null,
     garmentBot: null,
   };
 
+  /**
+   * Form control pour la tenue
+   */
   formOutfit: FormGroup = this.formBuild.group({
     label_outfit: new FormControl('', [Validators.required]),
     idGarmentTop: new FormControl('', [Validators.required]),
@@ -66,8 +74,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     idGarmentBot: new FormControl('', [Validators.required])
   });
 
+  /**
+   * L'utilisateur à t-il des vêtements ?
+   */
   userHasGarment = true;
 
+  /** Section drag and drop */
   @ViewChild('top', {
     static: false,
     read: DragScrollComponent
@@ -78,11 +90,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
     read: DragScrollComponent
   }) dsMid: DragScrollComponent;
 
-
   @ViewChild('bot', {
     static: false,
     read: DragScrollComponent
   }) dsBot: DragScrollComponent;
+  /** fin du drag and drop */
 
   // update
   indexTop = 0;
@@ -200,41 +212,62 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
   sendOutfit() {
-    console.log(this.formOutfit);
-    // if (this.formOutfit.valid) {
-    //   const body = {
-    //     user_id_user: this.user.id_user,
-    //     label_outfit: this.formOutfit.value.label_outfit,
-    //     id_garments: [
-    //       this.formOutfit.value.idGarmentTop,
-    //       this.formOutfit.value.idGarmentMid,
-    //       this.formOutfit.value.idGarmentBot
-    //     ]
-    //   };
+    if (!this.data) {
+      if (this.formOutfit.valid) {
+        const body = {
+          user_id_user: this.user.id_user,
+          label_outfit: this.formOutfit.value.label_outfit,
+          id_garments: [
+            this.formOutfit.value.idGarmentTop,
+            this.formOutfit.value.idGarmentMid,
+            this.formOutfit.value.idGarmentBot
+          ]
+        };
 
-    //   this.bridgeService.addOutfit(body).subscribe(res => {
-    //     if (this.stateService.checkStatus(res.status)) {
-    //       this.moveTo(0, 'top');
-    //       this.moveTo(0, 'mid');
-    //       this.moveTo(0, 'bot');
-    //       this.select.garmentTop = null;
-    //       this.select.garmentMid = null;
-    //       this.select.garmentBot = null;
-    //       this.bridgeService.getAllOutfit(this.user.id_user);
-    //       this.formOutfit.reset();
-    //     } else {
-    //       const err: ErrorInterface = {
-    //         code: res.status,
-    //         message: res.message,
-    //         route: environment.apiUrl + this.bridgeService.userGarmentAdd
-    //       };
-    //       this.stateService.openSnackBar(err.message, null, 'err');
-    //       this.stateService.errors = err;
-    //     }
-    //   });
+        this.bridgeService.addOutfit(body).subscribe(res => {
+          if (this.stateService.checkStatus(res.status)) {
+            this.moveTo(0, 'top');
+            this.moveTo(0, 'mid');
+            this.moveTo(0, 'bot');
+            this.select.garmentTop = null;
+            this.select.garmentMid = null;
+            this.select.garmentBot = null;
+            this.bridgeService.getAllOutfit(this.user.id_user);
+            this.formOutfit.reset();
+          } else {
+            const err: ErrorInterface = {
+              code: res.status,
+              message: res.message,
+              route: environment.apiUrl + this.bridgeService.userGarmentAdd
+            };
+            this.stateService.openSnackBar(err.message, null, 'err');
+            this.stateService.errors = err;
+          }
+        });
 
-    // } else {
-    //   this.formOutfit.markAllAsTouched();
-    // }
+      } else {
+        this.formOutfit.markAllAsTouched();
+      }
+    } else {
+      if (this.formOutfit.valid) {
+        const resUpdate = {
+          user_id_user: this.user.id_user,
+          label_outfit: this.formOutfit.value.label_outfit,
+          id_garments: [
+            this.formOutfit.value.idGarmentTop,
+            this.formOutfit.value.idGarmentMid,
+            this.formOutfit.value.idGarmentBot
+          ],
+          id_outfit: this.data.outfit.outfit.id_outfit
+        };
+        this.bridgeService.updateOutfit(resUpdate).subscribe(res => {
+          console.log('homeoutfit')
+          this.stateService.closeDialogOutfit = true;
+          this.bridgeService.getAllOutfit(resUpdate.user_id_user);
+        });
+      } else {
+        this.formOutfit.markAllAsTouched();
+      }
+    }
   }
 }
