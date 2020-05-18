@@ -214,7 +214,6 @@ export class BridgeService {
      */
     getBrand() {
         return this.getBrandReq().subscribe(res => {
-            console.log(res);
             if (this.stateService.checkStatus(res.status)) {
                 const data: BrandInterface[] = res.data;
                 this.stateService.brand = data;
