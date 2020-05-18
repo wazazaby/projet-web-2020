@@ -25,6 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import {MatCardModule} from '@angular/material/card';
+import { LegalComponent } from './components/legal/legal.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import {MatCardModule} from '@angular/material/card';
     NavbarComponent,
     ModalProfilComponent,
     ModalConfirmComponent,
+    LegalComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ import {MatCardModule} from '@angular/material/card';
     ModalAddGarmentComponent,
     ModalProfilComponent,
     ModalConfirmComponent,
-    HomeComponent
+    HomeComponent,
+    LegalComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

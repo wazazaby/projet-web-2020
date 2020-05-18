@@ -291,7 +291,6 @@ export class GarmentComponent implements OnInit {
 
     // Ouvre un modal pour ajouter un vêtement
     addGarment(): void {
-        console.log('Ajouter vêtement');
         if (this.user) {
             const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
                 width: '60%',
@@ -299,7 +298,6 @@ export class GarmentComponent implements OnInit {
             });
 
             dialogRef.afterClosed().subscribe(result => {
-                console.log(result);
                 dialogRef.close();
             });
         }
@@ -351,7 +349,7 @@ export class GarmentComponent implements OnInit {
             });
 
             dialogRef.afterClosed().subscribe(result => {
-                console.log('t', result);
+                conole.log('t', result);
                 if (result === true) {
                     // dialogRef.close();
                 }

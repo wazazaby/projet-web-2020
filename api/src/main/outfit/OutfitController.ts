@@ -104,8 +104,6 @@ export class OutfitController {
         const labelOutfit: string = body.label_outfit;
         const garms: number[] = body.id_garments;
 
-        console.log(idUser)
-
         // Vérification de l'authentification de la requette
         if (!Auth.isValid(ctx, idUser)) {
             ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");

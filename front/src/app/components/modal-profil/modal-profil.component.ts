@@ -43,17 +43,16 @@ export class ModalProfilComponent implements OnInit {
     switch (action) {
       case 0:
         this.isDelete = true;
-        console.log('ouvre la modal');
+        // ouvre la modal
         break;
       case 1:
-        console.log('supprime le user ', id);
+        // supprime le user
         break;
       case 2:
         this.isDelete = false;
-        console.log('annule la suppréssion');
+        // annule la suppréssion
         break;
     }
-    // console.log('delete', id);
   }
 
   setProfil(id: number, b: boolean) {

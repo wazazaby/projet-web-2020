@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BridgeService } from 'src/app/services/bridge.service';
 import { ErrorInterface, UserInterface } from '@osmo6/models';
 import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { LegalComponent } from '../legal/legal.component';
 
 @Component({
     selector: 'app-login',
@@ -50,7 +52,8 @@ export class LoginComponent implements OnInit { // contient les var du component
                 private stateService: StatesService,
                 private bridgeService: BridgeService,
                 private route: Router,
-                private activeRoute: ActivatedRoute) { }
+                private activeRoute: ActivatedRoute,
+                public dialog: MatDialog) { }
 
     ngOnInit() {
         this.activeRoute.queryParams.subscribe(res => {
@@ -143,7 +146,6 @@ export class LoginComponent implements OnInit { // contient les var du component
                     const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'user/login'};
                     this.stateService.errors = err;
                     this.stateService.openSnackBar(err.message, null, 'err');
-                    console.log('Login Error', false);
                 }
             });
         } else {
@@ -152,7 +154,6 @@ export class LoginComponent implements OnInit { // contient les var du component
     }
 
     register() {
-        console.log(this.formResistered);
         if (this.formResistered.valid) {
             localStorage.clear();
             this.bridgeService.register({
@@ -175,5 +176,11 @@ export class LoginComponent implements OnInit { // contient les var du component
         } else {
             this.formResistered.markAllAsTouched();
         }
+    }
+
+    legal() {
+        const dialogRef = this.dialog.open(LegalComponent, {
+            width: '60%',
+        });
     }
 }
