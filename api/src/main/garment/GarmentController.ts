@@ -24,7 +24,7 @@ export class GarmentController {
      * Constructeur de GarmentController
      */
     constructor () {
-        this._manager = new GarmentManager;
+        this._manager = new GarmentManager();
     }
 
     /**
@@ -101,13 +101,20 @@ export class GarmentController {
         }
 
         const idGarment: number = Number(ctx.params.idGarment);
-        const del: boolean = await this._manager.deleteGarmentById(idGarment);
-        const status: number = del ? 200 : 400;
-        const message: string = del 
-            ? "Votre vêtement a bien été supprimé" 
-            : "Il y a eu un problème lors de la suppression de votre vêtement, merci de réessayer";
-        ctx.body = new Body(status, message);
-        return;
+
+        // On vérifie si le garment se trouve dans une tenue
+        if (!this._manager.garmentBelongsToOutfit(idGarment)) {
+            const del: boolean = await this._manager.deleteGarmentById(idGarment);
+            const status: number = del ? 200 : 400;
+            const message: string = del 
+                ? "Votre vêtement a bien été supprimé" 
+                : "Il y a eu un problème lors de la suppression de votre vêtement, merci de réessayer";
+            ctx.body = new Body(status, message);
+            return;
+        } else {
+            ctx.body = new Body(300, "Ce vêtement est lié à une tenue, veuillez d'abord le retirer pour pouvoir le supprimer");
+            return;
+        }
     }
 
     /**
