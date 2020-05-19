@@ -27,6 +27,33 @@ import { DragScrollModule } from 'ngx-drag-scroll';
 import {MatCardModule} from '@angular/material/card';
 import { LegalComponent } from './components/legal/legal.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
+
+
+const cookieConfig: NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'localhost' // it is recommended to set your domain, for cookies to work properly
+  },
+  palette: {
+    popup: {
+      background: 'rgb(208, 213, 216)',
+      text: '#000'
+    },
+    button: {
+      background: '#2e4ead'
+    }
+  },
+  theme: 'edgeless',
+  type: 'info',
+  content: {
+    message: 'En poursuivant votre navigation sur ce site, ' +
+      'vous acceptez l’utilisation de Cookies ou autres traceurs pour vous proposer un accès simplifié.',
+    dismiss: 'OK !',
+    link: 'En savoir plus.',
+    href: 'https://cookiesandyou.com',
+    policy: 'Cookie Policy'
+  }
+};
 
 @NgModule({
   declarations: [
@@ -57,7 +84,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatIconModule,
     DragScrollModule,
     MatCardModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    NgcCookieConsentModule.forRoot(cookieConfig),
   ],
   entryComponents: [
     ModalAddGarmentComponent,
