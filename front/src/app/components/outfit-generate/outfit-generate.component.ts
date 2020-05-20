@@ -27,12 +27,12 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-outfit-generate',
+  templateUrl: './outfit-generate.component.html',
+  styleUrls: ['./outfit-generate.component.scss']
 })
 
-export class HomeComponent implements OnInit, AfterViewInit {
+export class OutfitGenerateComponent implements OnInit, AfterViewInit {
 
   constructor(private stateService: StatesService,
               private bridgeService: BridgeService,

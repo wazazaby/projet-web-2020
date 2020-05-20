@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { OutfitGenerateComponent } from './components/outfit-generate/outfit-generate.component';
 import { GarmentComponent } from './components/garment/garment.component';
 import { OutfitComponent } from './components/outfit/outfit.component';
 import { LoginComponent } from './components/login/login.component';
@@ -16,7 +16,7 @@ const routes: Routes = [
     ],
   },
   { path: 'accueil', component: GarmentComponent, canActivate: [AuthGuardService] },
-  { path: 'tenues', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'tenues', component: OutfitGenerateComponent, canActivate: [AuthGuardService] },
   { path: 'garde-robes', component: OutfitComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
 ];

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { OutfitGenerateComponent } from './components/outfit-generate/outfit-generate.component';
 import { HttpClientModule } from '@angular/common/http';
 import { OutfitComponent } from './components/outfit/outfit.component';
 import { GarmentComponent } from './components/garment/garment.component';
@@ -60,7 +60,7 @@ const cookieConfig: NgcCookieConsentConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    OutfitGenerateComponent,
     OutfitComponent,
     GarmentComponent,
     ModalAddGarmentComponent,
@@ -93,7 +93,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     ModalAddGarmentComponent,
     ModalProfilComponent,
     ModalConfirmComponent,
-    HomeComponent,
+    OutfitGenerateComponent,
     LegalComponent
   ],
   providers: [
