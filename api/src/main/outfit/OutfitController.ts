@@ -68,12 +68,8 @@ export class OutfitController {
             return;
         }
 
-        const fits: (OutfitGarmentWrapperInterface[]|null) = await this._manager.getOutfitsByIdUser(idUser);
-
-        // Gestion des retours
-        let status: number = fits === null ? 400 : 200;
-        let message: string = fits === null ? "Vous n'avez pas encore de tenues" : "OK";
-        ctx.body = new Body(status, message, fits);
+        const fits: OutfitGarmentWrapperInterface[] = await this._manager.getOutfitsByIdUser(idUser);
+        ctx.body = new Body(200, "OK", fits);
         return;
     }
 

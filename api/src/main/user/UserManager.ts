@@ -2,6 +2,8 @@ import { Db } from '../../libs/Db';
 import { User } from './UserEntity';
 import { InsertReturnInterface } from '@osmo6/models'
 import * as bcrypt from 'bcrypt';
+import { OutfitManager } from '../outfit/OutfitManager';
+import { GarmentManager } from '../garment/GarmentManager';
 
 /**
  * Manager User
@@ -140,6 +142,58 @@ export class UserManager {
             }
         } catch (e) {
             throw e;
+        }
+    }
+
+    /**
+     * Permet de supprimer un user ainsi que toutes ses liaisons
+     * @param {number} id l'id de l'user à supprimer
+     * @returns {Promise<boolean>}
+     */
+    public async deleteUserById (id: number): Promise<boolean> {
+
+        // Instanciation des managers pour appeller les fonctions de delete
+        const outfitManager: OutfitManager = new OutfitManager();
+        const garmentManager: GarmentManager = new GarmentManager();
+
+        // Comme les fonctions de delete retournent un boolean
+        // On crée un tableau qui recevra toutes les promesses de suppression
+        // On le résoudra à la fin
+        const promises: Promise<boolean>[] = [];
+
+        // Récupération des outfit de l'user
+        const res: any = await Db.pool.execute('SELECT id_outfit FROM outfit WHERE user_id_user = ?', [id]);
+        if (res[0].length > 0) {
+            for (const fit of res[0]) {
+                promises.push(outfitManager.deleteOufitById(fit.id_outfit));
+            }
+        }
+
+        // Récupération des garments de l'user
+        const resG: any = await Db.pool.execute('SELECT id_garment FROM garment WHERE user_id_user = ?', [id]);
+        if (resG[0].length > 0) {
+            for (const garm of resG[0]) {
+                promises.push(garmentManager.deleteGarmentById(garm.id_garment));
+            }
+        }
+
+        // On résout toutes les promesses de suppression
+        const resDelete: boolean[] = await Promise.all(promises);
+
+        // On crée un boolean qui est égal à true si toutes les promesses sont true
+        // false si une seule promesse se résout à false
+        const allGood: boolean = resDelete.every((v: boolean): boolean => v);
+
+        // Si tout à bien été supprimé, on supprime l'user
+        if (allGood) {
+            const del: any = await Db.pool.execute('DELETE FROM user WHERE id_user = ?', [id]);
+            if (del[0].serverStatus === 2 && del[0].affectedRows === 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 }

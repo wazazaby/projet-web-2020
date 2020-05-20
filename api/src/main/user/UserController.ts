@@ -38,11 +38,11 @@ export class UserController {
      */
     public async verifyAuth (ctx: Context): Promise<void> {
         const token: string = ctx.request.body.token;
-        if (Auth.byToken(ctx, token)) {
-            ctx.body = new Body(200, '', ctx.session.auth);
-        } else {
-            ctx.body = new Body(403, '');
-        }
+        const a: boolean = Auth.byToken(ctx, token);
+        const status: number = a ? 200 : 403;
+        const message: string = a ? "Session valide" : "Session non valide";
+        ctx.body = new Body(status, message);
+        return;
     }
 
     /**
@@ -232,8 +232,25 @@ export class UserController {
                 return;
             }
         } else {
-           ctx.body = new Body(400, "Si cet email existe sur notre plateforme, vous recevrez un mail de réinitialisatoin");
+           ctx.body = new Body(400, "Si cet email existe sur notre plateforme, vous recevrez un mail de réinitialisation");
            return;
         }
+    }
+
+    public async deleteUser (ctx: Context): Promise<void> {
+        const idUser: number = Number(ctx.params.idUser);
+        if (!Auth.isValid(ctx, idUser)) {
+            ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+            return;
+        }
+
+        const del: boolean = await this._manager.deleteUserById(idUser);
+        const status: number = del ? 200 : 400;
+        const message: string = del 
+            ? "Votre compte a bien été supprimé" 
+            : "Il y a eu un problème lors de la suppression de votre compte, merci de réessayer"
+        ctx.session = null;
+        ctx.body = new Body(status, message);
+        return;
     }
 }
