@@ -19,7 +19,6 @@ export class GarmentManager {
             SELECT id_assoc_outfit_garment 
             FROM outfit_has_garment
             WHERE garment_id_garment = ?
-            LIMIT 1
         `;
 
         try {

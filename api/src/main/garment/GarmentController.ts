@@ -103,7 +103,8 @@ export class GarmentController {
         const idGarment: number = Number(ctx.params.idGarment);
 
         // On vérifie si le garment se trouve dans une tenue
-        if (!this._manager.garmentBelongsToOutfit(idGarment)) {
+        const belongs: boolean = await this._manager.garmentBelongsToOutfit(idGarment);
+        if (!belongs) {
             const del: boolean = await this._manager.deleteGarmentById(idGarment);
             const status: number = del ? 200 : 400;
             const message: string = del 

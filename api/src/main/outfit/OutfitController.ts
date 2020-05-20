@@ -41,16 +41,10 @@ export class OutfitController {
         const res: (OutfitGarmentWrapperInterface|null) = await this._manager.insertOutfit(fit, garms);
 
         // Gestion des retours
-        let status: number;
-        let message: string;
-        if (res === null) {
-            status = 400;
-            message = "Il y a eu un problème lors de la création de votre tenue";
-        } else {
-            status = 200;
-            message = 'OK';
-        }
-
+        let status: number = res === null ? 400 : 200;
+        let message: string = res === null 
+            ? "Il y a eu un problème lors de la création de votre tenue, merci de réessayer" 
+            : "Votre tenue a bien été créée";
         ctx.body = new Body(status, message, res);
         return;
     }
