@@ -290,21 +290,27 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
     console.log('random');
     if (this.randomChoose && this.randomId) {
 
-      this.bridgeService.generaterandOutfit(this.randomId, this.randomChoose).subscribe(response => {
+      this.bridgeService.generaterandOutfit(this.user.id_user, this.randomId, this.randomChoose).subscribe(response => {
         if (this.stateService.checkStatus(response.status)) {
           console.log(response);
 
-          const top = this.topGarment.find(c => c.garment.id_garment === response.data['0']);
-          const mid = this.topGarment.find(c => c.garment.id_garment === response.data['1']);
-          const bot = this.topGarment.find(c => c.garment.id_garment === response.data['2']);
+          let top: GarmentColorStyleWrapperInterface;
+          let mid: GarmentColorStyleWrapperInterface;
+          let bot: GarmentColorStyleWrapperInterface;
 
-          this.indexTop = this.topGarment.findIndex(c => c.garment.id_garment === response.data['0']);
-          this.indexMid = this.midGarment.findIndex(c => c.garment.id_garment === response.data['1']);
-          this.indexBot = this.botGarment.findIndex(c => c.garment.id_garment === response.data['2']);
-
-          this.selectItem(this.indexTop, top, 'top');
-          this.selectItem(this.indexMid, mid, 'mid');
-          this.selectItem(this.indexBot, bot, 'bot');
+          if (response.data['0'] !== 0) {
+            top = this.topGarment.find(c => c.garment.id_garment === response.data['0']);
+            this.indexTop = this.topGarment.findIndex(c => c.garment.id_garment === response.data['0']);
+            this.selectItem(this.indexTop, top, 'top');
+          } else if (response.data['1'] !== 0) {
+            mid = this.topGarment.find(c => c.garment.id_garment === response.data['1']);
+            this.indexMid = this.midGarment.findIndex(c => c.garment.id_garment === response.data['1']);
+            this.selectItem(this.indexMid, mid, 'mid');
+          } else if (response.data['2'] !== 0) {
+            bot = this.topGarment.find(c => c.garment.id_garment === response.data['2']);
+            this.indexBot = this.botGarment.findIndex(c => c.garment.id_garment === response.data['2']);
+            this.selectItem(this.indexBot, bot, 'bot');
+          }
 
           this.cdRef.detectChanges();
 
