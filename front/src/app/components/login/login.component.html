@@ -9,13 +9,13 @@
         </div>
     </div>
 
-    <div class="col-12 d-flex row m-auto justify-content-around">
+    <div class="col-12 d-flex row m-auto justify-content-around midSect">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 d-flex row">
             <div class="col-12 m-auto">
                 <p class="text-justify">La mode (ou les modes), et plus précisément la mode vestimentaire, désigne la manière de se vêtir, conformément au goût d'une époque dans une région donnée. C'est un phénomène impliquant le collectif via la société, le regard qu'elle renvoie, les codes qu'elle impose et le goût individuel.</p>
             </div>
 
-            <div class="col-12 d-flex justify-content-around mt-4 mb-4 sectionButton">
+            <div class="col-12 d-flex justify-content-around sectionButton">
                 <button type="button" (click)="effectBtn('inscription')" class="btn btn-primary col-4" *ngIf="!isRegistered; else isReturnRegistered">Inscription</button>
                 <ng-template #isReturnRegistered>
                     <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
@@ -28,12 +28,14 @@
             </div>
 
             <div class="col-12 m-auto">
-                <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores nihil ad sunt blanditiis dolor soluta corrupti, nemo optio explicabo nostrum nobis commodi, fugit harum error. </p>
+                <p class="text-justify text-break">
+                    Tunrstyle permet de numériser son dressing afin de composer des looks qui pourront rester privés. Ici, vous pourrez, concrètement, créer, customiser et organiser votre look. Vous êtes fan de mode et ne savez plus ou stocker vos idées, venez ajouter de nouvelle pièce de votre garde-robe pour créer de nouveaux looks à l'infini.
+                </p>
             </div>
 
         </div>
 
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 m-auto">
             <div class="section" *ngIf="isHome">
                 <div class="section-img">
                     <img src="assets/femme.jpg" class="img-fluid imageFemme" alt="turnstyle">
