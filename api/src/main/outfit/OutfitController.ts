@@ -50,7 +50,7 @@ export class OutfitController {
     }
 
     /**
-     * Permet de récupérer toutes les tenurs d'un user
+     * Permet de récupérer toutes les tenues d'un user
      * @param {Context} ctx 
      */
     public async getAllOutfitByUser (ctx: Context): Promise<void> {
@@ -67,6 +67,10 @@ export class OutfitController {
         return;
     }
 
+    /**
+     * Supprime un outfit
+     * @param {Context} ctx 
+     */
     public async deleteOutfit (ctx: Context): Promise<void> {
 
         const idFit: number = Number(ctx.params.idOutfit);
@@ -87,6 +91,10 @@ export class OutfitController {
         return;
     }
 
+    /**
+     * Met à jour un outfit
+     * @param {Context} ctx 
+     */
     public async updateOutfit (ctx: Context): Promise<void> {
         const body: any = ctx.request.body;
         const idUser: number = Number(body.user_id_user);
@@ -119,5 +127,67 @@ export class OutfitController {
             ctx.body = new Body(403, "Cette tenue n'existe pas");
             return;
         }
+    }
+
+    /**
+     * Permet de récupérer 3 ids pour générer une tenue aléatoire basée sur des filtres
+     * @param {Context} ctx 
+     */
+    public async generateRandomOutfit (ctx: Context): Promise<void> {
+        const idUser: number = Number(ctx.request.body.user_id_user);
+
+        // onWhat : 1 => byStyle, 2 => byColor, 3 => bySeason
+        const onWhat: number = Number(ctx.request.body.onWhat);
+
+        // idWhat : l'id style / color / season pour lequel on veut récupérer le garm
+        const idWhat: number = Number(ctx.request.body.idWhat);
+
+        // Vérification de l'authentification de la requette
+        // if (!Auth.isValid(ctx, idUser)) {
+        //     ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
+        //     return;
+        // }
+
+        // Contiendra la liste des id des vêtements
+        let ids: number[] = [];
+
+        // En fonction du filtre
+        switch (onWhat) {
+
+            // Style
+            case 1:
+
+                // On résout tout les appels directement, et on place les ids dans un tableau
+                ids = await Promise.all([
+                    this._manager.getRandomGarmByStyle(idWhat, idUser, 'top'),
+                    this._manager.getRandomGarmByStyle(idWhat, idUser, 'pants'),
+                    this._manager.getRandomGarmByStyle(idWhat, idUser, 'shoes')
+                ]);
+                break
+
+            // Color
+            case 2:
+                ids = await Promise.all([
+                    this._manager.getRandomGarmByColor(idWhat, idUser, 'top'),
+                    this._manager.getRandomGarmByColor(idWhat, idUser, 'pants'),
+                    this._manager.getRandomGarmByColor(idWhat, idUser, 'shoes')
+                ]);
+                break;
+            
+            // Season
+            case 3:
+                ids = await Promise.all([
+                    this._manager.getRandomGarmBySeason(idWhat, idUser, 'top'),
+                    this._manager.getRandomGarmBySeason(idWhat, idUser, 'pants'),
+                    this._manager.getRandomGarmBySeason(idWhat, idUser, 'shoes')
+                ]);
+                break;
+            
+            default:
+                ids = [0, 0, 0];
+        }
+
+        ctx.body = new Body(200, "Tenue générée ! N'oubliez pas d'ajouter un titre et de la sauvegarder", {...ids});
+        return;
     }
 }

@@ -17,4 +17,7 @@ router.delete('/api/user/:idUser/outfit/delete/:idOutfit', async (ctx: Context):
 // Mise à jour d'une tenue
 router.patch('/api/outfit/update', async (ctx: Context): Promise<void> => await controller.updateOutfit(ctx));
 
+// Génération d'une tenue :)
+router.post('/api/outfit/generate', async (ctx: Context): Promise<void> => await controller.generateRandomOutfit(ctx));
+
 export default router;

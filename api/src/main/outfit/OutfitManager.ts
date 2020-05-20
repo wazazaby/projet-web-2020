@@ -303,4 +303,139 @@ export class OutfitManager {
             return null;
         }
     }
+
+    /**
+     * Permet de récupérer l'id d'un garm en fonction du style souhaité
+     * @param {number} idStyle 
+     * @param {number} idUser 
+     * @param {string} type => top || pants || shoes
+     * @returns {Promise<number>} l'id du garm ou 0 s'il n'y en a pas
+     */
+    public async getRandomGarmByStyle (idStyle: number, idUser: number, type: string): Promise<number> {
+        let sql: string = `
+            SELECT id_garment 
+            FROM garment
+            INNER JOIN garment_has_style ON garment.id_garment = garment_has_style.garment_id_garment
+            WHERE garment_has_style.style_id_style = ?
+            AND garment.user_id_user = ?
+        `;
+
+        // En fonction du type, on va chercher le bon type de vêtement
+        switch (type) {
+            case 'top':
+                sql += ' AND garment.type_id_type IN (7, 8, 9, 10, 11, 12, 13, 14)';
+                break;
+
+            case 'pants':
+                sql += ' AND garment.type_id_type IN (1, 2, 3, 4, 5, 6)';
+                break;
+
+            case 'shoes':
+                sql += ' AND garment.type_id_type IN (15, 16, 17, 18)'
+                break;
+        }
+
+        sql += ' ORDER BY RAND()';
+        sql += ' LIMIT 1';
+
+        try {
+            const res: any = await Db.pool.execute(sql, [idStyle, idUser]);
+            if (res[0].length === 1) {
+                return res[0][0].id_garment;
+            } else {
+                return 0;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Permet de récupérer l'id d'un garm en fonction de la couleur souhaitée
+     * @param {number} idColor 
+     * @param {number} idUser 
+     * @param {string} type => top || pants || shoes
+     * @returns {Promise<number>} l'id du garm ou 0 s'il n'y en a pas
+     */
+    public async getRandomGarmByColor (idColor: number, idUser: number, type: string): Promise<number> {
+        let sql: string = `
+            SELECT id_garment 
+            FROM garment
+            INNER JOIN garment_has_color ON garment.id_garment = garment_has_color.garment_id_garment
+            WHERE garment_has_color.color_id_color = ?
+            AND garment.user_id_user = ?
+        `;
+
+        switch (type) {
+            case 'top':
+                sql += ' AND garment.type_id_type IN (7, 8, 9, 10, 11, 12, 13, 14)';
+                break;
+
+            case 'pants':
+                sql += ' AND garment.type_id_type IN (1, 2, 3, 4, 5, 6)';
+                break;
+
+            case 'shoes':
+                sql += ' AND garment.type_id_type IN (15, 16, 17, 18)'
+                break;
+        }
+
+        sql += ' ORDER BY RAND()';
+        sql += ' LIMIT 1';
+
+        try {
+            const res: any = await Db.pool.execute(sql, [idColor, idUser]);
+            if (res[0].length === 1) {
+                return res[0][0].id_garment;
+            } else {
+                return 0;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Permet de récupérer l'id d'un garm en fonction de la saison souhaitée
+     * @param {number} idSeason 
+     * @param {number} idUser 
+     * @param {string} type => top || pants || shoes
+     * @returns {Promise<number>} l'id du garm ou 0 s'il n'y en a pas
+     */
+    public async getRandomGarmBySeason (idSeason: number, idUser: number, type: string): Promise<number> {
+        let sql: string = `
+            SELECT id_garment
+            FROM garment
+            WHERE user_id_user = ?
+            AND season_id_season = ?
+        `;
+
+        switch (type) {
+            case 'top':
+                sql += ' AND garment.type_id_type IN (7, 8, 9, 10, 11, 12, 13, 14)';
+                break;
+
+            case 'pants':
+                sql += ' AND garment.type_id_type IN (1, 2, 3, 4, 5, 6)';
+                break;
+
+            case 'shoes':
+                sql += ' AND garment.type_id_type IN (15, 16, 17, 18)'
+                break;
+        }
+
+        sql += ' ORDER BY RAND()';
+        sql += ' LIMIT 1';
+
+        try {
+            const res: any = await Db.pool.execute(sql, [idUser, idSeason]);
+            if (res[0].length === 1) {
+                return res[0][0].id_garment;
+            } else {
+                return 0;
+            }
+        } catch (e) {
+            throw e;
+        }
+    }
 }
