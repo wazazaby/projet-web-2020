@@ -81,18 +81,18 @@ export class UserController {
 
                 // Si il a bien été crée, on envoi le mail d'activation
                 const mailer: Mailer = new Mailer(
-                    newUser.getEmail(), 
-                    'Activation de votre compte TurnStyle', 
+                    newUser.getEmail(),
+                    'Activation de votre compte TurnStyle',
                     `
                     <div>
                         <h2>Bienvenue sur Turnstyle!</h2>
                         <p>
-                            <a href="http://localhost:4200/auth?t=${newUser.getToken()}">Merci de cliquer sur ce lien pour activer votre compte !</a>
+                            <a href="${process.env.SERVER_FRONT}/auth?t=${newUser.getToken()}">Merci de cliquer sur ce lien pour activer votre compte !</a>
                         </p>
                     </div>
                     `
                 );
-                
+
                 const mail: boolean = await mailer.sendMail();
                 const status: number = mail ? 200 : 400;
                 const message: string = mail 
@@ -215,7 +215,7 @@ export class UserController {
                     <div>
                         <h2>Votre demande de réinitialisation de mot de passe</h2>
                         <p>
-                            <a href="http://localhost:4200/auth/${currUser.getToken()}">Merci de cliquer sur ce lien pour réinitialiser votre mot de passe !</a>
+                            <a href="${process.env.SERVER_FRONT}/auth/${currUser.getToken()}">Merci de cliquer sur ce lien pour réinitialiser votre mot de passe !</a>
                         </p>
                     </div>
                     `

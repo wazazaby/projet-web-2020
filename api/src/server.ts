@@ -34,7 +34,7 @@ app.keys = [process.env.SECRET1, process.env.SECRET2, process.env.SECRET3];
 
 // Gestion des CORS de l'app
 app.use(cors({
-    origin: 'http://localhost:4200',
+    origin: process.env.SERVER_FRONT,
     credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
 }));
