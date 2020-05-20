@@ -193,7 +193,7 @@ export class UserController {
      */
     public async disconnectUser (ctx: Context): Promise<void> {
         ctx.session = null;
-        ctx.body = new Body(200, 'Vous avez été déconnecté');
+        ctx.body = new Body(200, 'Merci, à bientot');
     }
 
     /**
