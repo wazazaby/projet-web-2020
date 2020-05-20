@@ -39,10 +39,12 @@ export class UserController {
     public async verifyAuth (ctx: Context): Promise<void> {
         const token: string = ctx.request.body.token;
         const a: boolean = Auth.byToken(ctx, token);
-        const status: number = a ? 200 : 403;
-        const message: string = a ? "Session valide" : "Session non valide";
-        ctx.body = new Body(status, message);
-        return;
+        if (a) {
+            ctx.body = new Body(200, "Session valide", ctx.session.auth);
+        } else {
+            ctx.body = new Body(403, "Session non valide");
+            return;
+        }
     }
 
     /**
@@ -60,7 +62,7 @@ export class UserController {
             name_user: ctx.request.body.name,
             email_user: ctx.request.body.email,
             pass_user: userPass,
-            url_img_user: `/uploads/${pathAvatar[Math.floor(Math.random() * 5) + 0]}`,
+            url_img_user: `/${pathAvatar[Math.floor(Math.random() * 5) + 0]}`,
             actif_user: 0,
             rgpd_user: 1,
             token_user: RandomString.generate(),
@@ -87,7 +89,7 @@ export class UserController {
                     <div>
                         <h2>Bienvenue sur Turnstyle!</h2>
                         <p>
-                            <a href="${process.env.SERVER_FRONT}/auth?t=${newUser.getToken()}">Merci de cliquer sur ce lien pour activer votre compte !</a>
+                            <a href="${process.env.SERVER_FRONT}/#/auth?t=${newUser.getToken()}">Merci de cliquer sur ce lien pour activer votre compte !</a>
                         </p>
                     </div>
                     `
