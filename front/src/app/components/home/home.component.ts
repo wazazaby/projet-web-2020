@@ -4,7 +4,10 @@ import {
   UserInterface,
   TypeInterface,
   ErrorInterface,
-  OutfitGarmentWrapperInterface
+  OutfitGarmentWrapperInterface,
+  SeasonInterface,
+  ColorInterface,
+  StyleInterface
 } from '@osmo6/models';
 
 import { StatesService } from 'src/app/services/states.service';
@@ -100,6 +103,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
   indexTop = 0;
   indexMid = 0;
   indexBot = 0;
+
+  // random style
+
+  season: SeasonInterface[] = this.stateService.season;
+  color: ColorInterface[] = this.stateService.color;
+  style: StyleInterface[] = this.stateService.style;
+
+  random = [
+    {id: 1, label: 'le style :'},
+    {id: 2, label: 'la couleur :'},
+    {id: 3, label: 'la saison :'},
+  ];
+  // Selectionenr lsi style/couleur/saison
+  randomId: number;
+  // Selectionner le choix utilisateur
+  randomChoose: number;
 
   ngOnInit() {
     if (this.user) {
@@ -264,6 +283,43 @@ export class HomeComponent implements OnInit, AfterViewInit {
       } else {
         this.formOutfit.markAllAsTouched();
       }
+    }
+  }
+
+  sendRandom() {
+    console.log('random');
+    if (this.randomChoose && this.randomId) {
+
+      this.bridgeService.generaterandOutfit(this.randomId, this.randomChoose).subscribe(response => {
+        if (this.stateService.checkStatus(response.status)) {
+          console.log(response);
+
+          const top = this.topGarment.find(c => c.garment.id_garment === response.data['0']);
+          const mid = this.topGarment.find(c => c.garment.id_garment === response.data['1']);
+          const bot = this.topGarment.find(c => c.garment.id_garment === response.data['2']);
+
+          this.indexTop = this.topGarment.findIndex(c => c.garment.id_garment === response.data['0']);
+          this.indexMid = this.midGarment.findIndex(c => c.garment.id_garment === response.data['1']);
+          this.indexBot = this.botGarment.findIndex(c => c.garment.id_garment === response.data['2']);
+
+          this.selectItem(this.indexTop, top, 'top');
+          this.selectItem(this.indexMid, mid, 'mid');
+          this.selectItem(this.indexBot, bot, 'bot');
+
+          this.cdRef.detectChanges();
+
+          this.stateService.openSnackBar(response.message, null);
+        } else {
+          const err: ErrorInterface = {
+              code: response.status,
+              message: response.message,
+              route: environment.apiUrlService + 'outfit/generate'
+          };
+
+          this.stateService.openSnackBar(err.message, null, 'err');
+          this.stateService.errors = err;
+        }
+      });
     }
   }
 }
