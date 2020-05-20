@@ -1,7 +1,7 @@
 <div class="container" *ngIf="!isDelete; else delete">
     <div *ngIf="data.user" class="col-12 d-flex justify-content-center mb-4">
         <div *ngIf="data.user.url_img_user">
-            <img class="avatar img-fluid rounded" [src]="urlUpload + data.user.url_img_user" alt="profil">
+            <img class="avatar img-fluid rounded" [src]="urlUpload + '/uploads/avatar/' + data.user.url_img_user" alt="profil">
         </div>
     </div>
 
