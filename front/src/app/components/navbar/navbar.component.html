@@ -8,7 +8,7 @@
         <ul>
           <li (click)="openModal()" class="profil">
             <a class="d-flex">
-              <img class="userProfil" *ngIf="user.url_img_user; else noImg" [src]='urlUpload + user.url_img_user' alt="profil">
+              <img class="userProfil" *ngIf="user.url_img_user; else noImg" [src]='urlUpload + "/uploads/avatar" + user.url_img_user' alt="profil">
               <ng-template #noImg>
                 <i class="fas fa-user"></i>
               </ng-template>

@@ -64,7 +64,7 @@ export class ModalAddGarmentComponent implements OnInit {
     ngOnInit() {
         if (this.data.garment !== undefined) {
             this.stepOne = false;
-            this.url = environment.apiUpload + this.data.garment.garment.url_img_garment;
+            this.url = environment.apiUrlBase + this.data.garment.garment.url_img_garment;
             const styles = [];
             this.data.garment.styles.forEach(s => {
                 styles.push(s.id_style);
@@ -147,7 +147,7 @@ export class ModalAddGarmentComponent implements OnInit {
                         const err: ErrorInterface = {
                             code: res.status,
                             message: res.message,
-                            route: environment.apiUrl + this.bridgeService.userGarmentAdd
+                            route: environment.apiUrlService + this.bridgeService.userGarmentAdd
                         };
                         this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;
@@ -163,7 +163,7 @@ export class ModalAddGarmentComponent implements OnInit {
                         const err: ErrorInterface = {
                             code: res.status,
                             message: res.message,
-                            route: environment.apiUrl + this.bridgeService.userGarmentSet
+                            route: environment.apiUrlService + this.bridgeService.userGarmentSet
                         };
                         this.stateService.openSnackBar(err.message, null, 'err');
                         this.stateService.errors = err;

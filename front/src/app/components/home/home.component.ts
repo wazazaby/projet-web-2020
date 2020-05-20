@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   type: TypeInterface[] = this.stateService.type;
 
   /** base url upload image */
-  urlUpload = environment.apiUpload;
+  urlUpload = environment.apiUrlBase;
 
   /**
    * Positionnement des vêtements
@@ -238,7 +238,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             const err: ErrorInterface = {
               code: res.status,
               message: res.message,
-              route: environment.apiUrl + this.bridgeService.userGarmentAdd
+              route: environment.apiUrlService + this.bridgeService.userGarmentAdd
             };
             this.stateService.openSnackBar(err.message, null, 'err');
             this.stateService.errors = err;

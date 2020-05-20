@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 export class NavbarComponent implements OnInit {
 
   /** base url upload image */
-  urlUpload = environment.apiUpload;
+  urlUpload = environment.apiUrlBase;
 
   /**
    * Valeur du hamburger (barre de navigation "responsive")

@@ -1,7 +1,8 @@
 @import '../../../assets/color.scss';
 
 h1{
-  font-style: italic;
+  font-family: $title;
+  color: $bg-sidebar;
 }
 
 .logo{

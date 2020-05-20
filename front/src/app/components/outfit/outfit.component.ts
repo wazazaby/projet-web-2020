@@ -18,7 +18,7 @@ export class OutfitComponent implements OnInit {
               private bridgeService: BridgeService,
               public dialog: MatDialog) { }
 
-  urlApiUpload = environment.apiUpload;
+  apiUrlBase = environment.apiUrlBase;
 
   /** Info utilisateur */
   user: UserInterface = this.stateService.userProfil;
@@ -77,7 +77,7 @@ export class OutfitComponent implements OnInit {
               const err: ErrorInterface = {
                   code: resOutfit.status,
                   message: resOutfit.message,
-                  route: environment.apiUrl + '/api/user/' +
+                  route: environment.apiUrlService + '/api/user/' +
                       outfit.outfit.user_id_user + '/outfit/delete/' + outfit.outfit.id_outfit
               };
               this.stateService.openSnackBar(err.message, null, 'err');

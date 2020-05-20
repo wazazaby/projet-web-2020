@@ -14,7 +14,7 @@ export class ModalProfilComponent implements OnInit {
   isDelete = false;
 
   /** base url upload image */
-  urlUpload = environment.apiUpload;
+  urlUpload = environment.apiUrlBase;
 
   formUser: FormGroup = this.formBuild.group({
     name: new FormControl('', [ Validators.required]),

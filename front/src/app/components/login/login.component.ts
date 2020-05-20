@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                             const err: ErrorInterface = {
                                 code: response.status,
                                 message: response.message,
-                                route: `${environment.apiUrl}user/activate/${this.token}`
+                                route: `${environment.apiUrlService}user/activate/${this.token}`
                             };
                             this.stateService.openSnackBar(err.message, null, 'err');
                             this.stateService.errors = err;
@@ -144,7 +144,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                     this.stateService.login();
                     localStorage.clear();
                 } else {
-                    const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + 'user/login'};
+                    const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrlService + 'user/login'};
                     this.stateService.errors = err;
                     this.stateService.openSnackBar(err.message, null, 'err');
                 }
@@ -169,7 +169,7 @@ export class LoginComponent implements OnInit { // contient les var du component
                     const err: ErrorInterface = {
                         code: res.status,
                         message: res.message,
-                        route: `${environment.apiUrl}user/add`
+                        route: `${environment.apiUrlService}user/add`
                     };
                     this.stateService.errors = err;
                     this.stateService.openSnackBar(err.message, null, 'err');

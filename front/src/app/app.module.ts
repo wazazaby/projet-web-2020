@@ -15,25 +15,26 @@ import { LoginComponent } from './components/login/login.component';
 import { DragDropDirective } from './directive/draganddrop.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
 import { ModalProfilComponent } from './components/modal-profil/modal-profil.component';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
-import {MatSelectModule} from '@angular/material/select';
-import {MatIconModule} from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
 import { DragScrollModule } from 'ngx-drag-scroll';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { LegalComponent } from './components/legal/legal.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
-    domain: 'localhost' // it is recommended to set your domain, for cookies to work properly
+    domain: environment.baseDomain
   },
   palette: {
     popup: {
@@ -48,7 +49,7 @@ const cookieConfig: NgcCookieConsentConfig = {
   type: 'info',
   content: {
     message: 'En poursuivant votre navigation sur ce site, ' +
-      'vous acceptez l’utilisation de Cookies ou autres traceurs pour vous proposer un accès simplifié.',
+      'vous acceptez l’utilisation de Cookies ou autres traceurs afin de pouvoir vous offir une navigation simplifié.',
     dismiss: 'OK !',
     link: 'En savoir plus.',
     href: 'https://cookiesandyou.com',

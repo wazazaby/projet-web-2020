@@ -49,7 +49,7 @@ export class BridgeService {
      */
     login(email: string, pass: string) {
         const body = { email, pass };
-        return this.http.post<GlobalReturnInterface>(environment.apiUrl + 'user/login', body, { withCredentials: true });
+        return this.http.post<GlobalReturnInterface>(environment.apiUrlService + 'user/login', body, { withCredentials: true });
     }
 
     /**
@@ -62,7 +62,7 @@ export class BridgeService {
             pass: infos.pass
         };
 
-        return this.http.post<GlobalReturnInterface>(`${environment.apiUrl}user/add`, body);
+        return this.http.post<GlobalReturnInterface>(`${environment.apiUrlService}user/add`, body);
     }
 
     /**
@@ -70,7 +70,7 @@ export class BridgeService {
      * @param {string} token token
      */
     activateUser(token: string) {
-        return this.http.get<GlobalReturnInterface>(`${environment.apiUrl}user/activate/${token}`);
+        return this.http.get<GlobalReturnInterface>(`${environment.apiUrlService}user/activate/${token}`);
     }
 
     disconnect() {
@@ -82,7 +82,7 @@ export class BridgeService {
                 this.router.navigate(['/auth']);
                 this.stateService.openSnackBar(res.message.toString(), null);
             } else {
-                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.logout};
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrlService + this.logout};
                 this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
@@ -98,7 +98,7 @@ export class BridgeService {
                     this.stateService.login();
                 } else {
                     const err: ErrorInterface = {
-                        code: res.status, message: res.message, route: environment.apiUrl + this.checkTkn};
+                        code: res.status, message: res.message, route: environment.apiUrlService + this.checkTkn};
                     this.stateService.errors = err;
                     this.stateService.openSnackBar(err.message, null, 'err');
                     this.router.navigate(['/auth']);
@@ -146,7 +146,7 @@ export class BridgeService {
                 const data: TypeInterface[] = res.data;
                 this.stateService.type = data;
             } else {
-                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.typeAll};
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrlService + this.typeAll};
                 this.stateService.errors = err;
                 this.stateService.openSnackBar(err.message, null, 'err');
             }
@@ -165,7 +165,7 @@ export class BridgeService {
                 const err: ErrorInterface = {
                     code: res.status,
                     message: res.message,
-                    route: environment.apiUrl + this.colorAll
+                    route: environment.apiUrlService + this.colorAll
                 };
                 this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
@@ -186,7 +186,7 @@ export class BridgeService {
                 const err: ErrorInterface = {
                     code: res.status,
                     message: res.message,
-                    route: environment.apiUrl + 'user/' + userId + this.userGarment
+                    route: environment.apiUrlService + 'user/' + userId + this.userGarment
                 };
                 this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
@@ -203,7 +203,7 @@ export class BridgeService {
                 const data: SeasonInterface[] = res.data;
                 this.stateService.season = data;
             } else {
-                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.seasonAll};
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrlService + this.seasonAll};
                 this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
@@ -219,7 +219,7 @@ export class BridgeService {
                 const data: BrandInterface[] = res.data;
                 this.stateService.brand = data;
             } else {
-                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.brandAll};
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrlService + this.brandAll};
                 this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
@@ -235,7 +235,7 @@ export class BridgeService {
                 const data: StyleInterface[] = res.data;
                 this.stateService.style = data;
             } else {
-                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.styleAll};
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrlService + this.styleAll};
                 this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
@@ -251,7 +251,7 @@ export class BridgeService {
                 const data: OutfitGarmentWrapperInterface[] = res.data;
                 this.stateService.outfit = data;
             } else {
-                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrl + this.styleAll};
+                const err: ErrorInterface = {code: res.status, message: res.message, route: environment.apiUrlService + this.styleAll};
                 this.stateService.openSnackBar(err.message, null, 'err');
                 this.stateService.errors = err;
             }
@@ -268,14 +268,14 @@ export class BridgeService {
      * Créer un observable des couleurs de vêtement à la var global
      */
     getColorReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.colorAll, { withCredentials: true });
+        return this.http.get<GlobalReturnInterface>(environment.apiUrlService + this.colorAll, { withCredentials: true });
     }
 
     /**
      * Créer un observable des types de vêtement
      */
     getTypeReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.typeAll, { withCredentials: true });
+        return this.http.get<GlobalReturnInterface>(environment.apiUrlService + this.typeAll, { withCredentials: true });
     }
 
     /**
@@ -284,10 +284,10 @@ export class BridgeService {
      */
     getGarmentUserReq(userId: number) {
         return this.http.get<GlobalReturnInterface>(
-            environment.apiUrl + 'user/' + userId + this.userGarment,
+            environment.apiUrlService + 'user/' + userId + this.userGarment,
             {
                 headers: new HttpHeaders({
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Access-Control-Allow-Origin': environment.apiUrlBase,
                     'Content-type': 'multipart/form-data',
                 }),
                 withCredentials: true
@@ -299,14 +299,16 @@ export class BridgeService {
      * Permet d'ajouter un vêtement
      */
     addGarment(formData: FormData) {
-        return this.http.post<GlobalReturnInterface>(`${environment.apiUrl}${this.userGarmentAdd}`, formData, { withCredentials: true });
+        return this.http.post<GlobalReturnInterface>(`${environment.apiUrlService}${this.userGarmentAdd}`, formData,
+        { withCredentials: true });
     }
 
     /**
      * Permet de modifier un vêtement
      */
     upadateGarment(formData: FormData) {
-        return this.http.patch<GlobalReturnInterface>(`${environment.apiUrl}${this.userGarmentSet}`, formData, { withCredentials: true });
+        return this.http.patch<GlobalReturnInterface>(`${environment.apiUrlService}${this.userGarmentSet}`, formData,
+        { withCredentials: true });
     }
 
     /**
@@ -315,7 +317,7 @@ export class BridgeService {
     deleteGarmentReq(data: GarmentColorStyleWrapperInterface) {
         const idUser: number = data.garment.user_id_user;
         const idGarment: number = data.garment.id_garment;
-        const url = `${environment.apiUrl}user/${idUser}/garment/delete/${idGarment}`;
+        const url = `${environment.apiUrlService}user/${idUser}/garment/delete/${idGarment}`;
         return this.http.delete<GlobalReturnInterface>(url, { withCredentials: true });
     }
 
@@ -323,7 +325,7 @@ export class BridgeService {
      * Permet d'ajouter une tenue
      */
     addOutfit(body: {label_outfit: string, user_id_user: number, id_garments: number[]}) {
-        return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.userOutfitAdd, body, { withCredentials: true });
+        return this.http.post<GlobalReturnInterface>(environment.apiUrlService + this.userOutfitAdd, body, { withCredentials: true });
     }
 
     /**
@@ -332,7 +334,7 @@ export class BridgeService {
     deleteOutfit(data: OutfitGarmentWrapperInterface) {
         const idUser: number = data.outfit.user_id_user;
         const idOutfit: number = data.outfit.id_outfit;
-        const url = `${environment.apiUrl}user/${idUser}/outfit/delete/${idOutfit}`;
+        const url = `${environment.apiUrlService}user/${idUser}/outfit/delete/${idOutfit}`;
         return this.http.delete<GlobalReturnInterface>(url, { withCredentials: true });
     }
 
@@ -340,7 +342,7 @@ export class BridgeService {
      * Permet de modifier une tenue
      */
     updateOutfit(data) {
-        return this.http.patch<GlobalReturnInterface>(`${environment.apiUrl}${this.userOutfitSet}`, data, { withCredentials: true });
+        return this.http.patch<GlobalReturnInterface>(`${environment.apiUrlService}${this.userOutfitSet}`, data, { withCredentials: true });
     }
 
     /**
@@ -349,10 +351,10 @@ export class BridgeService {
      */
     getAllOutfitReq(userId: number) {
         return this.http.get<GlobalReturnInterface>(
-            environment.apiUrl + 'user/' + userId + this.userOutfit,
+            environment.apiUrlService + 'user/' + userId + this.userOutfit,
             {
                 headers: new HttpHeaders({
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Access-Control-Allow-Origin': environment.apiUrlBase,
                     'Content-type': 'multipart/form-data',
                 }),
                 withCredentials: true
@@ -364,28 +366,28 @@ export class BridgeService {
      * Créer un observable des saisons
      */
     getSeasonReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.seasonAll, { withCredentials: true });
+        return this.http.get<GlobalReturnInterface>(environment.apiUrlService + this.seasonAll, { withCredentials: true });
     }
 
     /**
      * Créer un observable des marques de vêtement
      */
     getBrandReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.brandAll, { withCredentials: true });
+        return this.http.get<GlobalReturnInterface>(environment.apiUrlService + this.brandAll, { withCredentials: true });
     }
 
     /**
      * Créer un observable des styles de vêtement
      */
     getStyleReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.styleAll, { withCredentials: true });
+        return this.http.get<GlobalReturnInterface>(environment.apiUrlService + this.styleAll, { withCredentials: true });
     }
 
     /**
      * Permet de clean la session API du user
      */
     disconnectReq() {
-        return this.http.get<GlobalReturnInterface>(environment.apiUrl + this.logout, { withCredentials: true });
+        return this.http.get<GlobalReturnInterface>(environment.apiUrlService + this.logout, { withCredentials: true });
     }
 
     /**
@@ -396,7 +398,7 @@ export class BridgeService {
         const body = {
             token
         };
-        return this.http.post<GlobalReturnInterface>(environment.apiUrl + this.checkTkn, body, {withCredentials: true});
+        return this.http.post<GlobalReturnInterface>(environment.apiUrlService + this.checkTkn, body, {withCredentials: true});
     }
 
 // ****************************************************************************************

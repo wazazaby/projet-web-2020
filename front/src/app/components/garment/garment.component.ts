@@ -39,7 +39,7 @@ export class GarmentComponent implements OnInit {
     allFilter = [];
     filterSelect = [];
 
-    urlApiUpload = environment.apiUpload;
+    apiUrlBase = environment.apiUrlBase;
 
     constructor(private stateService: StatesService,
                 private bridgeService: BridgeService,
@@ -322,7 +322,7 @@ export class GarmentComponent implements OnInit {
                         const err: ErrorInterface = {
                             code: response.status,
                             message: response.message,
-                            route: environment.apiUrl + '/api/user/' +
+                            route: environment.apiUrlService + '/api/user/' +
                                 garment.garment.user_id_user + '/garment/delete/' + garment.garment.id_garment
                         };
 
