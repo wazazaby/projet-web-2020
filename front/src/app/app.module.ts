@@ -28,6 +28,7 @@ import {MatCardModule} from '@angular/material/card';
 import { LegalComponent } from './components/legal/legal.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -94,7 +95,9 @@ const cookieConfig: NgcCookieConsentConfig = {
     HomeComponent,
     LegalComponent
   ],
-  providers: [],
+  providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
