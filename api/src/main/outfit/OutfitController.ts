@@ -140,7 +140,7 @@ export class OutfitController {
         const onWhat: number = Number(ctx.request.body.onWhat);
 
         // idWhat : l'id style / color / season pour lequel on veut récupérer le garm
-        const idWhat: number = Number(ctx.request.body.idWhat);
+        const idWhat: number = Number(ctx.request.body.whatId);
 
         // Vérification de l'authentification de la requette
         // if (!Auth.isValid(ctx, idUser)) {
@@ -182,9 +182,6 @@ export class OutfitController {
                     this._manager.getRandomGarmBySeason(idWhat, idUser, 'shoes')
                 ]);
                 break;
-            
-            default:
-                ids = [0, 0, 0];
         }
 
         ctx.body = new Body(200, "Tenue générée ! N'oubliez pas d'ajouter un titre et de la sauvegarder", {...ids});
