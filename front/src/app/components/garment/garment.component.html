@@ -101,7 +101,7 @@
       <div class="col-12 d-flex row justify-content-between">
         <p [innerText]="g.garment.label_garment"></p>
         <div>
-          <i *ngFor="let c of g.colors" [style.color]="c.hex_color" class="fas fa-circle"></i>
+          <i *ngFor="let c of g.colors" [style.color]="c.hex_color" [ngClass]="{'borderColor': c.hex_color === '#f8f9f9'}" class="fas fa-circle mr-1"></i>
         </div>
       </div>
       <div class="sect-hover">

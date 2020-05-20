@@ -125,7 +125,10 @@
       <p class="labelExpl col-12 text-right">Merci de renseigner tout les champs obligatoire *</p>
 
       <div class="col-12 d-flex justify-content-end">
-        <button (click)="sendFile()" [mat-dialog-close]="isOk" type="submit" class="btn btn-success">Enregistrer</button>
+        <div class="d-flex justify-content-between col-4">
+          <button [mat-dialog-close]="true" class="btn btn-outline-warning">Annuler</button>
+          <button (click)="sendFile()" [mat-dialog-close]="isOk" type="submit" class="btn btn-outline-success">Enregistrer</button>
+        </div>
       </div>
 
     </div>
