@@ -1,6 +1,6 @@
 {
   "name": "lib-turnstyle",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "ng-high-memory": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng",
