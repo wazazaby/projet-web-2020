@@ -173,7 +173,7 @@ export class OutfitController {
                     this._manager.getRandomGarmByColor(idWhat, idUser, 'shoes')
                 ]);
                 break;
-            
+
             // Season
             case 3:
                 ids = await Promise.all([
@@ -182,6 +182,9 @@ export class OutfitController {
                     this._manager.getRandomGarmBySeason(idWhat, idUser, 'shoes')
                 ]);
                 break;
+
+            default:
+                ids = [0, 0, 0];
         }
 
         ctx.body = new Body(200, "Tenue générée ! N'oubliez pas d'ajouter un titre et de la sauvegarder", {...ids});
