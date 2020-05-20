@@ -93,9 +93,9 @@ export class OutfitManager {
     /**
      * Renvoit tout les outfit d'un user (avec garment, colors, styles associés);
      * @param {number} id l'id de l'user pour lequel on veut récupérer les outfits
-     * @returns {Promise<(OutfitGarmentWrapperInterface[]|null)>} peut renvoyer null si aucun outfit n'est trouvé avec cet id
+     * @returns {Promise<OutfitGarmentWrapperInterface[]>} peut renvoyer null si aucun outfit n'est trouvé avec cet id
      */
-    public async getOutfitsByIdUser (id: number): Promise<(OutfitGarmentWrapperInterface[]|null)> {
+    public async getOutfitsByIdUser (id: number): Promise<OutfitGarmentWrapperInterface[]> {
         const sql: string = `
             SELECT * FROM outfit
             WHERE user_id_user = ?
@@ -125,7 +125,7 @@ export class OutfitManager {
                 
                 return tabFullFit;
             } else {
-                return null;
+                return [];
             }
         } catch (e) {
             throw e;

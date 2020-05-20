@@ -31,4 +31,7 @@ router.get('/api/user/password-reset/:token', ctx => ctx.body =  { 'Hello': 'Wor
 // Check de l'authentification de l'user en session
 router.post('/api/user/verify-auth', async (ctx: Context): Promise<void> => await controller.verifyAuth(ctx));
 
+// Supprimer un user
+router.delete('/api/user/:idUser', async (ctx: Context): Promise<void> => await controller.deleteUser(ctx));
+
 export default router;
