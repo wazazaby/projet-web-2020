@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 07 mai 2020 à 15:31
+-- Généré le : mer. 20 mai 2020 à 23:49
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP : 7.4.5
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `bdd_dev`
+-- Base de données : `turnstyle_prod`
 --
 
 -- --------------------------------------------------------
@@ -213,9 +213,18 @@ CREATE TABLE `color` (
 --
 
 INSERT INTO `color` (`id_color`, `label_color`, `hex_color`, `rgb_color`) VALUES
-(1, 'cyan', '#0ABAB5', 'rgb(10,186,181)'),
-(2, 'black', '#000000', 'rgb(0,0,0)'),
-(3, 'orange', '#F0810F', 'rgb(240,129,15)');
+(1, 'noir', '#000000', 'rgb(0,0,0)'),
+(2, 'bleu nuit', '#2c3e50', 'rgb(44, 62, 80)'),
+(3, 'gris', '#7f8c8d', 'rgb(127, 140, 141)'),
+(4, 'blanc', '#f8f9f9', 'rgb(248, 249, 249)'),
+(5, 'jaune', '#f1c40f', 'rgb(241, 196, 15)'),
+(6, 'carotte', '#f39c12', 'rgb(230, 126, 34)'),
+(7, 'rose', '#ec7063', 'rgb(236, 112, 99)'),
+(8, 'alizarine', '#e74c3c', 'rgb(231, 76, 60)'),
+(9, 'émeraude', '#2ecc71', 'rgb(46, 204, 113)'),
+(10, 'turquoise', '#1abc9c', 'rgb(26, 188, 156)'),
+(11, 'bleu', '#2980b9', 'rgb(41, 128, 185)'),
+(12, 'glycine', '#8e44ad', 'rgb(142, 68, 173)');
 
 -- --------------------------------------------------------
 
@@ -240,11 +249,19 @@ CREATE TABLE `garment` (
 --
 
 INSERT INTO `garment` (`id_garment`, `label_garment`, `url_img_garment`, `creation_date_garment`, `modification_date_garment`, `user_id_user`, `brand_id_brand`, `season_id_season`, `type_id_type`) VALUES
-(1, 'Veste1', '/assets/2/t1.jpg', 1588668413, NULL, 2, 6, 4, 14),
-(2, 'Pantalon1', '/assets/2/t2.jpg', 1588668413, NULL, 2, 22, 1, 1),
-(3, 'Chemise1', '/assets/2/t3.jpg', 1588668413, NULL, 2, 4, 3, 8),
-(6, 'Blouson', '/assets/2/t4.jpg', 1588691720, NULL, 2, 15, 2, 7),
-(7, 'New Gianno Nibba', '/assets/2/t5.jpg', 1588691816, NULL, 2, 56, 3, 15);
+(14, 'T-shirt', '/uploads/1590008189484-hmgoepprod.jpg', 1590008189, NULL, 2, 72, 3, 13),
+(15, 'Veste', '/uploads/1590008226343-hmgoepprod1.jpg', 1590008226, NULL, 2, 4, 1, 7),
+(16, 'shirt', '/uploads/1590008250204-hmgoepprod2.jpg', 1590008250, NULL, 2, 3, 3, 11),
+(17, 't-shirt', '/uploads/1590008316106-hmgoepprod3.jpg', 1590008316, NULL, 2, 3, 3, 13),
+(18, 'short vert', '/uploads/1590008342724-hmgoepprod.jpg', 1590008342, NULL, 2, 14, 3, 5),
+(19, 'short', '/uploads/1590008363580-hmgoepprod1.jpg', 1590008363, NULL, 2, 29, 3, 6),
+(20, 'short jean', '/uploads/1590008391444-hmgoepprod2.jpg', 1590008391, NULL, 2, 88, 2, 2),
+(21, 'Basquette', '/uploads/1590008420080-hmgoepprod.jpg', 1590008420, NULL, 2, 151, 4, 16),
+(22, 'Tatane', '/uploads/1590008441742-hmgoepprod0.jpg', 1590008441, NULL, 2, 155, 2, 15),
+(23, 'Claquette', '/uploads/1590008465177-hmgoepprod1.jpg', 1590008465, NULL, 2, 87, 3, 17),
+(24, 'Patrick', '/uploads/1590008501926-hmgoepprod2.jpg', 1590008501, NULL, 2, 77, 4, 15),
+(25, 'Pant', '/uploads/1590008525915-hmgoepprod.jpg', 1590008525, 1590009254, 2, 35, 3, 1),
+(26, 'pant beige', '/uploads/1590008548628-hmgoepprod0.jpg', 1590008548, NULL, 2, 50, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -263,13 +280,22 @@ CREATE TABLE `garment_has_color` (
 --
 
 INSERT INTO `garment_has_color` (`id_assoc_garment_color`, `garment_id_garment`, `color_id_color`) VALUES
-(1, 1, 2),
-(2, 1, 1),
-(3, 3, 3),
-(4, 3, 1),
-(5, 2, 2),
-(6, 7, 3),
-(7, 6, 2);
+(15, 14, 4),
+(16, 15, 2),
+(17, 15, 3),
+(18, 16, 1),
+(19, 17, 11),
+(20, 18, 9),
+(21, 19, 10),
+(22, 20, 1),
+(23, 21, 4),
+(24, 22, 2),
+(25, 22, 4),
+(26, 23, 1),
+(27, 24, 8),
+(28, 24, 5),
+(30, 26, 6),
+(31, 25, 9);
 
 -- --------------------------------------------------------
 
@@ -288,11 +314,27 @@ CREATE TABLE `garment_has_style` (
 --
 
 INSERT INTO `garment_has_style` (`id_assoc_garment_style`, `garment_id_garment`, `style_id_style`) VALUES
-(1, 1, 8),
-(2, 1, 7),
-(3, 2, 2),
-(4, 3, 3),
-(5, 7, 9);
+(12, 14, 1),
+(13, 14, 8),
+(14, 15, 3),
+(15, 15, 7),
+(16, 16, 8),
+(17, 17, 12),
+(18, 18, 8),
+(19, 19, 1),
+(20, 20, 12),
+(21, 21, 8),
+(22, 22, 12),
+(23, 22, 1),
+(24, 22, 8),
+(25, 22, 5),
+(26, 23, 10),
+(27, 23, 9),
+(28, 23, 3),
+(29, 23, 7),
+(30, 24, 11),
+(32, 26, 12),
+(33, 25, 9);
 
 -- --------------------------------------------------------
 
@@ -308,6 +350,14 @@ CREATE TABLE `outfit` (
   `user_id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Une tenu est composée de 3 vêtements (haut, bas et chaussures)';
 
+--
+-- Déchargement des données de la table `outfit`
+--
+
+INSERT INTO `outfit` (`id_outfit`, `label_outfit`, `creation_date_outfit`, `modification_date_outfit`, `user_id_user`) VALUES
+(5, 'Tenue decontract', 1590008575, NULL, 2),
+(6, 'Mode cool', 1590008588, NULL, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -319,6 +369,18 @@ CREATE TABLE `outfit_has_garment` (
   `outfit_id_outfit` int(11) NOT NULL,
   `garment_id_garment` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `outfit_has_garment`
+--
+
+INSERT INTO `outfit_has_garment` (`id_assoc_outfit_garment`, `outfit_id_outfit`, `garment_id_garment`) VALUES
+(13, 5, 25),
+(14, 5, 16),
+(15, 5, 24),
+(16, 6, 15),
+(17, 6, 19),
+(18, 6, 24);
 
 -- --------------------------------------------------------
 
@@ -429,7 +491,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `name_user`, `email_user`, `pass_user`, `url_img_user`, `actif_user`, `rgpd_user`, `token_user`, `creation_date_user`, `modification_date_user`) VALUES
-(2, 'Utilisateur2', 'mail@mail.com', '$2b$10$JrwOT4.XmaAMBHVvhnxehuZIuYyuj2NQ.tGR2bswTXEzMqOLhqBMS', 'assets/sn.jpg', 1, 1, 'dwglO6R8Q9j8UC2MRyMZXBwC85mxax6z', 1588667775, NULL);
+(2, 'Utilisateur2', 'mail@mail.com', '$2b$10$JrwOT4.XmaAMBHVvhnxehuZIuYyuj2NQ.tGR2bswTXEzMqOLhqBMS', '/avatar5.png', 1, 1, 'dwglO6R8Q9j8UC2MRyMZXBwC85mxax6z', 1588667775, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -526,37 +588,37 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT pour la table `color`
 --
 ALTER TABLE `color`
-  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11013;
 
 --
 -- AUTO_INCREMENT pour la table `garment`
 --
 ALTER TABLE `garment`
-  MODIFY `id_garment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_garment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT pour la table `garment_has_color`
 --
 ALTER TABLE `garment_has_color`
-  MODIFY `id_assoc_garment_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_assoc_garment_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT pour la table `garment_has_style`
 --
 ALTER TABLE `garment_has_style`
-  MODIFY `id_assoc_garment_style` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_assoc_garment_style` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT pour la table `outfit`
 --
 ALTER TABLE `outfit`
-  MODIFY `id_outfit` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_outfit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `outfit_has_garment`
 --
 ALTER TABLE `outfit_has_garment`
-  MODIFY `id_assoc_outfit_garment` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_assoc_outfit_garment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `season`
@@ -580,7 +642,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Contraintes pour les tables déchargées
