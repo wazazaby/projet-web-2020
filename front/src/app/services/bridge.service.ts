@@ -109,6 +109,13 @@ export class BridgeService {
 
 // ****************************************************************************************
 
+    /**
+     * Permet de supprimer l'utilisateur ainsi que toute ses data
+     * @param idUser number
+     */
+    removeUser(idUser: number) {
+        return this.http.delete<GlobalReturnInterface>(environment.apiUrlService + 'user/' + idUser , { withCredentials: true });
+    }
 
     /**
      * Permet de charger l'emsemble des data necessaire à l'APP

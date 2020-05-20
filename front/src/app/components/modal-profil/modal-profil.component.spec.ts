@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BridgeService } from 'src/app/services/bridge.service';
 
 describe('ModalProfilComponent', () => {
   let component: ModalProfilComponent;
@@ -30,7 +31,8 @@ describe('ModalProfilComponent', () => {
       declarations: [ ModalProfilComponent ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {}, },
-        StatesService
+        StatesService,
+        BridgeService
       ]
     })
     .compileComponents();

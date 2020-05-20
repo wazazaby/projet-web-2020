@@ -79,7 +79,7 @@ export class OutfitController {
         }
 
         const res: boolean = await this._manager.deleteOufitById(idFit);
-        let status: number = res ? 400 : 200;
+        let status: number = res ? 200 : 400;
         let message: string = res 
             ? "La tenue a bien été supprimée" 
             : "Il y a eu un problème lors de la suppression de votre tenue, merci de réessayer";

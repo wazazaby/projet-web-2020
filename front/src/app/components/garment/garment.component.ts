@@ -317,6 +317,7 @@ export class GarmentComponent implements OnInit {
             if (res) {
                 this.bridgeService.deleteGarmentReq(garment).subscribe(response => {
                     if (this.stateService.checkStatus(response.status)) {
+                        this.bridgeService.getGarmentUser(this.user.id_user);
                         this.stateService.openSnackBar(response.message, null);
                     } else {
                         const err: ErrorInterface = {

@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   /**
    * L'utilisateur à t-il des vêtements ?
    */
-  userHasGarment = true;
+  userHasGarment = false;
 
   /** Section drag and drop */
   @ViewChild('top', {
@@ -143,13 +143,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.userHasGarment = false;
         this.bridgeService.getGarmentUser(this.user.id_user);
       } else {
-
-        if (this.topGarment.length !== 0) {
+        if (this.topGarment.length !== 0 && this.midGarment.length !== 0 && this.botGarment.length !== 0) {
           this.userHasGarment = true;
           this.moveTo(this.indexTop, 'top');
-        } else if (this.midGarment.length !== 0) {
           this.moveTo(this.indexMid, 'mid');
-        } else if (this.botGarment.length !== 0) {
           this.moveTo(this.indexBot, 'bot');
         }
       }

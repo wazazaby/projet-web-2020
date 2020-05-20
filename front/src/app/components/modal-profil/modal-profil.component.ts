@@ -2,6 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { BridgeService } from 'src/app/services/bridge.service';
+import { Router } from '@angular/router';
+import { StatesService } from 'src/app/services/states.service';
+import { ErrorInterface } from '@osmo6/models';
 
 @Component({
   selector: 'app-modal-profil',
@@ -23,7 +27,10 @@ export class ModalProfilComponent implements OnInit {
 });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-              private formBuild: FormBuilder) { }
+              private formBuild: FormBuilder,
+              private bridgeService: BridgeService,
+              private stateService: StatesService,
+              private route: Router) { }
 
   ngOnInit() {
     if (this.data && this.data.user) {
@@ -37,7 +44,7 @@ export class ModalProfilComponent implements OnInit {
   /**
    * Permet de supprimer le compte utilisateur
    * @param id; number
-   * @param action: number {0=ouvre la modal, 1=annuler, 2=annule}
+   * @param action: number {0=ouvre la modal, 1=supprime, 2=annule}
    */
   deleteProfil(id: number, action: number) {
     switch (action) {
@@ -47,6 +54,23 @@ export class ModalProfilComponent implements OnInit {
         break;
       case 1:
         // supprime le user
+        this.bridgeService.removeUser(id).subscribe((res) => {
+          if (this.stateService.checkStatus(res.status)) {
+            localStorage.clear();
+            this.stateService.isLogin = false;
+            this.route.navigate(['/auth']);
+            this.stateService.openSnackBar(res.message, null);
+          } else {
+            const err: ErrorInterface = {
+                code: res.status,
+                message: res.message,
+                route: environment.apiUrlService + '/api/user/' + id
+            };
+
+            this.stateService.openSnackBar(err.message, null, 'err');
+            this.stateService.errors = err;
+          }
+        });
         break;
       case 2:
         this.isDelete = false;
