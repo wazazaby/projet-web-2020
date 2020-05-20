@@ -271,6 +271,16 @@ export class BridgeService {
 /*
  *******************************Requete simple*******************************
  */
+
+    /**
+     * Créer un observable de choix des vêtemens aléatoire
+     */
+
+    generaterandOutfit(onWhat: number, whatId: number) {
+        const body = { onWhat, whatId };
+        return this.http.post<GlobalReturnInterface>(environment.apiUrlService + 'outfit/generate', body, { withCredentials: true });
+    }
+
     /**
      * Créer un observable des couleurs de vêtement à la var global
      */

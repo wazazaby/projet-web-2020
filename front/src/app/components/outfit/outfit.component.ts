@@ -5,7 +5,7 @@ import { BridgeService } from 'src/app/services/bridge.service';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component';
-import { HomeComponent } from '../home/home.component';
+import { OutfitGenerateComponent } from '../outfit-generate/outfit-generate.component';
 
 @Component({
   selector: 'app-outfit',
@@ -95,7 +95,7 @@ export class OutfitComponent implements OnInit {
      */
     updateOutfit(outfit: OutfitGarmentWrapperInterface) {
       if (outfit && this.user) {
-          const dialogRef = this.dialog.open(HomeComponent, {
+          const dialogRef = this.dialog.open(OutfitGenerateComponent, {
               width: '60%',
               data: { outfit, userId: this.user.id_user }
           });
