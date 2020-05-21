@@ -12,7 +12,7 @@ router.get(
         ctx.path,
 
         // On stock les images dans les cache pendant 1 an
-        { maxAge: 31536000000 }
+        { maxAge: 7889400000 }
     )
 );
 
