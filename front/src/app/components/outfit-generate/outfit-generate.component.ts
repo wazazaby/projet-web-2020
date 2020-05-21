@@ -1,15 +1,8 @@
 import { Component, OnInit, ViewChild, Inject, AfterViewInit, Optional, ChangeDetectorRef } from '@angular/core';
 import {
-  GarmentColorStyleWrapperInterface,
-  UserInterface,
-  TypeInterface,
-  ErrorInterface,
-  OutfitGarmentWrapperInterface,
-  SeasonInterface,
-  ColorInterface,
-  StyleInterface
-} from '@osmo6/models';
-
+  GarmentColorStyleWrapperInterface, UserInterface, TypeInterface,
+  ErrorInterface, OutfitGarmentWrapperInterface, SeasonInterface,
+  ColorInterface, StyleInterface } from '@osmo6/models';
 import { StatesService } from 'src/app/services/states.service';
 import { BridgeService } from 'src/app/services/bridge.service';
 import { environment } from 'src/environments/environment';
@@ -38,51 +31,43 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
               private bridgeService: BridgeService,
               private formBuild: FormBuilder,
               private cdRef: ChangeDetectorRef,
-              private router: Router,
               @Optional() @Inject(MAT_DIALOG_DATA) public data: {userId: number, outfit: OutfitGarmentWrapperInterface}
               ) {}
 
-  /** User */
+  /** Data user */
   user: UserInterface = this.stateService.userProfil;
   /** Liste des vêtements */
   garment: GarmentColorStyleWrapperInterface[] = this.stateService.garment;
-
-  /** Définit dans quel catégories classé les vêtements */
+  /** Récupére les vêtements classé par catégories */
   topGarment: GarmentColorStyleWrapperInterface[] = this.stateService.garmentTop;
   midGarment: GarmentColorStyleWrapperInterface[] = this.stateService.garmentMid;
   botGarment: GarmentColorStyleWrapperInterface[] = this.stateService.garmentBot;
-
-  /** Liste des types de vêtement */
+  /** Liste des types */
   type: TypeInterface[] = this.stateService.type;
-
-  /** base url upload image */
+  /** Liste des saison */
+  season: SeasonInterface[] = this.stateService.season;
+  /** Liste des couleurs */
+  color: ColorInterface[] = this.stateService.color;
+  /** Liste des styles */
+  style: StyleInterface[] = this.stateService.style;
+  /** url de base pour fichier image */
   urlUpload = environment.apiUrlBase;
-
-  /**
-   * Positionnement des vêtements
-   */
+  /** Positionnement des vêtements dans le carousel */
   select = {
     garmentTop: null,
     garmentMid: null,
     garmentBot: null,
   };
-
-  /**
-   * Form control pour la tenue
-   */
+  /** Form control pour la tenue */
   formOutfit: FormGroup = this.formBuild.group({
     label_outfit: new FormControl('', [Validators.required]),
     idGarmentTop: new FormControl('', [Validators.required]),
     idGarmentMid: new FormControl('', [Validators.required]),
     idGarmentBot: new FormControl('', [Validators.required])
   });
-
-  /**
-   * L'utilisateur à t-il des vêtements ?
-   */
+  /** L'utilisateur à t-il des vêtements dans chacune des catégories ? */
   userHasGarment = false;
-
-  /** Section drag and drop */
+  /** Init drag and drop du carousel */
   @ViewChild('top', {
     static: false,
     read: DragScrollComponent
@@ -98,41 +83,41 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
     read: DragScrollComponent
   }) dsBot: DragScrollComponent;
   /** fin du drag and drop */
-
-  // update
+  // Mise à jour des index pour le carousel
   indexTop = 0;
   indexMid = 0;
   indexBot = 0;
-
-  // random style
-
-  season: SeasonInterface[] = this.stateService.season;
-  color: ColorInterface[] = this.stateService.color;
-  style: StyleInterface[] = this.stateService.style;
-
+  // Génération aléatoire des vêtement
   random = [
     {id: 1, label: 'le style :'},
     {id: 2, label: 'la couleur :'},
     {id: 3, label: 'la saison :'},
   ];
-  // Selectionenr lsi style/couleur/saison
+  // Enregistre liste style/couleur/saison
   randomId: number;
-  // Selectionner le choix utilisateur
+  // Enregistre le choix utilisateur
   randomChoose: number;
 
+
+  /** Init la page */
   ngOnInit() {
+    /** Vérif si l'utilisateur est connecter */
     if (this.user) {
       /** Si aucun vêtement */
       if (this.garment.length === 0) {
+        /** On cache la page et on redirige vers la création de vêtements */
         this.userHasGarment = false;
+        /** On tente de recharger les vêtement */
         this.bridgeService.getGarmentUser(this.user.id_user);
       }
     }
 
     /** Observable sur les vêtements */
     this.stateService.garmentAsObservable().subscribe(res => {
+      /** Recharge les vêtement en cas de nouveauté */
       this.garment = res;
       if (this.garment.length !== 0) {
+        /** Si un vé^tement minimum dans chaque catégories */
         if (this.topGarment.length !== 0 && this.midGarment.length !== 0 && this.botGarment.length !== 0) {
           this.userHasGarment = true;
         }
@@ -140,17 +125,22 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /** Aprés l'init de la page */
   ngAfterViewInit() {
+    /** Si l'utilisateur modifie sa tenu */
     if (this.data && this.data.userId && this.data.outfit) {
+      /** Attribut les valeurs de ses vêtements ou il faut */
       this.formOutfit.get('label_outfit').setValue(this.data.outfit.outfit.label_outfit);
       this.formOutfit.get('idGarmentTop').setValue(this.data.outfit.garments[0].garment.id_garment);
       this.formOutfit.get('idGarmentMid').setValue(this.data.outfit.garments[1].garment.id_garment);
       this.formOutfit.get('idGarmentBot').setValue(this.data.outfit.garments[2].garment.id_garment);
 
+      /** Recherche l'index du vêtement */
       this.indexTop = this.topGarment.findIndex(c => c.garment.id_garment === this.data.outfit.garments[0].garment.id_garment);
       this.indexMid = this.midGarment.findIndex(c => c.garment.id_garment === this.data.outfit.garments[1].garment.id_garment);
       this.indexBot = this.botGarment.findIndex(c => c.garment.id_garment === this.data.outfit.garments[2].garment.id_garment);
 
+      /** Déplace dans le carousel */
       this.selectItem(this.indexTop, this.data.outfit.garments[0], 'top');
       this.selectItem(this.indexMid, this.data.outfit.garments[1], 'mid');
       this.selectItem(this.indexBot, this.data.outfit.garments[2], 'bot');
@@ -175,7 +165,7 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Permet d'enregistrer le vêtement
+   * Permet de selectionne le vêtement
    * @param i index
    * @param garment vêtement
    * @param pos position du vêtement
@@ -226,8 +216,27 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Permet de définir le carousel à la position initial
+   */
+  resetCarousel() {
+    this.moveTo(0, 'top');
+    this.formOutfit.get('idGarmentTop').setValue(null);
+    this.select.garmentTop = null;
+    this.moveTo(0, 'mid');
+    this.formOutfit.get('idGarmentMid').setValue(null);
+    this.select.garmentMid = null;
+    this.moveTo(0, 'bot');
+    this.formOutfit.get('idGarmentBot').setValue(null);
+    this.select.garmentBot = null;
+  }
 
+
+  /**
+   * Enregistre les vêtement dans une tenue
+   */
   sendOutfit() {
+    /** Si c'est un ajout */
     if (!this.data) {
       if (this.formOutfit.valid) {
         const body = {
@@ -250,6 +259,7 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
             this.select.garmentBot = null;
             this.bridgeService.getAllOutfit(this.user.id_user);
             this.formOutfit.reset();
+            this.stateService.openSnackBar(res.message, null);
           } else {
             const err: ErrorInterface = {
               code: res.status,
@@ -265,6 +275,7 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
         this.formOutfit.markAllAsTouched();
       }
     } else {
+      /** Modification d'une tenue */
       if (this.formOutfit.valid) {
         const resUpdate = {
           user_id_user: this.user.id_user,
@@ -281,13 +292,17 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
           this.bridgeService.getAllOutfit(resUpdate.user_id_user);
         });
       } else {
+        /** Génére les erreurs du form control */
         this.formOutfit.markAllAsTouched();
       }
     }
   }
 
+  /**
+   * Génére une tenue aléatoire en fonction des données choisi
+   */
   sendRandom() {
-    console.log('random');
+    this.resetCarousel();
     if (this.randomChoose && this.randomId) {
 
       this.bridgeService.generaterandOutfit(this.user.id_user, this.randomId, this.randomChoose).subscribe(response => {
@@ -301,13 +316,13 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
             this.indexTop = this.topGarment.findIndex(c => c.garment.id_garment === response.data[0]);
             this.selectItem(this.indexTop, top, 'top');
           }
-          
+
           if (response.data[1] !== 0) {
             mid = this.midGarment.find(c => c.garment.id_garment === response.data[1]);
             this.indexMid = this.midGarment.findIndex(c => c.garment.id_garment === response.data[1]);
             this.selectItem(this.indexMid, mid, 'mid');
           }
-          
+
           if (response.data[2] !== 0) {
             bot = this.botGarment.find(c => c.garment.id_garment === response.data[2]);
             this.indexBot = this.botGarment.findIndex(c => c.garment.id_garment === response.data[2]);
