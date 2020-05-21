@@ -15,7 +15,7 @@
                 <p class="text-justify">La mode (ou les modes), et plus précisément la mode vestimentaire, désigne la manière de se vêtir, conformément au goût d'une époque dans une région donnée. C'est un phénomène impliquant le collectif via la société, le regard qu'elle renvoie, les codes qu'elle impose et le goût individuel.</p>
             </div>
 
-            <div class="col-12 d-flex justify-content-around sectionButton">
+            <div class="col-12 d-flex justify-content-around sectionButton mt-4 mb-4">
                 <button type="button" (click)="effectBtn('inscription')" class="btn btn-primary col-4" *ngIf="!isRegistered; else isReturnRegistered">Inscription</button>
                 <ng-template #isReturnRegistered>
                     <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>

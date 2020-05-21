@@ -1,5 +1,5 @@
 <div *ngIf="userHasGarment; else noGarment">
-    <div class="col-12 mb-2">
+    <div class="col-12 mb-2" *ngIf="!data">
         <div class="justify-content-center d-flex row mb-1 sectionRandom col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 p-0 d-flex">
                 <p class="m-auto">
@@ -29,8 +29,8 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div *ngSwitchCase="2">
-                    <mat-form-field appearance="outline">
+                <div *ngSwitchCase="2" class="d-flex">
+                    <mat-form-field appearance="outline"  class="m-auto">
                         <mat-select [(value)]="randomChoose">
                             <mat-option>--</mat-option>
                             <mat-option *ngFor="let r of color" [value]="r.id_color">
@@ -40,8 +40,8 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div *ngSwitchCase="3">
-                    <mat-form-field appearance="outline">
+                <div *ngSwitchCase="3" class="d-flex">
+                    <mat-form-field appearance="outline"  class="m-auto">
                         <mat-select [(value)]="randomChoose">
                             <mat-option>--</mat-option>
                             <mat-option *ngFor="let r of season" [value]="r.id_season">
@@ -52,17 +52,17 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 d-flex">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 d-flex" *ngIf="randomId && randomChoose">
                 <button class="btn btn-outline-primary m-auto" (click)="sendRandom()">Générer</button>
             </div>
         </div>
     </div>
 
     <div class="d-flex row justify-content-center">
-        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 sectionGarment">
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 sectionGarment mb-4">
             <div class="d-flex row mb-1">
                 <div class="col-9 d-flex row justify-content-around">
-                    <drag-scroll class="col-11" #top (indexChanged)="index($event, 'top')">
+                    <drag-scroll class="col-xl-7 col-lg-10 col-md-9 col-sm-12 col-12" #top (indexChanged)="index($event, 'top')">
                         <div class="col-4 itemEmpty" drag-scroll-item ></div>
                         <img    [ngClass]="{'activeImg': select.garmentTop && select.garmentTop.garment.id_garment === g.garment.id_garment}"
                                 (click)="selectItem(i, g, 'top')"
@@ -87,7 +87,7 @@
 
             <div class="d-flex row mb-1">
                 <div class="col-9 d-flex row justify-content-around">
-                    <drag-scroll class="col-11" #mid (indexChanged)="index($event, 'mid')">
+                    <drag-scroll class="col-xl-7 col-lg-10 col-md-9 col-sm-12 col-12" #mid (indexChanged)="index($event, 'mid')">
                         <div class="col-4 itemEmpty" drag-scroll-item ></div>
                         <img    [ngClass]="{'activeImg': select.garmentMid && select.garmentMid.garment.id_garment === g.garment.id_garment}"
                                 (click)="selectItem(i, g, 'mid')"
@@ -112,7 +112,7 @@
 
             <div class="d-flex row mb-1">
                 <div class="col-9 d-flex row justify-content-around">
-                    <drag-scroll class="col-11" #bot (indexChanged)="index($event, 'bot')">
+                    <drag-scroll class="col-xl-7 col-lg-10 col-md-9 col-sm-12 col-12" #bot (indexChanged)="index($event, 'bot')">
                         <div class="col-4 itemEmpty" drag-scroll-item ></div>
                         <img    [ngClass]="{'activeImg': select.garmentBot && select.garmentBot.garment.id_garment === g.garment.id_garment}"
                                 (click)="selectItem(i, g, 'bot')"
@@ -137,21 +137,20 @@
         </div>
 
         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 m-auto">
-            <div class="d-flex flex-column justify-content-center">
-                <mat-form-field class="col-12 m-auto" appearance="outline">
-                    <mat-label>Titre de la tenue</mat-label>
-                    <input matInput [formControl]="formOutfit.controls.label_outfit" placeholder="Ex. Tenue d'hiver" required>
-                    <mat-error *ngIf="formOutfit.controls.label_outfit.hasError('required')">
-                      Titre de la tenue <strong>obligatoire</strong>
-                    </mat-error>
-                </mat-form-field>
-                <button *ngIf="!data; else updateOutfit" class="btn btn-outline-success col-4 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
+            <div class="d-flex flex-column justify-content-center col-12">
+                    <mat-form-field class="col-12 m-auto" appearance="outline">
+                        <mat-label>Titre de la tenue</mat-label>
+                        <input matInput [formControl]="formOutfit.controls.label_outfit" placeholder="Ex. Tenue d'hiver" required>
+                        <mat-error *ngIf="formOutfit.controls.label_outfit.hasError('required')">
+                          Titre de la tenue <strong>obligatoire</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <button *ngIf="!data; else updateOutfit" class="btn btn-outline-success col-4 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
 
-                <ng-template #updateOutfit>
-                    <button [mat-dialog-close]="false" class="btn btn-outline-danger col-12 mt-4 ml-auto mr-auto">annuler</button>
-                    <button class="btn btn-outline-success col-12 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
-
-                </ng-template>
+                    <ng-template #updateOutfit>
+                        <button [mat-dialog-close]="false" class="btn btn-outline-danger col-12 mt-4 ml-auto mr-auto">annuler</button>
+                        <button class="btn btn-outline-success col-12 mt-4 ml-auto mr-auto" (click)="sendOutfit()">Enregistrer</button>
+                    </ng-template>
 
             </div>
         </div>
