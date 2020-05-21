@@ -36,7 +36,7 @@ app.keys = [process.env.SECRET1, process.env.SECRET2, process.env.SECRET3];
 app.use(cors({
     origin: process.env.SERVER_FRONT,
     credentials: true,
-    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+    methods: ['GET', 'POST', 'DELETE', 'PATCH']
 }));
 
 // Utilisation du logger de Koa (pour voir les status des appels à l'API)
