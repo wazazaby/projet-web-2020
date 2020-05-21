@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
     // url de l'API node
-    apiUrlService: 'http://turnstyle.klandry.fr:3000/api/',
+    apiUrlService: 'http://turnstyleapi.klandry.fr:3000/api/',
     // url de l'api pour l'upload
-    apiUrlBase: 'http://turnstyle.klandry.fr:3000',
+    apiUrlBase: 'http://turnstyleapi.klandry.fr:3000',
     // token d'identification pour l'API
     tokenApi: 'token',
     // url de base de l'application
