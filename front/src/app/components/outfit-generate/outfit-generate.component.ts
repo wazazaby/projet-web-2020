@@ -259,6 +259,7 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
             this.select.garmentBot = null;
             this.bridgeService.getAllOutfit(this.user.id_user);
             this.formOutfit.reset();
+            this.stateService.openSnackBar(res.message, null);
           } else {
             const err: ErrorInterface = {
               code: res.status,
@@ -301,7 +302,6 @@ export class OutfitGenerateComponent implements OnInit, AfterViewInit {
    * Génére une tenue aléatoire en fonction des données choisi
    */
   sendRandom() {
-    console.log('random');
     this.resetCarousel();
     if (this.randomChoose && this.randomId) {
 
