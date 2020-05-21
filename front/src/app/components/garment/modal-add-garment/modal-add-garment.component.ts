@@ -90,14 +90,20 @@ export class ModalAddGarmentComponent implements OnInit {
 
         // Preview image
         const reader: FileReader = new FileReader();
+        const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
         reader.readAsDataURL(event[0]);
         reader.onload = (evt: any) => {
             if (evt.target && evt.target.result) {
                 this.url = evt.target.result;
             }
 
-            if (this.url && this.file) {
+            if (this.url && this.file && acceptedImageTypes.includes(this.file.type)) {
+                if (this.file.size > 5500000) {
+                    return this.stateService.openSnackBar('Le poid du fichier est trop volumineux', null, 'err');
+                }
                 this.stepOne = false;
+            } else {
+                this.stateService.openSnackBar('Le type de fichier n\'est pas valide', null, 'err');
             }
         };
     }
