@@ -238,9 +238,9 @@ export class OutfitManager {
     }
 
     /**
-     * Permet de supprimer un outfit grâce à son id
+     * Permet de supprimer un outfit en fonction de son id
      * @param {number} id l'id de l'outfit à supprimer
-     * @returns {Promise<boolean>}
+     * @returns {Promise<boolean>} true si l'outfit à bien été supprimé
      */
     public async deleteOufitById (id: number): Promise<boolean> {
 
