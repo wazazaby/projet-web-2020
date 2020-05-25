@@ -40,9 +40,9 @@ export class UserController {
         const token: string = ctx.request.body.token;
         const a: boolean = Auth.byToken(ctx, token);
         if (a) {
-            ctx.body = new Body(200, "Session valide", ctx.session.auth);
+            ctx.body = new Body(200, "OK", ctx.session.auth);
         } else {
-            ctx.body = new Body(403, "Session non valide");
+            ctx.body = new Body(403, "Votre session a expirée, veuillez vous reconnecter");
             return;
         }
     }
@@ -195,7 +195,7 @@ export class UserController {
      */
     public async disconnectUser (ctx: Context): Promise<void> {
         ctx.session = null;
-        ctx.body = new Body(200, 'Merci, à bientot');
+        ctx.body = new Body(200, "À bientôt !");
     }
 
     /**
