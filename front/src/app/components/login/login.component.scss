@@ -33,7 +33,9 @@ h1{
     padding: 1em;
     border: 1px solid transparent;
     border-radius: 2em 0 0 2em;
+    display: flex;
     img{
+      margin: auto;
       max-height: 55vh;
     }
   }

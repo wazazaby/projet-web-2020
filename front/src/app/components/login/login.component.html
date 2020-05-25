@@ -1,9 +1,9 @@
 <div *ngIf="!token; else tokenredirect" class="container">
-    <div class="col-12 d-flex justify-content-between">
-        <div class="col-2 text-center">
+    <div class="col-12 d-flex row justify-content-between">
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 text-center">
             <img src="assets/logo.png" class="img-fluid logo" alt="logo_turnstyle">
         </div>
-        <div class="col-10 text-right m-auto">
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 text-right m-auto">
             <h1>Turnstyle</h1>
             <p class="font-italic">La mode accéssible pour tous</p>
         </div>
@@ -15,15 +15,15 @@
                 <p class="text-justify">La mode (ou les modes), et plus précisément la mode vestimentaire, désigne la manière de se vêtir, conformément au goût d'une époque dans une région donnée. C'est un phénomène impliquant le collectif via la société, le regard qu'elle renvoie, les codes qu'elle impose et le goût individuel.</p>
             </div>
 
-            <div class="col-12 d-flex justify-content-around sectionButton mt-4 mb-4">
-                <button type="button" (click)="effectBtn('inscription')" class="btn btn-primary col-4" *ngIf="!isRegistered; else isReturnRegistered">Inscription</button>
+            <div class="col-12 d-flex justify-content-around sectionButton mt-4 mb-4 row">
+                <button type="button" (click)="effectBtn('inscription')" class="btn btn-primary col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2" *ngIf="!isRegistered; else isReturnRegistered">Inscription</button>
                 <ng-template #isReturnRegistered>
-                    <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
+                    <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">Retour</button>
                 </ng-template>
 
-                <button type="button" (click)="effectBtn('connexion')" class="btn btn-primary col-4" *ngIf="!isLogin; else isReturnLogin">Connexion</button>
+                <button type="button" (click)="effectBtn('connexion')" class="btn btn-primary col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2" *ngIf="!isLogin; else isReturnLogin">Connexion</button>
                 <ng-template #isReturnLogin>
-                    <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-4">Retour</button>
+                    <button type="button" (click)="effectBtn('retour')" class="btn btn-outline-warning col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">Retour</button>
                 </ng-template>
             </div>
 
@@ -43,7 +43,7 @@
             </div>
 
             <div class="section d-flex row m-auto justify-content-center" *ngIf="isLogin">
-                <div class="col-8 m-auto">
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 m-auto">
                     <div class="d-flex row flex-column">
 
                         <mat-form-field appearance="outline">
@@ -76,7 +76,7 @@
             </div>
 
             <div class="section" *ngIf="isRegistered">
-                <div class="col-8 m-auto">
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 m-auto">
                     <div class="d-flex row flex-column">
 
                         <mat-form-field appearance="outline">
@@ -152,5 +152,4 @@
 </div>
 
 <ng-template #tokenredirect>
-
 </ng-template>
