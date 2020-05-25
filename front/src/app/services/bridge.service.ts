@@ -296,7 +296,7 @@ export class BridgeService {
     }
 
     /**
-     * Créer un observable des vêtements d'un user
+     * Créer un observable pour récuperer tout les vêtements d'un user
      * @param userId: number
      */
     getGarmentUserReq(userId: number) {
@@ -314,6 +314,7 @@ export class BridgeService {
 
     /**
      * Permet d'ajouter un vêtement
+     * @param formData formData
      */
     addGarment(formData: FormData) {
         return this.http.post<GlobalReturnInterface>(`${environment.apiUrlService}${this.userGarmentAdd}`, formData,
@@ -322,6 +323,7 @@ export class BridgeService {
 
     /**
      * Permet de modifier un vêtement
+     * @param formData formData
      */
     upadateGarment(formData: FormData) {
         return this.http.patch<GlobalReturnInterface>(`${environment.apiUrlService}${this.userGarmentSet}`, formData,
