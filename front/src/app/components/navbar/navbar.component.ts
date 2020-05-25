@@ -107,6 +107,7 @@ export class NavbarComponent implements OnInit {
     this.sideBar.forEach(s => {
       if (s.path === r.path) {
         s.isActive = !s.isActive;
+        this.isCollapse = false;
       } else {
         s.isActive = false;
       }
