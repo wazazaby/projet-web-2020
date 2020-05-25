@@ -101,6 +101,7 @@ export class BridgeService {
                         code: res.status, message: res.message, route: environment.apiUrlService + this.checkTkn};
                     this.stateService.errors = err;
                     this.stateService.openSnackBar(err.message, null, 'err');
+                    localStorage.clear();
                     this.router.navigate(['/auth']);
                 }
             });
