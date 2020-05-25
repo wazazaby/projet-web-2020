@@ -240,14 +240,18 @@ export class OutfitManager {
     /**
      * Permet de supprimer un outfit en fonction de son id
      * @param {number} id l'id de l'outfit à supprimer
-     * @returns {Promise<boolean>} true si l'outfit à bien été supprimé
+     * @returns {Promise<boolean>} true si l'outfit à bien été supprimé, false dans le cas contraire
      */
     public async deleteOufitById (id: number): Promise<boolean> {
 
         // On supprime d'abord les liens pour éviter les erreurs de FK
         if (await this.deleteOufitGarmentLinks(id)) {
             try {
+
+                // On exécute la requête en lui passant l'id de la tenue à supprimer
                 const del: any = await Db.pool.execute('DELETE FROM outfit WHERE id_outfit = ?', [id]);
+
+                // Si une seule ligne a été supprimée et que le serveur n'a pas renvoyé d'erreurs
                 if (del[0].affectedRows === 1 && del[0].serverStatus === 2) {
                     return true;
                 } else {

@@ -37,7 +37,7 @@ export class OutfitController {
             user_id_user: idUser
         });
 
-        // On lance l'insert de l'outfit et des liens dans la table d'associtation
+        // On lance l'insert de de la tenues et des liens dans la table d'assoctiaation
         const res: (OutfitGarmentWrapperInterface|null) = await this._manager.insertOutfit(fit, garms);
 
         // Gestion des retours
@@ -68,21 +68,24 @@ export class OutfitController {
     }
 
     /**
-     * Supprime un outfit
+     * Controller de suppression d'une tenue
      * @param {Context} ctx 
      */
     public async deleteOutfit (ctx: Context): Promise<void> {
 
         const idFit: number = Number(ctx.params.idOutfit);
 
-        // Vérification de l'authentification de la requette
+        // Vérification de l'authentification de la requête
         const idUser: number = Number(ctx.params.idUser);
         if (!Auth.isValid(ctx, idUser)) {
             ctx.body = new Body(403, "Vous n'avez pas accès à ce contenu");
             return;
         }
 
+        // On appelle le manager pour supprimer cette tenue en lui passant son id
         const res: boolean = await this._manager.deleteOufitById(idFit);
+
+        // On fonction du résultat (true ou false), on renvoit le bon code HTTP ainsi qu'un message
         let status: number = res ? 200 : 400;
         let message: string = res 
             ? "La tenue a bien été supprimée" 
