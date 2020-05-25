@@ -45,13 +45,19 @@
             <p class="m-0 p-0">
                 Etes-vous sur de vouloir supprimer votre compte ?
             </p>
+            <ul>
+                <li>La suppression de votre compte est définitive</li>
+                <li>Elle s'accompagnera de la suppression de vos vêtements ainsi que de vos tenues</li>
+                <li>Si, dans le futur, vous souhaitez vous réinscrire, cela serait possible</li>
+                <li>Mais vous ne pourrez pas retrouver d'informations concernant votre ancien compte</li>
+            </ul>
         </div>
         <div class="d-flex justify-content-around">
             <div class="col-6 d-flex justify-content-center">
-                <button [mat-dialog-close]="true" (click)="deleteProfil(data.user.id_user, 1)" class="btn btn-danger">Oui</button>
+                <button [mat-dialog-close]="true" (click)="deleteProfil(data.user.id_user, 1)" class="btn btn-danger">Confirmer la suppression</button>
             </div>
             <div class="col-6 d-flex justify-content-center">
-                <button [mat-dialog-close]="true" (click)="deleteProfil(data.user.id_user, 2)" class="btn btn-primary">Non</button>
+                <button [mat-dialog-close]="true" (click)="deleteProfil(data.user.id_user, 2)" class="btn btn-primary">Annuler</button>
             </div>
         </div>
     </div>

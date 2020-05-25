@@ -3,60 +3,65 @@
 .cardOutfit{
     position: relative;
     box-sizing: border-box;
-    min-height: 180px;
+    overflow: hidden;
+    transition: all 0.2s;
     border-radius: 5px;
-    padding-top: 40px;
+    -webkit-box-shadow: 0px 23px 43px -32px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 23px 43px -32px rgba(0,0,0,0.75);
+    box-shadow: 0px 23px 43px -32px rgba(0,0,0,0.75);
 
-    &:hover{
-        transition: all 0.3s;
-        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-        transform: translateY(-5px);
+    &:hover {
+        .top, .bottom {
+            transform: translate(0, 0);
+        }
 
-        .sectionImg{
-            filter: grayscale(0%);
+        .top-right, .bottom-right {
+            opacity: 1;
         }
     }
 
-    .sectionImg{
-        filter: grayscale(100%);
-    }
-
-    label{
-        font-style: italic;
-        font-weight: 600;
+    label {
         position: absolute;
         z-index: 1;
         background-color: $bg-sidebar;
         color: $white;
-        padding: 6px;
-        left: 0;
+        padding: 6px 10px;
+        border-radius: 20px;
+        transition: all 0.2s;
+        margin-bottom: 0;
 
-        &.top{
+        &.top {
+            left: .2em;
             top: .2em;
+            transform: translate(0, -30px);
         }
 
-        &.bottom{
+        &.bottom {
+            left: .2em;
             bottom: .2em;
+            transform: translate(0, 30px);
         }
 
-        &.top-right{
+        &.top-right {
             cursor: pointer;
-            background-color: transparent;
+            background-color: $white;
             top: .2em;
-            left: 90%;
+            right: .2em;
             color: $invalid;
+            opacity: 0;
 
             &:hover{
                 color: $delete;
             }
         }
 
-        &.bottom-right{
+        &.bottom-right {
             cursor: pointer;
-            background-color: transparent;
+            background-color: $white;
             bottom: .2em;
-            left: 90%;
+            right: .2em;
             color: $update;
+            opacity: 0;
 
             &:hover{
                 color: $updateHover;
