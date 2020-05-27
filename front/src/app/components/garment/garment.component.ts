@@ -294,7 +294,6 @@ export class GarmentComponent implements OnInit {
         if (this.user) {
             const dialogRef = this.dialog.open(ModalAddGarmentComponent, {
                 width: '60%',
-                minHeight: 'calc(100vh - 90px)',
                 data: {userId: this.user.id_user}
             });
 
