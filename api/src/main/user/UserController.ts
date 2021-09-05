@@ -33,18 +33,15 @@ export class UserController {
     }
 
     /**
-     * Permet de vérifier si l'user a une sessions pour le login
+     * Permet de vérifier si l'user a une session pour le login
      * @param {Context} ctx 
      */
     public async verifyAuth (ctx: Context): Promise<void> {
         const token: string = ctx.request.body.token;
-        const a: boolean = Auth.byToken(ctx, token);
-        if (a) {
-            ctx.body = new Body(200, "OK", ctx.session.auth);
-        } else {
-            ctx.body = new Body(403, "Votre session a expirée, veuillez vous reconnecter");
-            return;
-        }
+        const isAuthentified: boolean = Auth.byToken(ctx, token);        
+        ctx.body = isAuthentified 
+            ? new Body(200, "OK", ctx.session.auth) 
+            : new Body(403, "Votre session a expirée, veuillez vous reconnecter");
     }
 
     /**
