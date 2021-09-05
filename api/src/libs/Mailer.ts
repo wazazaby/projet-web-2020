@@ -26,11 +26,7 @@ export class Mailer {
     public async sendMail (): Promise<boolean> {
         try {
             const mail: nodeMailer.SentMessageInfo = await this._transporter.sendMail(this._mailOptions);
-            if (mail.rejected.length === 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return mail.rejected.length === 0;
         } catch (e) {
             throw e;
         }
